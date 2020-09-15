@@ -8,10 +8,10 @@
 <h1 id="ball" style="position: absolute;left: 400px;top: 450px;">Hello World!</h1>
 
 <script type="text/javascript">
+    let speed = 5; //1 to 100
 
-
-    let incX = 5 * (Math.round(Math.random())?1:-1);
-    let incY = 5 * (Math.round(Math.random())?1:-1);
+    let incX = speed * (Math.round(Math.random())?1:-1);
+    let incY = speed * (Math.round(Math.random())?1:-1);
     let ball=document.getElementById("ball");
     
     function danceWorld(){
