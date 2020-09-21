@@ -1,2 +1,8 @@
 body {background-color: black;}
-h1 {color:white;}
+#ball {
+    position: absolute;
+    color:white;
+    left: 400px;
+    top: 450px;
+}
+
