@@ -6,7 +6,7 @@ document.body.onkeyup = function(e){
             stop(appId);
             appState = "stopped"
         }else{
-            appId=start(function(){danceWorld(ball)});
+            appId=start(danceWorld);
             
             appState = "running"
         }
