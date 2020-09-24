@@ -1,14 +1,14 @@
 
-import '../style/style.css';
-import {docReady} from './core/core.js'; 
-import  './controlers/stopball.js';
+import './css/style.css';
+import {docReady} from './js/core/core.js'; 
+import  './js/controlers/stopball.js';
 
 let app = (() => {
     let el = document.getElementById("ball");
     let myApp;
     let stateApp="stop"
     // DOM is loaded and ready for manipulation here
-    let speed = 15; //1 to 100
+    let speed = 45; //1 to 100
     let incX = speed * (Math.round(Math.random())?1:-1);
     let incY = speed * (Math.round(Math.random())?1:-1);
     
@@ -46,5 +46,8 @@ let app = (() => {
 })();
 
 docReady(app.start);
+
+if (module.hot)       // eslint-disable-line no-undef
+  module.hot.accept() // eslint-disable-line no-undef
 
 export {app};

@@ -1,0 +1,7 @@
+body {background-color: black;}
+#ball {
+    position: absolute;
+    color:white;
+    left: 400px;
+    top: 450px;
+}

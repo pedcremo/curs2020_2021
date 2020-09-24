@@ -1,4 +1,4 @@
-import {app} from "../main.js";
+import {app} from "../../index.js";
 
 document.body.onkeyup = (e) => {
     if(e.keyCode == 32){
