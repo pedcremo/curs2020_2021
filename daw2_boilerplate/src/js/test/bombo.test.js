@@ -22,11 +22,26 @@ describe('Generate bingo bombo', () => {
     do{        
         expect((num>=1 & num<=90)).toBeTruthy();
         num=bombo.pickNumber()
-    }while(num!=false);
+    }while(num!=false); 
     
+  });
+
+  test('Not duplicates', () => {
+    bombo = new Bombo();  
+    let extracted=[]
+    let num=bombo.pickNumber();    
+    do{                
+        extracted.push(num);
+        num=bombo.pickNumber();        
+    }while(num!=false); 
+    expect(!hasDuplicates(extracted)).toBeTruthy();
     
   });
 
 
 
 })
+
+function hasDuplicates(array) {
+    return (new Set(array)).size !== array.length;
+}

@@ -1,6 +1,7 @@
 export class Bombo{    
     constructor(){
         let boles = Array.from({length:90},(_,i) => i + 1);
+        //boles[1]=1;
         let bolesExtracted = [];
         let shuffle = () => boles.sort((a,b) => Math.random()-0.5);         
         this.getExtractedNumbers= () =>  bolesExtracted;
