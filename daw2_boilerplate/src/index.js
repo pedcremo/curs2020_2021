@@ -1,39 +1,35 @@
 
 import './css/style.css';
 import {docReady} from './js/core/core.js'; 
-import  './js/controlers/stopball.js';
+import './js/controlers/stopball.js';
+import './js/card.js';
+import {Bombo} from './js/bombo.js';
+import {generateBingoCard,renderBingoCard} from './js/card.js';
 
 let app = (() => {
-    let el = document.getElementById("ball");
+    //let el = document.getElementById("ball");
     let myApp;
+    let bombo;
     let stateApp="stop"
-    // DOM is loaded and ready for manipulation here
-    let speed = 45; //1 to 100
-    let incX = speed * (Math.round(Math.random())?1:-1);
-    let incY = speed * (Math.round(Math.random())?1:-1);
     
     let play =  () =>{    
-        let x =  el.style.left?parseInt(el.style.left,10):350;
-        let y =  el.style.top?parseInt(el.style.top,10):400;
-
-        el.style.left =  x + incX +"px";
-        el.style.top = y + incY+"px";
-
-        //Detect if we reach X coordinates limits
-        if (((x+incX) > (window.innerWidth-40)) || ((x+incX)<=0))
-            incX = (-1)*incX;
-    
-        //Detect if we reach Y coordinates limits
-        if (((y+incY) > (window.innerHeight-40)) || ((y+incY) <= 0))
-            incY = (-1)*incY;
+        let num=bombo.pickNumber();
+        if (num){
+            document.getElementById('balls').innerHTML = "<h1>"+bombo.getExtractedNumbers()+"</h1>";
+            document.getElementById('bingoCard').innerHTML = renderBingoCard(generateBingoCard());
+        }else{
+            stop();
+        }
+        //document.getElementById('bingoCard').innerHTML = renderBingoCard(generateBingoCard);
     };
     let stop = () => {
         stateApp="stop";
         clearInterval(myApp);
     }
     let start = () => {
+        bombo = new Bombo();
         stateApp = "run";
-        myApp = setInterval(play,50); 
+        myApp = setInterval(play,2000); 
     }
 
     return {start: start

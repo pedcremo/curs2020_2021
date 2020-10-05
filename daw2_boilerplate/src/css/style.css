@@ -1,7 +1,23 @@
-body {background-color: black;}
+body {background-color: white;}
+#balls {
+    display: inline-block;
+    word-wrap: break-word;
+    width: 80%;
+}
 #ball {
     position: absolute;
-    color:white;
+    color:black;
     left: 400px;
     top: 450px;
+}
+table {
+    border-collapse: collapse;
+    font-size: 250%;
+}
+  
+table, th, td {
+    border: 2px solid black;
+}
+.nulo{
+    background-color: gray;
 }
