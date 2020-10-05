@@ -61,50 +61,9 @@ function renderBingoCard(cardMatrix){
  return out;
 }
 
-for (let i=0;i<1000;i++){
-     let genCard=generateBingoCard();
-     if (testCard(genCard)) {
-          /*console.log("False card");
-          console.log(genCard[0]);
-          console.log(genCard[1]);
-          console.log(genCard[2]);     */
-     }
-     
-}
-/*let falseCard=[[0,null,2,3,4,5,null,null,null],[null,1,2,null,4,null,6,7,null],[null,null,2,3,4,5,6,null,null]];
-if (!testCard(falseCard)) {
-     console.log("False card");
-     console.log(falseCard[0]);
-     console.log(falseCard[1]);
-     console.log(falseCard[2]);
-}*/
-
 //Transpose a matrix
 function transpose(matrix){
      return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
-}
-function testCard(cardMatrix){
-     let pass=false;
-     let RowBreakException = {message:"There are not 4 empty cells in a row",name:"RowBreakException"};
-     let ColBreakException = {message:"3 empty cells in a col",name:"ColBreakException"};     
-     try{
-          cardMatrix.forEach((elem)=>{
-               let arrNull= elem.filter((value) => value==null);
-               if (arrNull.length!==4) throw RowBreakException;
-          })
-          transpose(cardMatrix)
-          transpose(cardMatrix).forEach((elem)=>{
-               let arrNull= elem.filter((value) => value==null);
-               if (arrNull.length==3) throw ColBreakException;
-          })
-          return true;
-
-     }catch(e){
-          //console.log(e.name+" "+e.message);
-          //if (e !== BreakException) throw e;
-          return false;
-     }
-
 }
 
 export {generateBingoCard,renderBingoCard};

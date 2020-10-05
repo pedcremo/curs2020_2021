@@ -1,7 +1,6 @@
 
 import './css/style.css';
 import {docReady} from './js/core/core.js'; 
-import './js/controlers/stopball.js';
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {generateBingoCard,renderBingoCard} from './js/card.js';
@@ -43,7 +42,7 @@ let app = (() => {
 
 docReady(app.start);
 
-if (module.hot)       // eslint-disable-line no-undef
-  module.hot.accept() // eslint-disable-line no-undef
+//if (module.hot)       // eslint-disable-line no-undef
+//  module.hot.accept() // eslint-disable-line no-undef
 
 export {app};

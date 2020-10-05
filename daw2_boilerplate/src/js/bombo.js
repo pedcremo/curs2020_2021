@@ -4,7 +4,7 @@ export class Bombo{
         let bolesExtracted = [];
         let shuffle = () => boles.sort((a,b) => Math.random()-0.5);         
         this.getExtractedNumbers= () =>  bolesExtracted;
-        this.toString = () =>console.log(boles);
+        this.getRemainingBoles = () => boles;
         this.pickNumber = () => {
             shuffle();             
             boles[0] && bolesExtracted.push(boles[0]);            

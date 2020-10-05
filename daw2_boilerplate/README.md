@@ -32,3 +32,12 @@ Expack can be deployed directly to Google App Engine Flex with the command `npm 
 ## Security
 
 Please ensure that your version of Node and NPM are up to date, and run `npm audit` after installation to ensure that no vulnerabilities exist. If they do, follow the audits instructions on how to resolve them. 
+
+## Troubleshooting
+
+Node.js: what is ENOSPC error and how to solve?
+`echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
+
+Upgrade node to the latest stable
+`sudo npm install -g n`
+`sudo n stable`
