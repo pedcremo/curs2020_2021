@@ -43,7 +43,7 @@ function generateBingoCard(){
      return cardMatrix;
 }
 
-function renderBingoCard(cardMatrix){
+function renderBingoCard(cardMatrix,extractedBalls){
  let out="<table class='bingoCard'>"
 
  cardMatrix.forEach((row)=>{
@@ -52,7 +52,11 @@ function renderBingoCard(cardMatrix){
           if (cellValue==null){
                out+="<th class='nulo'></th>";
           }else{
-               out+="<th>"+cellValue+"</th>";
+               if (extractedBalls && extractedBalls.indexOf(cellValue) >= 0){
+                    out+="<th class='extracted'>"+cellValue+"</th>";     
+               }else{
+                    out+="<th>"+cellValue+"</th>";
+               }
           }
       });
       out+="</tr>";

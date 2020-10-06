@@ -14,9 +14,25 @@ table {
     border-collapse: collapse;
     font-size: 250%;
 }
-  
+.bingoBall {
+    height: 64px;
+    width: 64px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 48px;
+    text-align: center;
+    vertical-align: middle;
+    margin: 5px;
+    
+    color:white;
+}
+
 table, th, td {
     border: 2px solid black;
+}
+th.extracted{
+    background-color: red;
 }
 .nulo{
     background-color: gray;
