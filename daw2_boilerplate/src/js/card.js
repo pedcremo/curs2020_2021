@@ -1,6 +1,7 @@
 export class BingoCard{   
     
-     constructor(){
+     constructor(rootElement,pubSub=undefined){
+          
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
           //Transpose matrix to fullfill all cells with random numbers
@@ -24,7 +25,8 @@ export class BingoCard{
           row2Blanks.forEach((elem)=>cardMatrix[1][elem]=null);//Put a null in every empty picked cell row2
           row3Blanks.forEach((elem)=>cardMatrix[2][elem]=null);   
           //return this.cardMatrix;  
-          this.render = (extractedBalls=[]) => {
+          let render = (extractedBalls=[]) => {
+              
                let out="<table class='bingoCard'>"         
                cardMatrix.forEach((row)=>{
                     out+="<tr>"
@@ -42,10 +44,11 @@ export class BingoCard{
                     out+="</tr>";
                })
                out+="</table>";
+               rootElement.innerHTML = out;
                checkBingo(cardMatrix,extractedBalls);   
-               return out;
+               //return out;
           }          
-
+          if (pubSub) pubSub.subscribe("New Number",render,this);
           
      }     
 }

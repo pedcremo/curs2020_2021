@@ -4,40 +4,40 @@ import {docReady} from './js/core/core.js';
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
+import {PubSub} from './js/core/pubSub.js';
 
 let app = (() => {
     //let el = document.getElementById("ball");
     let myApp;
     let bombo;
+    let pubSub = new PubSub();
     let cardPlayer1,cardPlayer2;
-    let stateApp="stop"
+    let stateApp="stop";
+    
     
     let play = () =>{    
         let num=bombo.pickNumber();
+       
         if (num){           
-            let ballDiv = document.createElement('div');
-            ballDiv.className = 'bingoBall';
-            ballDiv.textContent = num;
-            document.getElementById('balls').appendChild(ballDiv);           
-            //document.getElementById('bingoCard').innerHTML = renderBingoCard(cardPlayer1,bombo.getExtractedNumbers());
-            document.getElementById('bingoCard1').innerHTML = cardPlayer1.render(bombo.getExtractedNumbers());           
-            document.getElementById('bingoCard2').innerHTML = cardPlayer2.render(bombo.getExtractedNumbers());           
+            pubSub.publish("New Number",bombo.getExtractedNumbers());
         }else{
             stop();
         }
-        //document.getElementById('bingoCard').innerHTML = renderBingoCard(generateBingoCard);
     };
     let stop = () => {
         stateApp="stop";
         clearInterval(myApp);
     }
     let start = () => {
-        bombo = new Bombo();
+        bombo = new Bombo(document.getElementById('balls'));
         stateApp = "run";
-        cardPlayer1 =  new BingoCard();       
-        document.getElementById('bingoCard1').innerHTML = cardPlayer1.render();
-        cardPlayer2 =  new BingoCard();       
-        document.getElementById('bingoCard2').innerHTML = cardPlayer2.render();
+
+        cardPlayer1 =  new BingoCard(document.getElementById('bingoCard1'),pubSub);      
+        //pubSub.subscribe("New Number",cardPlayer1.render);         
+        
+        cardPlayer2 =  new BingoCard(document.getElementById('bingoCard2'),pubSub);
+        //pubSub.subscribe("New Number",cardPlayer2.render);      
+        
         myApp = setInterval(play,200); 
     }
 
