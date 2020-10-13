@@ -10,10 +10,10 @@ export class Bombo{
         this.pickNumber = () => {
             shuffle();             
             boles[0] && bolesExtracted.push(boles[0]);          
-            if (boles[0]) this.render(boles[0])  
+            if (boles[0]) render(boles[0])             
             return (boles.length>0 && boles.splice(0,1))?bolesExtracted[bolesExtracted.length-1]:false;            
         }
-        this.render = (num) => {
+        let render = (num) => {
             let ballDiv = document.createElement('div');
             ballDiv.className = 'bingoBall';
             ballDiv.textContent = num;

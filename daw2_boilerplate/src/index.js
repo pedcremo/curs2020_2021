@@ -6,8 +6,7 @@ import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
 import {PubSub} from './js/core/pubSub.js';
 
-let app = (() => {
-    //let el = document.getElementById("ball");
+let app = (() => {    
     let myApp;
     let bombo;
     let pubSub = new PubSub();
@@ -20,6 +19,7 @@ let app = (() => {
        
         if (num){           
             pubSub.publish("New Number",bombo.getExtractedNumbers());
+
         }else{
             stop();
         }
@@ -31,17 +31,27 @@ let app = (() => {
     let start = () => {
         bombo = new Bombo(document.getElementById('balls'));
         stateApp = "run";
-        pubSub.subscribe("LINIA",(player) => alert("Linia Player "+player));
-        pubSub.subscribe("BINGO",(player) => {
-            alert("Bingo Player "+player);
+        pubSub.subscribe("LINIA",(player) => {
+            console.log("Linia");
+            pubSub.unsubscribe("LINIA");
             stop();
+            setTimeout(function() { 
+                alert("Linia Player "+player);
+                myApp = setInterval(play,200);
+            }, 50);
+            
+            
+        });
+        pubSub.subscribe("BINGO",(player) => {            
+            stop();
+            setTimeout(function() { 
+                pubSub.unsubscribe("BINGO");
+                alert("Bingo Player "+player) 
+            }, 50);                        
         });
 
-        cardPlayer1 =  new BingoCard("PERE",document.getElementById('bingoCard1'),pubSub);      
-        //pubSub.subscribe("New Number",cardPlayer1.render);         
-        
+        cardPlayer1 =  new BingoCard("PERE",document.getElementById('bingoCard1'),pubSub);        
         cardPlayer2 =  new BingoCard("PACO",document.getElementById('bingoCard2'),pubSub);
-        //pubSub.subscribe("New Number",cardPlayer2.render);      
         
         myApp = setInterval(play,200); 
     }
@@ -57,7 +67,5 @@ let app = (() => {
 
 docReady(app.start);
 
-//if (module.hot)       // eslint-disable-line no-undef
-//  module.hot.accept() // eslint-disable-line no-undef
 
 export {app};

@@ -18,4 +18,14 @@ export class PubSub {
         }
       })
     }
+    unsubscribe(event) {
+      let indexToRemove=[];
+      this.handlers.forEach((topic,index) => {
+        if (topic.event === event) {
+         indexToRemove.push(index);
+        }
+      })
+      //a.filter((value,index) => {if (indexToRemove.indexOf(index)<0) return value})
+      this.handlers=this.handlers.filter((value,index) => {if (indexToRemove.indexOf(index)<0) return value})
+    }
   }

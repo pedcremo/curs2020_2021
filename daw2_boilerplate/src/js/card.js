@@ -24,10 +24,10 @@ export class BingoCard{
           row1Blanks.forEach((elem)=>cardMatrix[0][elem]=null);//Put a null in every empty picked cell row1
           row2Blanks.forEach((elem)=>cardMatrix[1][elem]=null);//Put a null in every empty picked cell row2
           row3Blanks.forEach((elem)=>cardMatrix[2][elem]=null);  
-           
+          //let internalExtractedBalls; 
           //return this.cardMatrix;  
           let render = (extractedBalls=[]) => {
-              
+               //internalExtractedBalls = extractedBalls; 
                let out="<h1>Player "+player+"</h1>";
                out+="<table class='bingoCard'>"         
                cardMatrix.forEach((row)=>{
@@ -49,21 +49,31 @@ export class BingoCard{
                rootElement.innerHTML = out;
                checkBingo(cardMatrix,extractedBalls,pubSub,player);   
                //return out;
-          }          
+          }  
+          /*rootElement.addEventListener('DOMSubtreeModified',function(){
+               //alert("paco");
+               //console.log(internalExtractedBalls)
+               checkBingo(cardMatrix,internalExtractedBalls,pubSub,player);
+
+          });*/        
           if (pubSub) pubSub.subscribe("New Number",render);
           
      }     
 }
+
 function checkBingo(cardMatrix,extractedBalls,pubSub,player){
      let bingo=true;
      
      cardMatrix.forEach((row)=>{
           let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;         
           if (linia>0) bingo=false; 
-          //else pubSub.publish("LINIA",player);       
+          else pubSub.publish("LINIA",player);       
      })     
 
-     if (bingo) pubSub.publish("BINGO",player)
+     if (bingo) {
+          pubSub.publish("BINGO",player)
+          console.log("BINGO "+player)
+     }
 }
 /**
  * Returns count random numbers between min (inclusive) and max (exclusive)
