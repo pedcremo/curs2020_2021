@@ -31,11 +31,16 @@ let app = (() => {
     let start = () => {
         bombo = new Bombo(document.getElementById('balls'));
         stateApp = "run";
+        pubSub.subscribe("LINIA",(player) => alert("Linia Player "+player));
+        pubSub.subscribe("BINGO",(player) => {
+            alert("Bingo Player "+player);
+            stop();
+        });
 
-        cardPlayer1 =  new BingoCard(document.getElementById('bingoCard1'),pubSub);      
+        cardPlayer1 =  new BingoCard("PERE",document.getElementById('bingoCard1'),pubSub);      
         //pubSub.subscribe("New Number",cardPlayer1.render);         
         
-        cardPlayer2 =  new BingoCard(document.getElementById('bingoCard2'),pubSub);
+        cardPlayer2 =  new BingoCard("PACO",document.getElementById('bingoCard2'),pubSub);
         //pubSub.subscribe("New Number",cardPlayer2.render);      
         
         myApp = setInterval(play,200); 

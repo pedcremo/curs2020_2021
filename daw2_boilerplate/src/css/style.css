@@ -2,7 +2,7 @@ body {background-color: white;}
 #balls {
     display: inline-block;
     word-wrap: break-word;
-    width: 80%;
+    width: 100%;
 }
 #ball {
     position: absolute;
