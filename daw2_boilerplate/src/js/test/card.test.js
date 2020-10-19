@@ -1,27 +1,32 @@
 
-import {generateBingoCard} from '../card.js';
+import {BingoCard} from '../card.js';
 
 
 describe('Generate bingo card', () => {
-  let card = generateBingoCard();  
+  let card;
+  beforeAll(()=>{
+     document.body.innerHTML =`<div id="card"></div>`;
+     card = new BingoCard("Player",document.getElementById('card'));      
+  });
+     
   test('3 rows expected', () => {
-    expect(card.length).toEqual(3)
+    expect(card.getMatrix().length).toEqual(3)
   });
   test('9 columns expected', () => {
-    card.forEach((item)=>{
+    card.getMatrix().forEach((item)=>{
         expect((item.length==9)).toBeTruthy()
     })    
   });
   test('Well formed', () => {    
-    expect(testCard(card)).toBeTruthy()    
+    expect(testCard(card.getMatrix())).toBeTruthy()    
   });
 
-  test('1 Thousand cards well formed', () => {
+  /*test('1 Thousand cards well formed', () => {
     for(let i=0;i<1000;i++){
-        card = generateBingoCard();  
-        expect(testCard(card)).toBeTruthy();    
+        card = new BingoCard("Player",document.getElementById('card'));  
+        expect(testCard(card.getMatrix())).toBeTruthy();    
     }
-  });
+  });*/
 
 })
 

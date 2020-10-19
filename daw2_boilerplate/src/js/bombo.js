@@ -14,6 +14,9 @@ export class Bombo{
             return (boles.length>0 && boles.splice(0,1))?bolesExtracted[bolesExtracted.length-1]:false;            
         }
         let render = (num) => {
+            /*let a={<div class="bingoBall">
+                ${num}
+            </div>}*/
             let ballDiv = document.createElement('div');
             ballDiv.className = 'bingoBall';
             ballDiv.textContent = num;

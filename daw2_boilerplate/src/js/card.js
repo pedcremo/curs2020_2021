@@ -25,9 +25,18 @@ export class BingoCard{
           row2Blanks.forEach((elem)=>cardMatrix[1][elem]=null);//Put a null in every empty picked cell row2
           row3Blanks.forEach((elem)=>cardMatrix[2][elem]=null);  
           //let internalExtractedBalls; 
-          //return this.cardMatrix;  
+          //return cardMatrix;  
           let render = (extractedBalls=[]) => {
                //internalExtractedBalls = extractedBalls; 
+               /*`<h1>Player "+${player}+"</h1>"
+                    <table class='bingoCard'>
+                    ${cardMatrix.map((value, index) => {
+                         <tr>
+                           value.map((val)=> <th> </th>)   
+                         </tr>
+                       })}
+                    </table>     
+               `*/
                let out="<h1>Player "+player+"</h1>";
                out+="<table class='bingoCard'>"         
                cardMatrix.forEach((row)=>{
@@ -57,8 +66,8 @@ export class BingoCard{
 
           });*/        
           if (pubSub) pubSub.subscribe("New Number",render);
-          
-     }     
+          this.getMatrix = ()=> cardMatrix;          
+     }        
 }
 
 function checkBingo(cardMatrix,extractedBalls,pubSub,player){

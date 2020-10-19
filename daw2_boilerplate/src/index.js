@@ -6,7 +6,7 @@ import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
 import {PubSub} from './js/core/pubSub.js';
 
-let app = (() => {    
+const app = (() => {    
     let myApp;
     let bombo;
     let pubSub = new PubSub();
