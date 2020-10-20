@@ -4,13 +4,14 @@ export class BingoCard{
           let player = player_;
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
+          
           //Transpose matrix to fullfill all cells with random numbers
           let transposedcardMatrix=transpose(cardMatrix);
           transposedcardMatrix.forEach((colCard,index) =>{   
                transposedcardMatrix[index] = getRandomArbitrary(index*10,(index*10)+10,3);
           });     
-          //Again transpose to get original shape
           
+          //Again transpose to get original shape          
           cardMatrix = transpose(transposedcardMatrix);                            
                         
           let row1Blanks=getBlanks(templateRow);//Get four empty cells
@@ -69,8 +70,7 @@ export class BingoCard{
 }
 
 function checkBingo(cardMatrix,extractedBalls,pubSub,player){
-     let bingo=true;
-     
+     let bingo=true;     
      cardMatrix.forEach((row)=>{
           let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;         
           if (linia>0) bingo=false; 
@@ -102,17 +102,9 @@ function getBlanks([...ai]){
      iterator.forEach((el)=>{
           ai.splice(Math.floor(Math.random()*ai.length),1);          
      });
-     return ai;             
-     //return ai.map((elem) => Math.floor(elem/10))        
+     return ai;                    
 }
 //Transpose a matrix
-function transpose(matrix){
-          
-     return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));     
-     
+function transpose(matrix){          
+     return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));    
 }
-
-
-
-
-//export {generateBingoCard,renderBingoCard};

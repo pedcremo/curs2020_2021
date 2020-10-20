@@ -17,10 +17,17 @@ export class Bombo{
             /*let a={<div class="bingoBall">
                 ${num}
             </div>}*/
-            let ballDiv = document.createElement('div');
-            ballDiv.className = 'bingoBall';
-            ballDiv.textContent = num;
-            rootElement.appendChild(ballDiv);
+            let out=""
+            for (let i=1;i<91;i++){
+                
+                let className= "bingoBallEmpty"
+                if (bolesExtracted.includes(i))
+                    className = 'bingoBall';
+                out += `<div class=${className}>${i}</div>`             
+                
+            }
+            rootElement.innerHTML = out;
+            
         }
     }   
 }

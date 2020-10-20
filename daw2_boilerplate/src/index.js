@@ -1,6 +1,6 @@
 
 import './css/style.css';
-import {docReady} from './js/core/core.js'; 
+import {docReady,showModal} from './js/core/core.js'; 
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
@@ -29,6 +29,7 @@ const app = (() => {
         clearInterval(myApp);
     }
     let start = () => {
+       
         bombo = new Bombo(document.getElementById('balls'));
         stateApp = "run";
         pubSub.subscribe("LINIA",(player) => {
@@ -65,7 +66,7 @@ const app = (() => {
         
 })();
 
-docReady(app.start);
+docReady( showModal('playersForm',app.start));
 
 
 export {app};
