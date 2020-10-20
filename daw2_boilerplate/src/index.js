@@ -5,6 +5,7 @@ import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
 import {PubSub} from './js/core/pubSub.js';
+import {tl as templatePlayers} from './templates/modalPlayers.js'
 
 const app = (() => {    
     let myApp;
@@ -12,8 +13,7 @@ const app = (() => {
     let pubSub = new PubSub();
     let cardPlayer1,cardPlayer2;
     let stateApp="stop";
-    
-    
+        
     let play = () =>{    
         let num=bombo.pickNumber();
        
@@ -46,7 +46,10 @@ const app = (() => {
         pubSub.subscribe("BINGO",(player) => {            
             stop();
             setTimeout(function() { 
-                pubSub.unsubscribe("BINGO");
+                pubSub.unsubscribe("BINGO");                
+                showModal('bingoChachi',function(){
+                    showModal('playersForm',app.start)
+                })
                 alert("Bingo Player "+player) 
             }, 50);                        
         });
@@ -65,8 +68,8 @@ const app = (() => {
     };
         
 })();
-
-docReady( showModal('playersForm',app.start));
+debugger
+docReady(() => showModal(templatePlayers,app.start));
 
 
 export {app};

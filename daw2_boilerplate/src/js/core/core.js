@@ -1,7 +1,9 @@
+ 
 let docReady = (fn) => {
     // see if DOM is already available
+
     if (document.readyState === "complete" || document.readyState === "interactive") {        
-        fn();        
+        fn();             
     } else {
         document.addEventListener("DOMContentLoaded", fn);
     }
@@ -19,15 +21,20 @@ let docReady = (fn) => {
 </div>
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
 */
-let showModal = (idHtml,callback) => {
-    let modal = document.getElementById(idHtml);
+let showModal = (templateHtml,callback) => {
+
+    //let modal = document.getElementById(idHtml);
+    let parser = new DOMParser();
+    let modal = parser.parseFromString(templateHtml, "text/html");
+    document.body.appendChild(modal);
+
     modal.style.display = "block";
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
     
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
-        modal.style.display = "none";
+        modal.style.display = "none";       
         callback();
     }
   
