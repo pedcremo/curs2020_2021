@@ -26,7 +26,9 @@ let showModal = (templateHtml,callback) => {
     //let modal = document.getElementById(idHtml);
     let parser = new DOMParser();
     let modal = parser.parseFromString(templateHtml, "text/html");
+    modal = modal.body.firstChild;
     document.body.appendChild(modal);
+    //document.body.innerHTML += modal.innerHTML;
 
     modal.style.display = "block";
     // Get the <span> element that closes the modal

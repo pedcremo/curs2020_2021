@@ -1,4 +1,4 @@
-const tl=`
+export const tl=`
 
 <div id="playersForm" class="modal">
         <!-- Modal content -->
@@ -15,4 +15,3 @@ const tl=`
     </div>
 
 `
-export const tl;
