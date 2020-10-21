@@ -52,7 +52,7 @@ const app = (() => {
             setTimeout(function() { 
                 pubSub.unsubscribe("BINGO");                
                 showModal(templateBingo,function(){
-                    showModal('playersForm',app.start)
+                    showModal(templatePlayers,app.start)
                 })
             }, 50);                        
         });
