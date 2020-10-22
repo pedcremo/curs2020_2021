@@ -21,8 +21,7 @@ let docReady = (fn) => {
 </div>
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
 */
-let showModal = (templateHtml,callback) => {
-
+let showModal = (templateHtml,callback) => {    
     //let modal = document.getElementById(idHtml);
     let parser = new DOMParser();
     let modal = parser.parseFromString(templateHtml, "text/html");

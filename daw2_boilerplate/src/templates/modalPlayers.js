@@ -9,7 +9,7 @@ export const tl=`
             <form id="modalPardal">
                 <label for="fname">Player Name</label>
                 <input type="text" id="fname" name="fname">                
-                <button class="button">Add Player</button>
+                <button class="button" onclick>Add Player</button>
             </form>
         </div>  
     </div>

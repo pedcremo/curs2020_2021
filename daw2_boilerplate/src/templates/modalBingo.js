@@ -1,10 +1,12 @@
-export const tl=`
+export const modalBingo= (player) =>
+
+`
 
 <div id="playersForm" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h1>Bingo Bangoo</h1>
+            <h1>Bingo Bangoo ${player}</h1>
             <p>CONGRATULATIONS..</p>
         </div>  
     </div>

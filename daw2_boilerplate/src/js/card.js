@@ -27,38 +27,24 @@ export class BingoCard{
           row3Blanks.forEach((elem)=>cardMatrix[2][elem]=null);  
          
           let render = (extractedBalls=[]) => {
-               
-               /*let out =`<h1>Player ${player}</h1>
-                    <table class='bingoCard'>
-                    ${cardMatrix.map((value, index) => {
-                         `<tr>${
-                           value.map((val) => {
-                              if (val==null) return `<th class='nulo'> </th>`   
-                              else return `<th>${val}</th>`
-                           }).join("")
-                         }</tr>`
-                       }).join("")}
-                    </table>`;
+                              
+               let out =`<h1>Player ${player}</h1>
+                    <table class='bingoCard'>`+
+                         cardMatrix.map((value) => 
+                         "<tr>"+value.map((val) =>{
+                              if (val==null){
+                                   return "<th class='nulo'></th>"
+                              }else{
+                                   if (extractedBalls && extractedBalls.indexOf(val) >= 0){
+                                        return "<th class='extracted'>"+val+"</th>";                                  
+                                   }else{
+                                        return "<th>"+val+"</th>"
+                                   }
+                              }}).join("")
+                         +"</tr>"                          
+                         ).join("")+
+                    `</table>`;
 
-               console.log(out);*/
-               let out="<h1>Player "+player+"</h1>";
-               out+="<table class='bingoCard'>"         
-               cardMatrix.forEach((row)=>{
-                    out+="<tr>"
-                    row.forEach((cellValue)=>{
-                    if (cellValue==null){
-                         out+="<th class='nulo'></th>";
-                    }else{
-                         if (extractedBalls && extractedBalls.indexOf(cellValue) >= 0){
-                              out+="<th class='extracted'>"+cellValue+"</th>";                                  
-                         }else{
-                              out+="<th>"+cellValue+"</th>";
-                         }
-                    }
-                    });
-                    out+="</tr>";
-               })
-               out+="</table>";
                rootElement.innerHTML = out;
                checkBingo(cardMatrix,extractedBalls,pubSub,player);   
                //return out;
