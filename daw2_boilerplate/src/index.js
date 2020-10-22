@@ -5,7 +5,7 @@ import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
 import {PubSub} from './js/core/pubSub.js';
-import {tl as templatePlayers} from './templates/modalPlayers.js';
+import {modalPlayers} from './templates/modalPlayers.js';
 import {modalBingo} from './templates/modalBingo.js'
 import {modalLinia} from './templates/modalLinia.js'
 
@@ -72,7 +72,7 @@ const app = (() => {
         
 })();
 
-docReady(() => showModal(templatePlayers,app.start));
+docReady(() => showModal(modalPlayers(),app.start));
 
 
 export {app};

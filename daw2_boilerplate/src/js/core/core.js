@@ -23,8 +23,10 @@ https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
 */
 let showModal = (templateHtml,callback) => {    
     //let modal = document.getElementById(idHtml);
+    let template=templateHtml
+    if (templateHtml.template) template=templateHtml.template;  
     let parser = new DOMParser();
-    let modal = parser.parseFromString(templateHtml, "text/html");
+    let modal = parser.parseFromString(template, "text/html");
     modal = modal.body.firstChild;
     document.body.appendChild(modal);
     //document.body.innerHTML += modal.innerHTML;
@@ -32,6 +34,7 @@ let showModal = (templateHtml,callback) => {
     modal.style.display = "block";
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
+    if (templateHtml.controllers) templateHtml.controllers();
     
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
