@@ -2,7 +2,7 @@ export const modalBingo= (player) =>
 
 `
 
-<div id="playersForm" class="modal">
+<div id="bingoForm" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>

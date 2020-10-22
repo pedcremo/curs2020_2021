@@ -4,7 +4,7 @@ export const modalLinia= (player) => {
 
     return `
 
-    <div id="playersForm" class="modal">
+    <div id="liniaForm" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
                 <span class="close">&times;</span>

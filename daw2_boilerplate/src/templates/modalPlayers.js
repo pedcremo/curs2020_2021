@@ -1,17 +1,37 @@
 export const modalPlayers =()=>{
     const controllers = () => {
-        let add=document.getElementById('addplayer');
-        if (add) {
-            debugger
-            add.addEventListener(onclick,(event)=>{
-                let uList=document.getElementById("listPlayers");            
+        let addButton=document.getElementById('addplayer');
+        if (addButton) {
+            let uList=document.getElementById("listPlayers");
+            let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
+            playersNames.forEach(element => {
+                let li=document.createElement('li');
+                li.innerHTML = element;
+                li.addEventListener('click',(event) => {
+                    li.remove();
+                    playersNames=playersNames.filter((item) => item!=element)
+                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                })
+                uList.appendChild(li);
+            });
+            addButton.addEventListener("click",(event)=>{            
+                            
                 let li=document.createElement('li');
                 li.innerHTML = document.getElementById("fname").value;
                 uList.appendChild(li);
+                if (window.localStorage){
+                    playersNames.push(document.getElementById("fname").value);
+                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                }
+                li.addEventListener('click',(event) => {
+                    li.remove();
+                    playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                })
             })
         }
     }
-    debugger
+    
     return{template:    
     `
     <div id="playersForm" class="modal">
@@ -19,7 +39,7 @@ export const modalPlayers =()=>{
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h1>Bingo players</h1>
-                <p>Some text in the Modal..</p>
+                <p></p>
                 <ul id="listPlayers"></ul>
                 <form id="modalPardal">
                     <label for="fname">Player Name</label>

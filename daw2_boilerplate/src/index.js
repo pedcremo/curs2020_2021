@@ -11,9 +11,11 @@ import {modalLinia} from './templates/modalLinia.js'
 
 const app = (() => {    
     let myApp;
+    const speed = 100;
     let bombo;
+    let players = []
     let pubSub = new PubSub();
-    let cardPlayer1,cardPlayer2;
+    //let cardPlayer1,cardPlayer2;
     let stateApp="stop";
         
     let play = () =>{    
@@ -40,7 +42,7 @@ const app = (() => {
             stop();
             setTimeout(function() {                 
                 showModal(modalLinia(player),function(){
-                    myApp = setInterval(play,200);
+                    myApp = setInterval(play,speed);
                 })
                 
             }, 50);
@@ -52,15 +54,21 @@ const app = (() => {
             setTimeout(function() { 
                 pubSub.unsubscribe("BINGO");                
                 showModal(modalBingo(player),function(){
-                    showModal(templatePlayers,app.start)
+                    showModal(modalPlayers(),app.start)
                 })
             }, 50);                        
         });
-
-        cardPlayer1 =  new BingoCard("PERE",document.getElementById('bingoCard1'),pubSub);        
-        cardPlayer2 =  new BingoCard("PACO",document.getElementById('bingoCard2'),pubSub);
+        players = [];
+        pubSub = new PubSub();
+        let playersNames = JSON.parse(localStorage.getItem('playersNames'));
+        document.getElementById('bingoCards').innerHTML=""
+        playersNames.forEach(name => {
+            players.push(new BingoCard(name,document.getElementById('bingoCards'),pubSub));
+        });
+        //cardPlayer1 =  new BingoCard("PERE",document.getElementById('bingoCard1'),pubSub);        
+        //cardPlayer2 =  new BingoCard("PACO",document.getElementById('bingoCard2'),pubSub);
         
-        myApp = setInterval(play,200); 
+        myApp = setInterval(play,speed); 
     }
 
     return {start: start

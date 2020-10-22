@@ -4,7 +4,8 @@ export class BingoCard{
           let player = player_;
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
-          
+          let divRoot = document.createElement('div');
+          rootElement.appendChild(divRoot);
           //Transpose matrix to fullfill all cells with random numbers
           let transposedcardMatrix=transpose(cardMatrix);
           transposedcardMatrix.forEach((colCard,index) =>{   
@@ -45,7 +46,8 @@ export class BingoCard{
                          ).join("")+
                     `</table>`;
 
-               rootElement.innerHTML = out;
+               divRoot.innerHTML = out;
+               
                checkBingo(cardMatrix,extractedBalls,pubSub,player);   
                //return out;
           }  
