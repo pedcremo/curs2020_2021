@@ -33,7 +33,7 @@ const app = (() => {
         clearInterval(myApp);
     }
     let start = () => {
-       
+        pubSub = new PubSub();
         bombo = new Bombo(document.getElementById('balls'));
         stateApp = "run";
         pubSub.subscribe("LINIA",(player) => {
@@ -59,7 +59,7 @@ const app = (() => {
             }, 50);                        
         });
         players = [];
-        pubSub = new PubSub();
+       
         let playersNames = JSON.parse(localStorage.getItem('playersNames'));
         document.getElementById('bingoCards').innerHTML=""
         playersNames.forEach(name => {

@@ -1,6 +1,6 @@
-
+import img from '../images/linia.gif'
 export const modalLinia= (player) => {
-    debugger
+    
 
     return `
 
@@ -9,7 +9,7 @@ export const modalLinia= (player) => {
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h1>Linia player ${player}</h1>
-                <p>Congratulations..</p>
+                <img src=${img} />
             </div>  
         </div>
 

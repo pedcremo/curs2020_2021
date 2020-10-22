@@ -1,4 +1,13 @@
 body {background-color: white;}
+#bingoCards{
+    display: flex;
+    flex-wrap: wrap;
+    width:80%;
+    margin:auto;
+}
+#bingoCards div{
+  padding-right: 40px;
+}
 #balls {
     display: inline-block;
     word-wrap: break-word;
@@ -10,10 +19,24 @@ body {background-color: white;}
     left: 400px;
     top: 450px;
 }
-table {
-    border-collapse: collapse;
-    font-size: 250%;
+th.extracted{
+    background-color:green;
+    color:white;
 }
+.nulo{
+    background-color: gray;
+}
+table.bingoCard {
+    border: 5px solid black;
+    border-radius:25px;
+    -moz-border-radius:25px;
+    
+    font-size: 40px;
+    
+    
+}
+
+
 .bingoBall {
     height: 64px;
     width: 64px;
@@ -39,16 +62,7 @@ table {
     color:grey;
 }
 
-table, th, td {
-    border: 2px solid black;
-}
-th.extracted{
-    background-color:green;
-    color:white;
-}
-.nulo{
-    background-color: gray;
-}
+
 
 /* The Modal (background) */
 .modal {
@@ -72,8 +86,14 @@ th.extracted{
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+    opacity: 0.9;
+    border-radius: 25px;
   }
-  
+  .modal-content img{
+      display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
   /* The Close Button */
   .close {
     color: #aaaaaa;
@@ -112,4 +132,31 @@ th.extracted{
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+  }
+  ol {
+    color: #ccc;
+    list-style-type: none;
+  }
+   
+  ol li {
+    position: relative;
+    font: bold italic 45px/1.5 Helvetica, Verdana, sans-serif;
+    margin-bottom: 20px;
+  }
+  ol li :hover{
+    cursor: not-allowed;
+  }
+   
+  li p {
+    font: 24px/1.75 Helvetica, sans-serif;
+    padding-left: 40px;
+    color: #555;
+  }
+   
+  span.players {
+    position: absolute;
+  }
+  div.players {
+    width: 500px;
+    margin: 10px
   }

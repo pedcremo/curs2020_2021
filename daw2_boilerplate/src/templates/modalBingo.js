@@ -1,3 +1,4 @@
+import img from '../images/bingo.gif'
 export const modalBingo= (player) =>
 
 `
@@ -7,7 +8,7 @@ export const modalBingo= (player) =>
         <div class="modal-content">
             <span class="close">&times;</span>
             <h1>Bingo Bangoo ${player}</h1>
-            <p>CONGRATULATIONS..</p>
+            <img src=${img} />
         </div>  
     </div>
 

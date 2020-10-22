@@ -4,12 +4,12 @@ export const modalPlayers =()=>{
         if (addButton) {
             let uList=document.getElementById("listPlayers");
             let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-            playersNames.forEach(element => {
+            playersNames.forEach((name,index) => {
                 let li=document.createElement('li');
-                li.innerHTML = element;
+                li.innerHTML = `<span class='players'>${index+1}</span><p>${name}</p>`;
                 li.addEventListener('click',(event) => {
                     li.remove();
-                    playersNames=playersNames.filter((item) => item!=element)
+                    playersNames=playersNames.filter((item) => item!=name)
                     localStorage.setItem('playersNames',JSON.stringify(playersNames));
                 })
                 uList.appendChild(li);
@@ -17,7 +17,7 @@ export const modalPlayers =()=>{
             addButton.addEventListener("click",(event)=>{            
                             
                 let li=document.createElement('li');
-                li.innerHTML = document.getElementById("fname").value;
+                li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
                 uList.appendChild(li);
                 if (window.localStorage){
                     playersNames.push(document.getElementById("fname").value);
@@ -40,10 +40,12 @@ export const modalPlayers =()=>{
                 <span class="close">&times;</span>
                 <h1>Bingo players</h1>
                 <p></p>
-                <ul id="listPlayers"></ul>
+                <div class='players'>
+                <ol id="listPlayers"></ol>
+                </div>
                 <form id="modalPardal">
-                    <label for="fname">Player Name</label>
-                    <input type="text" id="fname" name="fname">                                
+                   
+                    <input type="text" id="fname" name="fname" placeholder="Player name">                                
                 </form>
                 <button id='addplayer' class="button">Add Player</button>
             </div>  

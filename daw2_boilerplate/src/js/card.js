@@ -30,7 +30,9 @@ export class BingoCard{
           let render = (extractedBalls=[]) => {
                               
                let out =`<h1>Player ${player}</h1>
-                    <table class='bingoCard'>`+
+                    <table class='bingoCard'>
+                       
+                        `+
                          cardMatrix.map((value) => 
                          "<tr>"+value.map((val) =>{
                               if (val==null){
