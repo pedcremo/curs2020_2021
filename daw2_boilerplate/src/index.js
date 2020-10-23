@@ -11,7 +11,7 @@ import {modalLinia} from './templates/modalLinia.js'
 
 const app = (() => {    
     let myApp;
-    const speed = 100;
+    const speed = 3000;
     let bombo;
     let players = []
     let pubSub = new PubSub();
