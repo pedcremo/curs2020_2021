@@ -6,12 +6,13 @@ import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
 import {PubSub} from './js/core/pubSub.js';
 import {modalPlayers} from './templates/modalPlayers.js';
-import {modalBingo} from './templates/modalBingo.js'
-import {modalLinia} from './templates/modalLinia.js'
+import {modalBingo} from './templates/modalBingo.js';
+import {modalLinia} from './templates/modalLinia.js';
+import video from './videos/los_bingueros.mp4';
 
 const app = (() => {    
     let myApp;
-    const speed = 3000;
+    const speed = 50;
     let bombo;
     let players = []
     let pubSub = new PubSub();
@@ -33,6 +34,8 @@ const app = (() => {
         clearInterval(myApp);
     }
     let start = () => {
+        let videoEl= document.getElementById('videoBackground');
+        if (videoEl) videoEl.remove();
         pubSub = new PubSub();
         bombo = new Bombo(document.getElementById('balls'));
         stateApp = "run";
@@ -54,6 +57,7 @@ const app = (() => {
             setTimeout(function() { 
                 pubSub.unsubscribe("BINGO");                
                 showModal(modalBingo(player),function(){
+                    setupBackgroundVideo();
                     showModal(modalPlayers(),app.start)
                 })
             }, 50);                        
@@ -65,9 +69,7 @@ const app = (() => {
         playersNames.forEach(name => {
             players.push(new BingoCard(name,document.getElementById('bingoCards'),pubSub));
         });
-        //cardPlayer1 =  new BingoCard("PERE",document.getElementById('bingoCard1'),pubSub);        
-        //cardPlayer2 =  new BingoCard("PACO",document.getElementById('bingoCard2'),pubSub);
-        
+        play();
         myApp = setInterval(play,speed); 
     }
 
@@ -80,6 +82,19 @@ const app = (() => {
         
 })();
 
+function setupBackgroundVideo(){
+    let backgroundVideo = `<video autoplay muted loop id="videoBackground">
+            <source src="${video}" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        `;
+    let parser = new DOMParser();
+    let videoEl = parser.parseFromString(backgroundVideo, "text/html");
+    videoEl = videoEl.body.firstChild;
+    videoEl.currentTime += Math.round(Math.random()*400);
+    document.body.appendChild(videoEl);
+}
+setupBackgroundVideo();
 docReady(() => showModal(modalPlayers(),app.start));
 
 
