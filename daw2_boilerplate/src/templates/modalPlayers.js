@@ -1,3 +1,5 @@
+import video from '../videos/los_bingueros.mp4';
+
 export const modalPlayers =()=>{
     const controllers = () => {
         let addButton=document.getElementById('addplayer');
@@ -14,27 +16,30 @@ export const modalPlayers =()=>{
                 })
                 uList.appendChild(li);
             });
-            addButton.addEventListener("click",(event)=>{            
-                            
-                let li=document.createElement('li');
-                li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
-                uList.appendChild(li);
-                if (window.localStorage){
-                    playersNames.push(document.getElementById("fname").value);
-                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
+            addButton.addEventListener("click",(event)=>{  
+                let namePlayer=document.getElementById("fname").value;          
+                if (namePlayer) {
+                    let li=document.createElement('li');
+                    li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
+                    uList.appendChild(li);
+                    if (window.localStorage){
+                        playersNames.push(document.getElementById("fname").value);
+                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                    }
+                    li.addEventListener('click',(event) => {
+                        li.remove();
+                        playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                    })
                 }
-                li.addEventListener('click',(event) => {
-                    li.remove();
-                    playersNames=playersNames.filter((item) => item!=li.innerHTML)
-                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                })
             })
         }
         let unmuteBtn=document.getElementById('unmuteBtn');
-        unmuteBtn.addEventListener('click', function() {
-            console.log("galdll");
-            let video=document.getElementById('videoBackground');
-            video.muted = false;
+        
+        let videoEl=document.getElementById('videoBackground');
+        videoEl.currentTime += Math.round(Math.random()*400);
+        unmuteBtn.addEventListener('click', function() {                        
+            videoEl.muted = false;
         });
 
     }
@@ -59,7 +64,18 @@ export const modalPlayers =()=>{
 
             
             </div>  
+            
         </div>
+        <div>
+            <video autoplay muted loop id="videoBackground">
+                <source src="${video}" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+            
+        </div>     
+                         
+       
+    
 
     `,controllers:controllers}
 }
