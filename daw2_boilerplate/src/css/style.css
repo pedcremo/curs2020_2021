@@ -93,7 +93,7 @@ table.bingoCard {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
     opacity: 0.9;
     border-radius: 25px;
   }
@@ -181,4 +181,19 @@ table.bingoCard {
   #unmuteBtn:hover {
     background: #ddd;
     color: black;
+  }
+
+  .blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+  }
+  @keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
+  }
+  @-webkit-keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
   }

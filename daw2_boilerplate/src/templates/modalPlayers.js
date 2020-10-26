@@ -1,4 +1,5 @@
 import video from '../videos/los_bingueros.mp4';
+import {app} from '../index.js';
 
 export const modalPlayers =()=>{
     const controllers = () => {
@@ -34,6 +35,13 @@ export const modalPlayers =()=>{
                 }
             })
         }
+
+        let playBtn=document.getElementById('playBtn');
+        playBtn.addEventListener('click',function() {
+            let m=document.getElementById('playersForm');
+            m.style.display = "none";       
+            app.start();
+        });
         let unmuteBtn=document.getElementById('unmuteBtn');
         
         let videoEl=document.getElementById('videoBackground');
@@ -41,7 +49,6 @@ export const modalPlayers =()=>{
         unmuteBtn.addEventListener('click', function() {                        
             videoEl.muted = false;
         });
-
     }
     
     return{template:    
@@ -54,12 +61,12 @@ export const modalPlayers =()=>{
                 <p></p>
                 <div class='players'>
                 <ol id="listPlayers"></ol>
+                </div>                   
+                <div style="display:flex">
+                <input type="text" id="fname" name="fname" placeholder="Player name">                                                
+                <button id='addplayer' class="button">Add</button>
                 </div>
-                <form id="modalPardal">
-                   
-                    <input type="text" id="fname" name="fname" placeholder="Player name">                                
-                </form>
-                <button id='addplayer' class="button">Add Player</button>
+                <button id='playBtn' class="button">PLAY</button>
                 <button id="unmuteBtn" class="button">Unmute</button>
 
             
