@@ -30,6 +30,13 @@ export const modalPlayers =()=>{
                 })
             })
         }
+        let unmuteBtn=document.getElementById('unmuteBtn');
+        unmuteBtn.addEventListener('click', function() {
+            console.log("galdll");
+            let video=document.getElementById('videoBackground');
+            video.muted = false;
+        });
+
     }
     
     return{template:    
@@ -48,6 +55,9 @@ export const modalPlayers =()=>{
                     <input type="text" id="fname" name="fname" placeholder="Player name">                                
                 </form>
                 <button id='addplayer' class="button">Add Player</button>
+                <button id="unmuteBtn" class="button">Unmute</button>
+
+            
             </div>  
         </div>
 

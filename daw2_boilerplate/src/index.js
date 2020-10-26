@@ -83,10 +83,12 @@ const app = (() => {
 })();
 
 function setupBackgroundVideo(){
-    let backgroundVideo = `<video autoplay muted loop id="videoBackground">
+    let backgroundVideo = `<div><video autoplay muted loop id="videoBackground">
             <source src="${video}" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>
+        
+        </div>
         `;
     let parser = new DOMParser();
     let videoEl = parser.parseFromString(backgroundVideo, "text/html");

@@ -168,3 +168,17 @@ table.bingoCard {
     width: 500px;
     margin: 10px
   }
+  #unmuteBtn {
+    width: 200px;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  #unmuteBtn:hover {
+    background: #ddd;
+    color: black;
+  }
