@@ -44,29 +44,23 @@ table.bingoCard {
     
 }
 
+.bingoBall, .bingoBallEmpty{
+  height: 64px;
+  width: 64px;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 48px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;    
+}
 
 .bingoBall {
-    height: 64px;
-    width: 64px;
-    background-color: green;
-    border-radius: 50%;
-    display: inline-block;
-    font-size: 48px;
-    text-align: center;
-    vertical-align: middle;
-    margin: 5px;    
-    color:white;
+    background-color: green;   
+    color:black;
 }
 .bingoBallEmpty {
-    height: 64px;
-    width: 64px;
     background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    font-size: 48px;
-    text-align: center;
-    vertical-align: middle;
-    margin: 5px;    
     color:grey;
 }
 
@@ -187,6 +181,35 @@ table.bingoCard {
     animation: blink-animation 1s steps(5, start) infinite;
     -webkit-animation: blink-animation 1s steps(5, start) infinite;
   }
+
+  .error{
+    color:#ff0000
+  }
+
+
+  @keyframes anim{
+    0% {background-color: rgb(255, 0, 0); color: #ffffff;}
+   25% {background-color: rgb(195, 255, 0); color: #000000;}
+   50% {background-color: green; color: #ffffff;} 
+   75% {background-color: rgb(195, 255, 0); color: #000000;} 
+  100% {background-color: rgb(255, 0, 0); color: #ffffff;} 
+}
+.ball_ani {
+  animation-name: anim;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+
+  height: 64px;
+  width: 64px;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 48px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;    
+  background-color: green;   
+  color:black;
+}
   @keyframes blink-animation {
     to {
       visibility: hidden;
