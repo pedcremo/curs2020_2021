@@ -18,34 +18,17 @@ export const modalPlayers = () => {
                 uList.appendChild(li);
             });
             addButton.addEventListener("click", (event) => {
-                let namePlayer = document.getElementById("fname").value;
-                if (namePlayer) {
-                    if (playersNames.includes(namePlayer)) {
-                        /** Can't create two users with same username */
-                        document.getElementsByClassName('error')[0].innerHTML = "This user is already in use"
-                    } else {
-                        /** To restart error */
-                        document.getElementsByClassName('error')[0].innerHTML = ""
-                        let li = document.createElement('li');
-                        li.innerHTML = `<span class='players'>${uList.children.length + 1}</span><p>${document.getElementById("fname").value}</p>`;
-                        uList.appendChild(li);
-                        if (window.localStorage) {
-                            playersNames.push(document.getElementById("fname").value);
-                            localStorage.setItem('playersNames', JSON.stringify(playersNames));
-                        }
-                        /** To restart input */
-                        document.getElementById("fname").value = ''
-                        li.addEventListener('click', (event) => {
-                            li.remove();
-                            /** Get name to remove it (li.lastChild.innerHTML)*/
-                            playersNames = playersNames.filter((item) => item != li.lastChild.innerHTML)
-                            localStorage.setItem('playersNames', JSON.stringify(playersNames));
-                        })
-                    }
-                } else {
-                    document.getElementsByClassName('error')[0].innerHTML = "Name can not be blank"
+               adduser(playersNames, uList)
+            })
+
+            document.getElementById("fname").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    console.log("")
+                    adduser(playersNames, uList)
+
                 }
             })
+
         }
 
         let playBtn = document.getElementById('playBtn');
@@ -70,6 +53,38 @@ export const modalPlayers = () => {
             /** Muted unmuted */
             videoEl.muted = !videoEl.muted;
         });
+    }
+
+    let adduser=(...variables)=>{
+        let playersNames=variables[0]
+        let uList=variables[1]
+        let namePlayer = document.getElementById("fname").value;
+        if (namePlayer) {
+            if (playersNames.includes(namePlayer)) {
+                /** Can't create two users with same username */
+                document.getElementsByClassName('error')[0].innerHTML = "This user is already in use"
+            } else {
+                /** To restart error */
+                document.getElementsByClassName('error')[0].innerHTML = ""
+                let li = document.createElement('li');
+                li.innerHTML = `<span class='players'>${uList.children.length + 1}</span><p>${document.getElementById("fname").value}</p>`;
+                uList.appendChild(li);
+                if (window.localStorage) {
+                    playersNames.push(document.getElementById("fname").value);
+                    localStorage.setItem('playersNames', JSON.stringify(playersNames));
+                }
+                /** To restart input */
+                document.getElementById("fname").value = ''
+                li.addEventListener('click', (event) => {
+                    li.remove();
+                    /** Get name to remove it (li.lastChild.innerHTML)*/
+                    playersNames = playersNames.filter((item) => item != li.lastChild.innerHTML)
+                    localStorage.setItem('playersNames', JSON.stringify(playersNames));
+                })
+            }
+        } else {
+            document.getElementsByClassName('error')[0].innerHTML = "Name can not be blank"
+        }
     }
 
     return {
@@ -109,4 +124,8 @@ export const modalPlayers = () => {
 
     `, controllers: controllers
     }
+
+
+    
 }
+
