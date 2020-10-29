@@ -4,39 +4,63 @@ export const modalPlayers =()=>{
         if (addButton) {
             let uList=document.getElementById("listPlayers");
             let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-            playersNames.forEach((name,index) => {
-                let li=document.createElement('li');
-                li.innerHTML = `<span class='players'>${index+1}</span><p>${name}</p>`;
+
+            /**
+             * Evento para eliminar el usuario
+             */
+            let addEventUserRemove = (li, name) => {
                 li.addEventListener('click',(event) => {
                     li.remove();
                     playersNames=playersNames.filter((item) => item!=name)
                     localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                })
-                uList.appendChild(li);
-            });
-            addButton.addEventListener("click",(event)=>{            
-                            
+                });// end_addEventListener
+            }// end_addEventUserRemove
+
+            /**
+             * Renderizado de usuarios
+             */
+            let renderUsers = (name, num) => {
                 let li=document.createElement('li');
-                li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
+                li.innerHTML = `<span class='players'>${num + 1}</span><p>${name}</p>`;
+                addEventUserRemove(li, name);
                 uList.appendChild(li);
+            }// end_renderUsers
+
+            /**
+             * Función para añadir usuarios
+             */
+            let addUser = () => {
+                let username = document.getElementById("fname");
+                if (username.value.length <= 0) return;
+                renderUsers(username.value, uList.children.length);
                 if (window.localStorage){
-                    playersNames.push(document.getElementById("fname").value);
+                    playersNames.push(username.value);
                     localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                }
-                li.addEventListener('click',(event) => {
-                    li.remove();
-                    playersNames=playersNames.filter((item) => item!=li.innerHTML)
-                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                })
-            })
+                }// end_if
+                username.value = "";
+            }// end_addUser
+
+            /**
+             * Renderizado de usuarios al inicio
+             */
+            playersNames.forEach((name,index) => {renderUsers(name, index)});
+
+            /**
+             * Eventos para añadir usuarios
+             */
+            addButton.addEventListener("click", addUser);
+            document.getElementById('fname').addEventListener('keydown', (e) => {
+                if (e.keyCode == 13) {
+                    addUser();
+                    e.preventDefault();
+                }// end_if
+            });
         }
         let unmuteBtn=document.getElementById('unmuteBtn');
         unmuteBtn.addEventListener('click', function() {
-            console.log("galdll");
             let video=document.getElementById('videoBackground');
             video.muted = false;
         });
-
     }
     
     return{template:    
