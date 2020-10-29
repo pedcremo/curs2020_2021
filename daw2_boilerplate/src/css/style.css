@@ -187,6 +187,10 @@ table.bingoCard {
     animation: blink-animation 1s steps(5, start) infinite;
     -webkit-animation: blink-animation 1s steps(5, start) infinite;
   }
+
+  .error{
+    color:#ff0000
+  }
   @keyframes blink-animation {
     to {
       visibility: hidden;
