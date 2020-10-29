@@ -4,6 +4,7 @@ import {app} from '../index.js';
 export const modalPlayers =()=>{
     const controllers = () => {
         let addButton=document.getElementById('addplayer');
+        //if exists the add button, do..
         if (addButton) {
             let uList=document.getElementById("listPlayers");
             let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
@@ -17,27 +18,38 @@ export const modalPlayers =()=>{
                 })
                 uList.appendChild(li);
             });
+            //click to add player
             addButton.addEventListener("click",(event)=>{  
-                let namePlayer=document.getElementById("fname").value;          
+                let namePlayer=document.getElementById("fname").value;      
+                //if player name exists    
                 if (namePlayer) {
                     let li=document.createElement('li');
                     li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
                     uList.appendChild(li);
+                    //if exists local storage..
                     if (window.localStorage){
                         playersNames.push(document.getElementById("fname").value);
                         localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                    }
+                    }//end-if localStorage
+                    document.getElementById("fname").value='';
                     li.addEventListener('click',(event) => {
                         li.remove();
-                        playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                        //if you put the name of the player you can delete in localstorage
+                        playersNames=playersNames.filter((item) => item!=namePlayer)
                         localStorage.setItem('playersNames',JSON.stringify(playersNames));
                     })
-                }
+                }//end-if Players
             })
         }
-
+      
         let playBtn=document.getElementById('playBtn');
+        //Play button
         playBtn.addEventListener('click',function() {
+            //Check if are users in localStorage
+            if(JSON.parse(localStorage.getItem('playersNames')).length==0){
+                alert("Add players to play!")
+                return;
+            }
             let m=document.getElementById('playersForm');
             m.style.display = "none";       
             app.start();

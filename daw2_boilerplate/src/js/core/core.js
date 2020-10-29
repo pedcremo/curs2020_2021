@@ -21,6 +21,8 @@ let docReady = (fn) => {
 </div>
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
 */
+
+//General modal for win
 let showModal = (templateHtml,callback) => {    
     let template=templateHtml
     if (templateHtml.template) template=templateHtml.template;  
