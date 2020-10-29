@@ -168,7 +168,7 @@ table.bingoCard {
     width: 500px;
     margin: 10px
   }
-  #unmuteBtn {
+  /* #unmuteBtn {
     width: 200px;
     font-size: 18px;
     padding: 10px;
@@ -181,7 +181,7 @@ table.bingoCard {
   #unmuteBtn:hover {
     background: #ddd;
     color: black;
-  }
+  } */
 
   .blink {
     animation: blink-animation 1s steps(5, start) infinite;

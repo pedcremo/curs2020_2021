@@ -1,5 +1,6 @@
 import video from '../videos/los_bingueros.mp4';
 import {app} from '../index.js';
+import '../css/modalPlayers.css';
 
 export const modalPlayers =()=>{
     const controllers = () => {
@@ -46,13 +47,20 @@ export const modalPlayers =()=>{
         
         let videoEl=document.getElementById('videoBackground');
         videoEl.currentTime += Math.round(Math.random()*400);
-        unmuteBtn.addEventListener('click', function() {                        
-            videoEl.muted = false;
+        unmuteBtn.addEventListener('click', function() {        
+            if (this.classList.contains('mutted')){
+                this.className = "fas fa-volume-off btn--mute"
+                videoEl.muted = false;
+            }else{
+                this.className = "fas fa-volume-mute btn--mute mutted"
+                videoEl.muted = true;
+            }
         });
     }
     
     return{template:    
     `
+    <i class="fas fa-volume-mute btn--mute mutted" id="unmuteBtn"></i>
     <div id="playersForm" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
@@ -67,8 +75,6 @@ export const modalPlayers =()=>{
                 <button id='addplayer' class="button">Add</button>
                 </div>
                 <button id='playBtn' class="button">PLAY</button>
-                <button id="unmuteBtn" class="button">Unmute</button>
-
             
             </div>  
             

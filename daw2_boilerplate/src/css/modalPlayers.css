@@ -1,0 +1,26 @@
+/* Mute video */
+
+.btn--mute{
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 35px;
+    color: rgb(230, 230, 230);
+    width: auto;
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 99;
+    transition: 0.1s;
+    text-align: center;
+    cursor: pointer;
+    width: 35px;
+    background-color: rgba(0, 0, 0, 0.473);
+  }
+  
+  .btn--mute:hover{
+    background-color: rgb(22, 22, 22);
+  }
+  
+  .mutted{
+    color: rgb(202, 23, 23);
+  }
