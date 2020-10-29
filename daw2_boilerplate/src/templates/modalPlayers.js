@@ -18,22 +18,33 @@ export const modalPlayers =()=>{
                 uList.appendChild(li);
             });
             addButton.addEventListener("click",(event)=>{  
-                let namePlayer=document.getElementById("fname").value;          
-                if (namePlayer) {
-                    let li=document.createElement('li');
-                    li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
-                    uList.appendChild(li);
-                    if (window.localStorage){
-                        playersNames.push(document.getElementById("fname").value);
-                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                if(check_player_name(document.getElementById("fname").value)){
+                    let namePlayer=document.getElementById("fname").value;          
+                    if (namePlayer) {
+                        let li=document.createElement('li');
+                        li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
+                        uList.appendChild(li);
+                        if (window.localStorage){
+                            playersNames.push(document.getElementById("fname").value);
+                            localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                        }
+                        li.addEventListener('click',(event) => {
+                            li.remove();
+                            playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                            localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                        })
                     }
-                    li.addEventListener('click',(event) => {
-                        li.remove();
-                        playersNames=playersNames.filter((item) => item!=li.innerHTML)
-                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                    })
+                }else{
+                    alert("No puedes insertar un user sin nombre!")
                 }
             })
+        }
+
+        //This function we pass the value of the input. If it doesn't match the regex (check if it has at least one character, spaces don't count)
+        let check_player_name = (player_name) =>{
+            var regex_player=/\S/;
+            if(regex_player.test(player_name)) return true;
+            return false;
         }
 
         let playBtn=document.getElementById('playBtn');
