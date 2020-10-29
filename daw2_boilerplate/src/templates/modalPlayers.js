@@ -22,17 +22,21 @@ export const modalPlayers =()=>{
                     let namePlayer=document.getElementById("fname").value;          
                     if (namePlayer) {
                         let li=document.createElement('li');
+                        li.id = namePlayer;
                         li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
                         uList.appendChild(li);
                         if (window.localStorage){
                             playersNames.push(document.getElementById("fname").value);
                             localStorage.setItem('playersNames',JSON.stringify(playersNames));
                         }
-                        li.addEventListener('click',(event) => {
-                            li.remove();
-                            playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                        
+                        let remove = () =>{
+                            playersNames=playersNames.filter((item) => item!=this.id)
                             localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                        })
+                            this.remove();
+                        }
+
+                        li.addEventListener('click',remove)
                     }
                 }else{
                     alert("No puedes insertar un user sin nombre!")
