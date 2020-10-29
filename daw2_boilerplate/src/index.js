@@ -6,8 +6,7 @@ import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
 import {PubSub} from './js/core/pubSub.js';
 import {modalPlayers} from './templates/modalPlayers.js';
-import {modalBingo} from './templates/modalBingo.js';
-import {modalLinia} from './templates/modalLinia.js';
+import {modalWin} from './templates/modalWin.js';
 
 const app = (() => {    
     let myApp;
@@ -43,7 +42,7 @@ const app = (() => {
             pubSub.unsubscribe("LINIA");
             stop();
             setTimeout(function() {                 
-                showModal(modalLinia(player),function(){
+                showModal(modalWin(player, "Linia"),function(){
                     myApp = setInterval(play,speed);
                 })                
             }, 50);
@@ -54,7 +53,7 @@ const app = (() => {
             stop();
             setTimeout(function() { 
                 pubSub.unsubscribe("BINGO");                
-                showModal(modalBingo(player),function(){                    
+                showModal(modalWin(player, "Bingo"),function(){                    
                     showModal(modalPlayers(),app.start)
                 })
             }, 50);                        

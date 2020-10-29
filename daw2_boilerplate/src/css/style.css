@@ -69,7 +69,18 @@ table.bingoCard {
     margin: 5px;    
     color:grey;
 }
-
+.bingoBallNew {
+  height: 64px;
+  width: 64px;
+  background-color: blue;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 48px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;    
+  color:white;
+}
 
 
 /* The Modal (background) */
