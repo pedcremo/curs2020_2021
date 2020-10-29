@@ -66,8 +66,19 @@ export const modalPlayers =()=>{
         
         let videoEl=document.getElementById('videoBackground');
         videoEl.currentTime += Math.round(Math.random()*400);
-        unmuteBtn.addEventListener('click', function() {                        
-            videoEl.muted = false;
+        unmuteBtn.addEventListener('click', function() {
+            unmuteBtn.classList.toggle("active");
+            if(unmuteBtn.classList.contains("active")){
+                // unmuteBtn.classList.remove("active"); 
+                unmuteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                videoEl.muted = false;
+            }else{
+                // unmuteBtn.classList.add("active"); 
+                unmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                videoEl.muted = true;
+            }
+                                  
+            
         });
     }
     
@@ -87,9 +98,6 @@ export const modalPlayers =()=>{
                 <button id='addplayer' class="button">Add</button>
                 </div>
                 <button id='playBtn' class="button">PLAY</button>
-                <button id="unmuteBtn" class="button">Unmute</button>
-
-            
             </div>  
             
         </div>
@@ -98,7 +106,7 @@ export const modalPlayers =()=>{
                 <source src="${video}" type="video/mp4">
                 Your browser does not support HTML5 video.
             </video>
-            
+            <div id="unmuteBtn"><i class="fas fa-volume-mute"></i></div>
         </div>     
                          
        

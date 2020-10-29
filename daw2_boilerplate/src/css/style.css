@@ -169,18 +169,19 @@ table.bingoCard {
     margin: 10px
   }
   #unmuteBtn {
-    width: 200px;
-    font-size: 18px;
+    position: absolute;
+    left: 50px;
+    /* width: 200px; */
+    font-size: 30px;
     padding: 10px;
     border: none;
-    background: #fff;
-    color: #000;
+    color: rgb(255, 255, 255);
     cursor: pointer;
+    z-index: 99;
   }
   
   #unmuteBtn:hover {
-    background: #ddd;
-    color: black;
+    color: rgb(126, 126, 126);
   }
 
   .blink {
