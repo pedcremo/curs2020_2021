@@ -86,7 +86,10 @@ function getRandomArbitrary(min, max,count) {
      return arr3.sort();               
 }
 
-//Pass an array and we ramdomly pick only an array of 4 elements supposed to be blanks
+/**
+ * Pass an array and we ramdomly pick only an array of 4 elements supposed to be blanks
+ */
+
 function getBlanks([...ai]){     
      let iterator=Array.apply(null, Array(ai.length-4));     
      iterator.forEach((el)=>{
@@ -94,7 +97,10 @@ function getBlanks([...ai]){
      });
      return ai;                    
 }
-//Transpose a matrix
+
+/**
+ * Transpose a matrix
+ */
 function transpose(matrix){          
      return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));    
 }

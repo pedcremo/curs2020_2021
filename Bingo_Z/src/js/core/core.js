@@ -1,4 +1,9 @@
-/**  Checks if DOM is already loades afterwards we call fn */
+
+/**
+ * 
+ * Here  we can check  if DOM is already loades
+ */
+
 let docReady = (fn) => {
     
 
@@ -9,6 +14,8 @@ let docReady = (fn) => {
     }
 }    
 /*
+
+--Here you have the modal that we used
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
@@ -21,6 +28,17 @@ let docReady = (fn) => {
 </div>
 https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
 */
+
+
+/**
+ * 
+ * 
+ * This function is use to implement the diferents modal that we use in the app
+ * For example  in the main page we have a modal to add players to the game,  also when  any player sing line we show a modal
+ * and the same when someone sings bingo
+
+ */
+
 let showModal = (templateHtml,callback) => {    
     let template=templateHtml
     if (templateHtml.template) template=templateHtml.template;  

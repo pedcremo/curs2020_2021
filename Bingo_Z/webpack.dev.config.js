@@ -43,25 +43,31 @@ module.exports = {
           }
         ]
       },
-      { 
+      {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: ['style-loader', 'css-loader']
       },
       {
-       test: /\.(png|svg|jpg|gif)$/,
-       use: ['file-loader']
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader']
       },
       {
         test: /\.mp4$/,
         use: ['file-loader?name=videos/[name].[ext]']
-       }
+      },
+      {
+
+        test: /\.mp3$/,
+        use: ['file-loader?name=audio/[name].[ext]']
+
+      }
     ]
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/html/index.html",
       filename: "./index.html",
-      excludeChunks: [ 'server' ]
+      excludeChunks: ['server']
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()

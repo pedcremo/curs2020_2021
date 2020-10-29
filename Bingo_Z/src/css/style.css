@@ -57,6 +57,36 @@ table.bingoCard {
     margin: 5px;    
     color:white;
 }
+
+
+/* .bingoBall {
+  height: 64px;
+  width: 64px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 48px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;    
+  color:white;
+  -webkit-animation: bingoBall 1s ease-in-out infinite alternate;
+  -moz-animation: bingoBall 1s ease-in-out infinite alternate;
+  animation: bingoBall 1s ease-in-out infinite alternate;
+
+
+}
+
+@keyframes bingoBall {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red;
+  }
+  
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px green, 0 0 40px green, 0 0 50px green, 0 0 60px green, 0 0 70px  green, 0 0 80px green;
+  }
+} */
+
 .bingoBallEmpty {
     height: 64px;
     width: 64px;
