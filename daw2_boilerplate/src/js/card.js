@@ -5,27 +5,27 @@ export class BingoCard{
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
           let divRoot = document.createElement('div');
+          let rowBlanks;
           rootElement.appendChild(divRoot);
           //Transpose matrix to fullfill all cells with random numbers
           let transposedcardMatrix=transpose(cardMatrix);
-          transposedcardMatrix.forEach((colCard,index) =>{   
+          transposedcardMatrix.forEach((colCard,index) =>{
                transposedcardMatrix[index] = getRandomArbitrary(index*10,(index*10)+10,3);
           });     
           
           //Again transpose to get original shape          
-          cardMatrix = transpose(transposedcardMatrix);                            
-                        
-          let row1Blanks=getBlanks(templateRow);//Get four empty cells
-          let row2Blanks=getBlanks(templateRow);//Get four empty cells
-          //Pass two arrays eliminate numbers duplicates on both and from resulting array pick only an array of 4 elements
-          let duplicatesNonSelectable=row1Blanks.filter(function(i){ return row2Blanks.indexOf(i) >= 0; });  
-          let templateRow1 = [...templateRow];
-          duplicatesNonSelectable.forEach((elem)=> templateRow1[elem]=null);
-          let row3Blanks=getBlanks(templateRow1.filter((elem)=> elem!=null));
+          cardMatrix = transpose(transposedcardMatrix);
           
-          row1Blanks.forEach((elem)=>cardMatrix[0][elem]=null);//Put a null in every empty picked cell row1
-          row2Blanks.forEach((elem)=>cardMatrix[1][elem]=null);//Put a null in every empty picked cell row2
-          row3Blanks.forEach((elem)=>cardMatrix[2][elem]=null);  
+          cardMatrix.forEach((row, index) => {
+               if (index === (cardMatrix.length - 1)) {
+                    let duplicatesNonSelectable=rowBlanks.filter(function(i){ return rowBlanks.indexOf(i) >= 0; });  
+                    let templateRow1 = [...templateRow];
+                    duplicatesNonSelectable.forEach((elem)=> templateRow1[elem]=null);
+                    rowBlanks = getBlanks(templateRow1.filter((elem)=> elem!=null));
+               }else rowBlanks = getBlanks(templateRow);
+
+               rowBlanks.forEach((elem) => cardMatrix[index][elem] = null)
+          });
          
           let render = (extractedBalls=[]) => {
                               
@@ -35,14 +35,10 @@ export class BingoCard{
                         `+
                          cardMatrix.map((value) => 
                          "<tr>"+value.map((val) =>{
-                              if (val==null){
-                                   return "<th class='nulo'></th>"
-                              }else{
-                                   if (extractedBalls && extractedBalls.indexOf(val) >= 0){
-                                        return "<th class='extracted'>"+val+"</th>";                                  
-                                   }else{
-                                        return "<th>"+val+"</th>"
-                                   }
+                              if (val==null)return "<th class='nulo'></th>"
+                              else{
+                                   if (extractedBalls && extractedBalls.indexOf(val) >= 0)return "<th class='extracted'>"+val+"</th>";                                  
+                                   else return "<th>"+val+"</th>"
                               }}).join("")
                          +"</tr>"                          
                          ).join("")+
@@ -51,7 +47,6 @@ export class BingoCard{
                divRoot.innerHTML = out;
                
                checkBingo(cardMatrix,extractedBalls,pubSub,player);   
-               //return out;
           }  
                
           if (pubSub) pubSub.subscribe("New Number",render);
@@ -67,10 +62,7 @@ function checkBingo(cardMatrix,extractedBalls,pubSub,player){
           else pubSub.publish("LINIA",player);       
      })     
 
-     if (bingo) {
-          pubSub.publish("BINGO",player)
-          console.log("BINGO "+player)
-     }
+     if (bingo) pubSub.publish("BINGO",player)
 }
 /**
  * Returns count random numbers between min (inclusive) and max (exclusive)
