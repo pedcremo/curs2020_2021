@@ -1,4 +1,10 @@
-import img from '../images/bingo.gif'
+import bingo1 from '../images/bingo.gif'
+import bingo2 from '../images/bingo2.gif'
+import bingo3 from '../images/bingo3.gif'
+var imgs=new Array();
+imgs.push(bingo1,bingo2,bingo3);
+var img=imgs[Math.round(Math.random() * ((imgs.length-1) - 0) + 0  )];
+
 export const modalBingo= (player) =>
 
 `
