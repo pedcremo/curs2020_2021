@@ -38,9 +38,14 @@ export const modalPlayers =()=>{
 
         let playBtn=document.getElementById('playBtn');
         playBtn.addEventListener('click',function() {
-            let m=document.getElementById('playersForm');
-            m.style.display = "none";       
-            app.start();
+            if(JSON.parse(localStorage.getItem('playersNames')).length!=0){
+                let m=document.getElementById('playersForm');
+                m.style.display = "none";       
+                app.start();
+            }else{
+                alert("Introduce almenos un jugador");
+            }
+
         });
         let unmuteBtn=document.getElementById('unmuteBtn');
         
