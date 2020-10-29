@@ -21,8 +21,10 @@ export const modalPlayers = () => {
                 let namePlayer = document.getElementById("fname").value;
                 if (namePlayer) {
                     if (playersNames.includes(namePlayer)) {
+                        /** Can't create two users with same username */
                         document.getElementsByClassName('error')[0].innerHTML = "This user is already in use"
                     } else {
+                        /** To restart error */
                         document.getElementsByClassName('error')[0].innerHTML = ""
                         let li = document.createElement('li');
                         li.innerHTML = `<span class='players'>${uList.children.length + 1}</span><p>${document.getElementById("fname").value}</p>`;
@@ -65,7 +67,8 @@ export const modalPlayers = () => {
         let videoEl = document.getElementById('videoBackground');
         videoEl.currentTime += Math.round(Math.random() * 400);
         unmuteBtn.addEventListener('click', function () {
-            videoEl.muted = false;
+            /** Muted unmuted */
+            videoEl.muted = !videoEl.muted;
         });
     }
 
@@ -84,7 +87,6 @@ export const modalPlayers = () => {
                 <div style="display:flex">
                 <input type="text" id="fname" name="fname" placeholder="Player name">                                                
                 <button id='addplayer' class="button">Add</button>
-                <br>
                 <span class="error"></span>
                 </div>
                 <button id='playBtn' class="button">PLAY</button>
