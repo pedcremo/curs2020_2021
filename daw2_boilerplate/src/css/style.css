@@ -45,7 +45,7 @@ table.bingoCard {
 }
 
 
-.bingoBall {
+.bingoBallNew, .bingoBall {
     height: 64px;
     width: 64px;
     background-color: green;
@@ -56,7 +56,32 @@ table.bingoCard {
     vertical-align: middle;
     margin: 5px;    
     color:white;
+    
+
+
 }
+.bingoBallNew{
+    background-color: red;
+    animation-name: example;
+    animation-duration: 2s;
+}
+
+
+
+@keyframes example {
+  from {background-color: red;}
+  to {background-color: green;}
+}
+
+
+
+
+
+
+
+
+
+
 .bingoBallEmpty {
     height: 64px;
     width: 64px;
