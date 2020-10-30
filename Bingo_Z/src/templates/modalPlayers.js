@@ -51,13 +51,12 @@ export const modalPlayers = () => {
             let m = document.getElementById('playersForm');
             let players = localStorage.getItem('playersNames');
             if (players == "null") {
-
                 m.style.display = "block";
-            } else {
+                /**ONLY YOU CAN START THE GAME IF THERE ARE MINIMUN ONE PLAYER */
+            } else if( JSON.parse(localStorage.getItem('playersNames')).length >= 1){
                 m.style.display = "none";
                 app.start();
             }
-
 
         });
         let unmuteBtn = document.getElementById('unmuteBtn');

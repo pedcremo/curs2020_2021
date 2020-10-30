@@ -59,7 +59,7 @@ table.bingoCard {
 }
 
 
-/* .bingoBall {
+.bingoBall {
   height: 64px;
   width: 64px;
   background-color: green;
@@ -78,14 +78,11 @@ table.bingoCard {
 }
 
 @keyframes bingoBall {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red;
-  }
-  
-  to {
-    text-shadow: 0 0 20px #fff, 0 0 30px green, 0 0 40px green, 0 0 50px green, 0 0 60px green, 0 0 70px  green, 0 0 80px green;
-  }
-} */
+  0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: grey;}
+  100% {background-color: green;}
+}
 
 .bingoBallEmpty {
     height: 64px;

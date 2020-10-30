@@ -12,7 +12,7 @@ import { setupAudioBingoWin } from './templates/modalBingo.js'
 
 const app = (() => {
     let myApp;
-    const speed = 50;
+    const speed = 2000;
     let bombo;
     let players = []
     let pubSub = new PubSub();
