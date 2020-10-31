@@ -63,13 +63,11 @@ function checkBingo(cardMatrix,extractedBalls,pubSub,player){
      let bingo=true;     
      cardMatrix.forEach((row)=>{
           let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;         
-          if (linia>0) bingo=false; 
-          else pubSub.publish("LINIA",player);       
+          (linia>0)? bingo=false : pubSub.publish("LINIA",player);       
      })     
 
      if (bingo) {
           pubSub.publish("BINGO",player)
-          console.log("BINGO "+player)
      }
 }
 /**
