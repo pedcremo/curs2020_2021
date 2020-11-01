@@ -82,3 +82,9 @@ input[type=number] {
 .spinner__btn:hover {
   background-color: rgb(241, 241, 241);
 }
+
+/* Error MSG */
+
+.msg--error {
+  color: red;
+}

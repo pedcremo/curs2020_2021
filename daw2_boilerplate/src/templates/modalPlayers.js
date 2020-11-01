@@ -4,10 +4,10 @@ import '../css/modalPlayers.css';
 
 export const modalPlayers =()=>{
     const controllers = () => {
+        let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
         let addButton=document.getElementById('addplayer');
         if (addButton) {
             let uList=document.getElementById("listPlayers");
-            let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
             playersNames.forEach((name,index) => {
                 let li=document.createElement('li');
                 li.innerHTML = `<span class='players'>${index+1}</span><p>${name}</p>`;
@@ -27,12 +27,18 @@ export const modalPlayers =()=>{
                     if (window.localStorage){
                         playersNames.push(document.getElementById("fname").value);
                         localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                        console.log(localStorage.getItem('playersNames'));
                     }
                     li.addEventListener('click',(event) => {
                         li.remove();
-                        playersNames=playersNames.filter((item) => item!=li.innerHTML)
-                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                        console.log(namePlayer);
+                        var filtered = playersNames.filter(function(e) { return e !== namePlayer })
+                        localStorage.setItem('playersNames',JSON.stringify(filtered));
+                        console.log(localStorage.getItem('playersNames'));
                     })
+                    document.getElementById("fname").value = "";
+                }else{
+                    document.getElementById('msg--err').innerHTML = "Enter the player's name!"
                 }
             })
         }
@@ -56,11 +62,14 @@ export const modalPlayers =()=>{
 
         let playBtn=document.getElementById('playBtn');
         playBtn.addEventListener('click',function() {
-            let m=document.getElementById('playersForm');
-            m.style.display = "none";   
-            app.speed = (parseFloat(inputVal.value) * 1000);  
-            console.log(app.speed);  
-            app.start();
+            if (playersNames.length !== 0 && playersNames != undefined){
+                let m=document.getElementById('playersForm');
+                m.style.display = "none";       
+                app.speed = (parseFloat(inputVal.value) * 1000);
+                app.start();
+            }else{
+                document.getElementById('msg--err').innerHTML = "Add some players first!"
+            }
         });
         let unmuteBtn=document.getElementById('unmuteBtn');
         
@@ -93,6 +102,7 @@ export const modalPlayers =()=>{
                 <input type="text" id="fname" name="fname" placeholder="Player name">                                                
                 <button id='addplayer' class="button">Add</button>
                 </div>
+                <p class="msg--error" id="msg--err"></p>
                 <div class="menu__options">
                     <button id='playBtn' class="button">PLAY</button>
                     
