@@ -65,4 +65,5 @@ let showModal = (templateHtml,callback) => {
     }
     
 }
+
 export {docReady,showModal};

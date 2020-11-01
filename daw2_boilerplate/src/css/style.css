@@ -57,6 +57,18 @@ table.bingoCard {
     margin: 5px;    
     color:white;
 }
+.extractedBall {
+    height: 64px;
+    width: 64px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 48px;
+    text-align: center;
+    vertical-align: middle;
+    margin: 5px;    
+    color:white;
+}
 .bingoBallEmpty {
     height: 64px;
     width: 64px;
@@ -116,7 +128,15 @@ table.bingoCard {
     text-decoration: none;
     cursor: pointer;
   }
-
+  input[type=number] {
+    width: 5%;
+    padding: 2px 2px;
+    margin: 8px 0;
+    text-align: center;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid green;
+  }
   input[type=text] {
     display: inline;
     width: 100%;
@@ -169,7 +189,8 @@ table.bingoCard {
     margin: 10px
   }
   #unmuteBtn {
-    width: 200px;
+    width: 100px;
+    float: right;
     font-size: 18px;
     padding: 10px;
     border: none;
