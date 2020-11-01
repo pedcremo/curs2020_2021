@@ -85,7 +85,10 @@ table.bingoCard {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
   
   /* Modal Content */
   .modal-content {
@@ -93,9 +96,16 @@ table.bingoCard {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 620px;
+    min-height: 400px;
+    max-height: 620px;
     opacity: 0.9;
     border-radius: 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    align-items: center;
   }
   .modal-content img{
       display: block;
@@ -104,8 +114,11 @@ table.bingoCard {
   }
   /* The Close Button */
   .close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
     color: #aaaaaa;
-    float: right;
+    /* float: right; */
     font-size: 28px;
     font-weight: bold;
   }
@@ -117,7 +130,7 @@ table.bingoCard {
     cursor: pointer;
   }
 
-  input[type=text] {
+  /* input[type=text] {
     display: inline;
     width: 100%;
     padding: 2px 2px;
@@ -125,7 +138,7 @@ table.bingoCard {
     box-sizing: border-box;
     border: none;
     border-bottom: 2px solid green;
-  }
+  } */
   input:focus{
     outline: none;
     }
@@ -141,7 +154,7 @@ table.bingoCard {
     display: inline-block;
     font-size: 16px;
   }
-  ol {
+  /* ol {
     color: #ccc;
     list-style-type: none;
   }
@@ -159,15 +172,15 @@ table.bingoCard {
     font: 24px/1.75 Helvetica, sans-serif;
     padding-left: 40px;
     color: #555;
-  }
+  } */
    
-  span.players {
+  /* span.players {
     position: absolute;
   }
   div.players {
     width: 500px;
     margin: 10px
-  }
+  } */
   /* #unmuteBtn {
     width: 200px;
     font-size: 18px;
