@@ -11,7 +11,7 @@ import {modalLinia} from './templates/modalLinia.js';
 
 const app = (() => {    
     let myApp;
-    const speed = 2000;
+    let speed;
     let bombo;
     let players = []
     let pubSub = new PubSub();    
@@ -44,7 +44,7 @@ const app = (() => {
             stop();
             setTimeout(function() {                 
                 showModal(modalLinia(player),function(){
-                    myApp = setInterval(play,speed);
+                    myApp = setInterval(play,app.speed);
                 })                
             }, 50);
             
@@ -67,7 +67,7 @@ const app = (() => {
             players.push(new BingoCard(name,document.getElementById('bingoCards'),pubSub));
         });
         play();
-        myApp = setInterval(play,speed); 
+        myApp = setInterval(play,app.speed); 
     }
 
     return {start: start
@@ -75,6 +75,7 @@ const app = (() => {
             toggle: () => {
                 (stateApp == "run")?stop():start();  
             },
+            speed: speed
     };
         
 })();
