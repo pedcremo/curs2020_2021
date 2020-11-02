@@ -12,7 +12,7 @@ import {modalLiniaBingo} from './templates/modalLiniaBingo.js';
 
 const app = (() => {    
     let myApp;
-    const speed = 20;
+    const speed = 2000;
     let bombo;
     let players = []
     let pubSub = new PubSub();    
