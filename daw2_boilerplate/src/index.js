@@ -1,6 +1,6 @@
 
 import './css/style.css';
-import {docReady,showModal} from './js/core/core.js'; 
+import {docReady,showModal,debug} from './js/core/core.js'; 
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';

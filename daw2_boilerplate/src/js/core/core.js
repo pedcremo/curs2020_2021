@@ -1,3 +1,10 @@
+//debug option
+const debugOption = true;
+
+let debug = (text) =>{
+    if(debugOption) console.log(text);
+}
+
 /**  Checks if DOM is already loades afterwards we call fn */
 let docReady = (fn) => {
     
@@ -56,4 +63,4 @@ let showModal = (templateHtml,callback) => {
     if (templateHtml.controllers) templateHtml.controllers();    
         
 }
-export {docReady,showModal};
+export {docReady,showModal,debug};

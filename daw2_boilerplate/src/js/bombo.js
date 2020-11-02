@@ -1,5 +1,9 @@
+import {debug} from './core/core.js'; 
+
+
 export class Bombo{    
     constructor(){
+        debug("test debug option on")
         let rootElement = document.getElementById('root');
         let bomboRootEl;
         if(!document.getElementById( "balls" )){

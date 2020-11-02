@@ -1,6 +1,9 @@
+import {debug} from './core/core.js'; 
+
+
 export class BingoCard{   
-    
      constructor(player_,pubSub=undefined){
+          debug("test debug on");
           let rootElement=document.getElementById('root');
           let cardsRootEl;
           //comprobamos si existe el elemento, si no existe lo creamos, si existe lo guardamos.
@@ -79,7 +82,7 @@ function checkBingo(cardMatrix,extractedBalls,pubSub,player){
 
      if (bingo) {
           pubSub.publish("BINGO",player)
-          console.log("BINGO "+player)
+          debug("BINGO "+player)
      }
 }
 /**
