@@ -1,4 +1,8 @@
 import img from '../images/bingo.gif'
+/**
+ * That's a template that can be rendered by ShowModal's function.
+ * @param {String} player - Player's username that will be displayed if obtains bingo.
+ */
 export const modalBingo= (player) =>
 
 `

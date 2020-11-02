@@ -10,6 +10,11 @@ import {modalPlayers} from './templates/modalPlayers.js';
 import {modalBingo} from './templates/modalBingo.js';
 import {modalLinia} from './templates/modalLinia.js';
 
+/**
+ * Main function of the application, start or stop the game. Show the necessary modals.
+ * @returns {object} returns multiple functions or variables, that can be accessible.
+ */
+
 const app = (() => {    
     let myApp;
     let speed;

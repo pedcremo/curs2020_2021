@@ -1,3 +1,5 @@
+const debugStatus = true;
+
 /**  Checks if DOM is already loades afterwards we call fn */
 let docReady = (fn) => {
     
@@ -8,19 +10,12 @@ let docReady = (fn) => {
         document.addEventListener("DOMContentLoaded", fn);
     }
 }    
-/*
-<!-- The Modal -->
-<div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
-
-</div>
-https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
-*/
+/**
+ * This function works like a component launcher, but is especially used to display modals, with its own actions and templates.
+ * @param {object} templateHtml, the template to be displayed and the actions of the template
+ * @param {Function} callback, function that will init when modal closes.
+ */
 let showModal = (templateHtml,callback) => {    
     let template=templateHtml
     if (templateHtml.template) template=templateHtml.template;  
@@ -56,4 +51,17 @@ let showModal = (templateHtml,callback) => {
     if (templateHtml.controllers) templateHtml.controllers();    
         
 }
-export {docReady,showModal};
+
+/**
+ * This function is used for debug the code, enabling us to init a callback function during debug. We can active this function for develop and disable in production.
+ * @param {object} msg, the message that have to be displayed.
+ * @param {Function} callback, function that will init when the message it's displayed.
+ */
+let debug = (msg, callback) => {
+    if (debugStatus) {
+        console.log(msg);
+        if (callback) callback();
+    }
+}
+
+export {docReady,showModal,debug};

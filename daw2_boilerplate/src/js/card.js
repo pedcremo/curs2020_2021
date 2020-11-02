@@ -1,3 +1,9 @@
+/**
+ * Card class for create cards to each player. This class don't have any public method. We use pubsub pattern for send notifications when new ball it's picked automatically the card it's rendered.
+ * @param {string} player_ - The player username, that will be displayed in the header of the card.
+ * @param {Element} rootElement - The DOM Element where card will be rendered.
+ * @param {Object} pubSub - The publisher subscriber pattern for send and receive notifications when new ball is picked or when some card have line or bingo.
+ */
 export class BingoCard{   
     
      constructor(player_,rootElement,pubSub=undefined){
@@ -60,6 +66,13 @@ export class BingoCard{
      }        
 }
 
+/**
+ * Function for check if the card has obtained bingo or line.
+ * @param {Array} cardMatrix - All the numbers of the card in one array that contains 3 arrays (each row)
+ * @param {Array} extractedBalls - Array of the extracted balls for check if have bingo or line
+ * @param {Object} pubSub - PubSub object for send notification if have bingo or line
+ * @param {String} player - The player's name
+ */
 function checkBingo(cardMatrix,extractedBalls,pubSub,player){
      let bingo=true;     
      cardMatrix.forEach((row)=>{

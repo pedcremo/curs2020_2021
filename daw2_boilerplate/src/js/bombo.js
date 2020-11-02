@@ -1,3 +1,7 @@
+/**
+ * Class that creates the bombo for each game. The bombo have three public functions, get the extracted balls, pick a number, and the remaining balls. Every time that we pick a ball, the bombo shuffles and it's totally random.
+ * @param {Element} rootElement - The DOM Element where have to be displayed the bombo.
+ */
 export class Bombo{    
     constructor(rootElement){
         const templateBombo = Array.from({length:90},(_,i) => i + 1);

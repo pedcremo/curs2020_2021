@@ -2,6 +2,9 @@ import video from '../videos/los_bingueros.mp4';
 import {app} from '../index.js';
 import '../css/modalPlayers.css';
 
+/**
+ * That's a template that can be rendered by ShowModal's function. It contains a Literal Template, and the actions that have to be initiated when the modal it's displayed. You can add the players to the game (with error controls for deny if are repeated names or the match doesn't have any player, and if you didn't write any name) You can set the time that will have the game (The seconds that will take to get a number) 
+ */
 export const modalPlayers =()=>{
     const controllers = () => {
         let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
