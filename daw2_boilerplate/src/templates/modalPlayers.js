@@ -120,7 +120,7 @@ export const modalPlayers =()=>{
                 <span> Timer: (sec)</span>
                 <div class="spinner">
                     <button type="button" id="spinner__down" class="spinner__btn spinner__down">&lsaquo;</button>
-                    <input type="number" id="spinner__value" class="spinner__value" name="time" id="match_time" min="0.1" max="5" step="0.1" value="0.5">
+                    <input type="number" id="spinner__value" class="spinner__value" name="time" id="match_time" min="0.1" max="5" step="0.1" value="5">
                     <button type="button" id="spinner__up" class="spinner__btn spinner__up">&rsaquo;</button>
                 </div>    
             </div>

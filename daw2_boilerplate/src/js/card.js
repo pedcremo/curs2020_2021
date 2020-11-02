@@ -5,6 +5,7 @@ export class BingoCard{
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
           let divRoot = document.createElement('div');
+          divRoot.classList.add('bingoCardLayout');
           rootElement.appendChild(divRoot);
           //Transpose matrix to fullfill all cells with random numbers
           let transposedcardMatrix=transpose(cardMatrix);

@@ -7,7 +7,7 @@ body {background-color: white;}
     min-height: 100%;
   }
 
-#bingoCards{
+/* #bingoCards{
     display: flex;
     flex-wrap: wrap;
     width:80%;
@@ -20,7 +20,7 @@ body {background-color: white;}
     display: inline-block;
     word-wrap: break-word;
     width: 100%;
-}
+} */
 #ball {
     position: absolute;
     color:black;
@@ -34,43 +34,6 @@ th.extracted{
 .nulo{
     background-color: gray;
 }
-table.bingoCard {
-    border: 5px solid black;
-    border-radius:25px;
-    -moz-border-radius:25px;
-    
-    font-size: 40px;
-    
-    
-}
-
-
-.bingoBall {
-    height: 64px;
-    width: 64px;
-    background-color: green;
-    border-radius: 50%;
-    display: inline-block;
-    font-size: 48px;
-    text-align: center;
-    vertical-align: middle;
-    margin: 5px;    
-    color:white;
-}
-.bingoBallEmpty {
-    height: 64px;
-    width: 64px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    font-size: 48px;
-    text-align: center;
-    vertical-align: middle;
-    margin: 5px;    
-    color:grey;
-}
-
-
 
 /* The Modal (background) */
 .modal {

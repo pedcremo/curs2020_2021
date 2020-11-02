@@ -1,5 +1,6 @@
 
 import './css/style.css';
+import './css/ingame.css';
 import {docReady,showModal} from './js/core/core.js'; 
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
@@ -34,6 +35,16 @@ const app = (() => {
     }
     let start = () => {
         let videoEl= document.getElementById('videoBackground');
+
+        let doc = new DOMParser().parseFromString(`
+            <div class="gameLayout">
+                <div id="bingoCards" class="cards"></div>
+                <div id="balls" class="panel"></div>
+            </div>
+        `, 'text/html');
+        let layout = doc.body.firstChild;
+        document.getElementById('main').appendChild(layout);
+
         if (videoEl) videoEl.remove();
         pubSub = new PubSub();
         bombo = new Bombo(document.getElementById('balls'));
@@ -53,7 +64,8 @@ const app = (() => {
         pubSub.subscribe("BINGO",(player) => {            
             stop();
             setTimeout(function() { 
-                pubSub.unsubscribe("BINGO");                
+                pubSub.unsubscribe("BINGO");
+                document.getElementById('main').innerHTML = '';            
                 showModal(modalBingo(player),function(){                    
                     showModal(modalPlayers(),app.start)
                 })

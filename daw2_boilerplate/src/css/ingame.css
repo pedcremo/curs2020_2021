@@ -1,0 +1,119 @@
+.gameLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  padding-top: 30px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.cards {
+  background-color: rgb(248, 248, 248);
+  width: 52%;
+  box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgb(228, 228, 228);
+  border-radius: 25px;
+  display: grid;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  height: 90vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  /* scroll-padding-right: 25px; */
+  /* scrollbar-width: thin; */
+  padding: 20px;
+}
+
+.bingoCardLayout {
+  display: flex;
+  flex-direction: column;
+  max-height: 250px;
+  /* justify-content: center; */
+  align-items: center;
+  text-align: center;
+  box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.4);
+  border-radius: 30px;
+  background-color: rgb(167, 192, 247);
+  padding-bottom: 20px;
+}
+
+.bingoCardLayout h1 {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+table.bingoCard {
+  border: 5px solid black;
+  border-radius: 25px;
+  -moz-border-radius: 25px;
+  font-size: 40px;
+  overflow: hidden;
+}
+
+.panel {
+  width: 42%;
+  padding: 10px;
+  height: 100%;
+  border: 1px solid rgb(228, 228, 228);
+  box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.4);
+  background-color: rgb(248, 248, 248);
+  border-radius: 25px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.bingoCard tbody tr th {
+  min-height: 45px;
+  min-width: 45px;
+}
+
+/* .current{
+    color: black;
+    background-color: goldenrod;
+} */
+
+.current {
+  color: black !important;
+  background-color: goldenrod !important;
+  animation: current-animation 0.3s steps(5, start) infinite;
+  -webkit-animation: current-animation 0.3s steps(5, start) infinite;
+}
+
+@keyframes current-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@-webkit-keyframes current-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+.bingoBall {
+  height: 64px;
+  width: 64px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 48px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;
+  color: white;
+}
+
+.bingoBallEmpty {
+  height: 64px;
+  width: 64px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 48px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;
+  color: grey;
+}
