@@ -1,9 +1,12 @@
 import video from '../videos/los_bingueros.mp4';
 import {app} from '../index.js';
+import { debug } from '../js/core/core';
 
 export const modalPlayers =()=>{
     const controllers = () => {
         let addButton=document.getElementById('addplayer');
+        let speed_val = document.getElementById('speed');
+
         if (addButton) {
             let uList=document.getElementById("listPlayers");
             let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
@@ -56,9 +59,10 @@ export const modalPlayers =()=>{
             if(localStorage.getItem('playersNames')){
                 if(JSON.parse(localStorage.getItem('playersNames')).length!=0){
                     let m=document.getElementById('playersForm');
-                    let unmuteBtn = document.getElementById('unmuteBtn');
-                    m.style.display = "none";    
-                    unmuteBtn.style.display="none";   
+                    m.style.display = "none";   
+                    debug(speed_val);
+                    app.speed=speed_val.value *1000;
+                    debug(app.speed);  
                     app.start();
                 }else{
                     alert("Introduce almenos un jugador");
@@ -98,6 +102,23 @@ export const modalPlayers =()=>{
             }   
         })
 
+        //controla los inputs + y - del speed
+        let speed_menu = () =>{
+            speed_val.value=1;
+            document.getElementById('speed_up').addEventListener("click",function(){
+                if(parseFloat(speed_val.value) < 5.0){
+                    speed_val.value = parseFloat(speed_val.value) + parseFloat(0.5);
+                }
+            })
+            document.getElementById('speed_down').addEventListener("click",function(){
+                if(parseFloat(speed_val.value) > 0.5){
+                    speed_val.value = parseFloat(speed_val.value) - parseFloat(0.5)
+                }
+            })
+        }
+        speed_menu();
+
+
     }
     
     return{template:    
@@ -115,7 +136,17 @@ export const modalPlayers =()=>{
                 <input type="text" id="fname" name="fname" placeholder="Player name">                                                
                 <button id='addplayer' class="button">Add</button>
                 </div>
-                <button id='playBtn' class="button">PLAY</button>
+                <div class="options">
+                    <button id='playBtn' class="button">PLAY</button>
+                    <div class="speed_menu">
+                        <small class="small_text">SPEED (seconds)</small>
+                        <div class="speed_input">
+                            <button type="button" id="speed_down" class="speed_button speed_down">-</button>
+                            <input type="number" id="speed" name="speed">
+                            <button type="button" id="speed_up" class="speed_button speed_up">+</button>
+                        </div>
+                    </div>
+                </div>
             </div>  
             
         </div>
@@ -125,7 +156,7 @@ export const modalPlayers =()=>{
                 Your browser does not support HTML5 video.
             </video>
             <div id="unmuteBtn"><i class="fas fa-volume-mute"></i></div>
-            <btn id="remove_video"><i class="fas fa-video-slash"></i></btn>
+            <div id="remove_video"><i class="fas fa-video-slash"></i></div>
         </div>     
                          
        

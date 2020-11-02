@@ -235,3 +235,49 @@ table.bingoCard {
     66%  {background: blue; color: yellow;}
     100% {background: red; color: cyan;}
  }
+.options{
+  display: flex;
+  justify-content: space-between;
+
+}
+ /* SPEED */
+.speed_menu{
+  display: flex;
+  margin-top: 15px;
+  flex-direction: column-reverse;
+  justify-content: right;
+}
+.speed_input{
+  border: 1px solid black;
+}
+#speed{
+  position: relative;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  border: none;
+}
+#speed::-webkit-outer-spin-button,
+#speed::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.speed_button{
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: white;
+}
+.speed_button:hover{
+  cursor: pointer;
+  background-color: #4caf4f28;
+}
+.speed_button:focus{
+  outline: none;
+}
+
+.small_text{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin-top: 10px;
+  color: rgb(187, 187, 187);
+}
