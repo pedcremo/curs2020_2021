@@ -1,5 +1,15 @@
 export class Bombo{    
-    constructor(rootElement){
+    constructor(){
+        let rootElement = document.getElementById('root');
+        let bomboRootEl;
+        if(!document.getElementById( "balls" )){
+            bomboRootEl = document.createElement('div');
+            bomboRootEl.id="balls";
+            rootElement.appendChild(bomboRootEl);
+        }else{
+            bomboRootEl = document.getElementById( "balls" );
+        }
+        rootElement.appendChild(bomboRootEl);
         const templateBombo = Array.from({length:90},(_,i) => i + 1);
         let boles = [...templateBombo];
         let bolesExtracted = [];
@@ -24,9 +34,9 @@ export class Bombo{
         }
         //el render solo lo realiza una vez (añadiendo id a cada bola)
         let render = () => {
-            rootElement.innerHTML = `${boles.map(ball => `<div class='bingoBallEmpty' id='${ball}'>${ball}</div>`).join("")}`;
+            bomboRootEl.innerHTML = `${boles.map(ball => `<div class='bingoBallEmpty' id='${ball}'>${ball}</div>`).join("")}`;
         }
-        
+
         render();
     }   
 }

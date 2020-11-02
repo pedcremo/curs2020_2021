@@ -1,11 +1,21 @@
 export class BingoCard{   
     
-     constructor(player_,rootElement,pubSub=undefined){
+     constructor(player_,pubSub=undefined){
+          let rootElement=document.getElementById('root');
+          let cardsRootEl;
+          //comprobamos si existe el elemento, si no existe lo creamos, si existe lo guardamos.
+          if(!document.getElementById( "bingoCards" )){
+               cardsRootEl = document.createElement('div');
+               cardsRootEl.id="bingoCards";
+               rootElement.appendChild(cardsRootEl);
+          }else{
+               cardsRootEl = document.getElementById( "bingoCards" );
+          }
           let player = player_;
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
           let divRoot = document.createElement('div');
-          rootElement.appendChild(divRoot);
+          cardsRootEl.appendChild(divRoot);
           //Transpose matrix to fullfill all cells with random numbers
           let transposedcardMatrix=transpose(cardMatrix);
           transposedcardMatrix.forEach((colCard,index) =>{   

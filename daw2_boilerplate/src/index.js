@@ -12,7 +12,7 @@ import {modalLiniaBingo} from './templates/modalLiniaBingo.js';
 
 const app = (() => {    
     let myApp;
-    const speed = 2000;
+    const speed = 200;
     let bombo;
     let players = []
     let pubSub = new PubSub();    
@@ -37,7 +37,7 @@ const app = (() => {
         let videoEl= document.getElementById('videoBackground');
         if (videoEl) videoEl.remove();
         pubSub = new PubSub();
-        bombo = new Bombo(document.getElementById('balls'));
+        bombo = new Bombo();
         stateApp = "run";
         pubSub.subscribe("LINIA",(player) => {
             console.log("Linia");
@@ -63,9 +63,11 @@ const app = (() => {
         players = [];
        
         let playersNames = JSON.parse(localStorage.getItem('playersNames'));
-        document.getElementById('bingoCards').innerHTML=""
+        if(document.getElementById('bingoCards')){
+            document.getElementById('bingoCards').remove();
+        }
         playersNames.forEach(name => {
-            players.push(new BingoCard(name,document.getElementById('bingoCards'),pubSub));
+            players.push(new BingoCard(name,pubSub));
         });
         play();
         myApp = setInterval(play,speed); 
