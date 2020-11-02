@@ -70,6 +70,7 @@ export const modalPlayers =()=>{
 
         });
         let unmuteBtn=document.getElementById('unmuteBtn');
+        let remove_video = document.getElementById('remove_video');
         
         let videoEl=document.getElementById('videoBackground');
         videoEl.currentTime += Math.round(Math.random()*400);
@@ -83,10 +84,20 @@ export const modalPlayers =()=>{
                 // unmuteBtn.classList.add("active"); 
                 unmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
                 videoEl.muted = true;
-            }
-                                  
-            
+            }                     
         });
+
+        remove_video.addEventListener('click',function(){
+            remove_video.classList.toggle("active");
+            if(remove_video.classList.contains("active")){
+                remove_video.innerHTML = '<i class="fas fa-video"></i>';
+                videoEl.style.display="none";
+            }else{
+                remove_video.innerHTML = '<i class="fas fa-video-slash"></i>';
+                videoEl.style.display="block";
+            }   
+        })
+
     }
     
     return{template:    
@@ -108,12 +119,13 @@ export const modalPlayers =()=>{
             </div>  
             
         </div>
-        <div>
+        <div class="fondo">
             <video autoplay muted loop id="videoBackground">
                 <source src="${video}" type="video/mp4">
                 Your browser does not support HTML5 video.
             </video>
             <div id="unmuteBtn"><i class="fas fa-volume-mute"></i></div>
+            <btn id="remove_video"><i class="fas fa-video-slash"></i></btn>
         </div>     
                          
        

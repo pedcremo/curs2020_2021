@@ -40,7 +40,7 @@ const app = (() => {
         bombo = new Bombo();
         stateApp = "run";
         pubSub.subscribe("LINIA",(player) => {
-            console.log("Linia");
+            debug("Linia");
             pubSub.unsubscribe("LINIA");
             stop();
             setTimeout(function() {                 
