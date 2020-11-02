@@ -23,22 +23,27 @@ export const modalPlayers =()=>{
             addButton.addEventListener("click",(event)=>{  
                 let namePlayer=document.getElementById("fname").value;          
                 if (namePlayer) {
-                    document.getElementById('msg--err').innerHTML = "";
-                    let li=document.createElement('li');
-                    li.innerHTML = `<div><span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p></div><span class="removePlayer">&times;</span>`;
-                    uList.appendChild(li);
-                    if (window.localStorage){
-                        playersNames.push(document.getElementById("fname").value);
-                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                        document.getElementById('remainingPlayersSpan').innerHTML = "Players: "+playersNames.length + "/50 ";
+                    if (!playersNames.includes(namePlayer)) {
+                        document.getElementById('msg--err').innerHTML = "";
+                        let li=document.createElement('li');
+                        li.innerHTML = `<div><span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p></div><span class="removePlayer">&times;</span>`;
+                        uList.appendChild(li);
+                        if (window.localStorage){
+                            playersNames.push(document.getElementById("fname").value);
+                            localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                            document.getElementById('remainingPlayersSpan').innerHTML = "Players: "+playersNames.length + "/50 ";
+                        }
+                        li.addEventListener('click',(event) => {
+                            li.remove();
+                            let filtered = playersNames.filter(function(e) { return e !== namePlayer })
+                            localStorage.setItem('playersNames',JSON.stringify(filtered));
+                            document.getElementById('remainingPlayersSpan').innerHTML = "Players: "+filtered.length + "/50 ";
+                        })
+                        document.getElementById("fname").value = "";
+                    }else{
+                        document.getElementById('msg--err').innerHTML = "\u26A0  You cannot introduce repeated names!"
                     }
-                    li.addEventListener('click',(event) => {
-                        li.remove();
-                        let filtered = playersNames.filter(function(e) { return e !== namePlayer })
-                        localStorage.setItem('playersNames',JSON.stringify(filtered));
-                        document.getElementById('remainingPlayersSpan').innerHTML = "Players: "+filtered.length + "/50 ";
-                    })
-                    document.getElementById("fname").value = "";
+                    
                 }else{
                     document.getElementById('msg--err').innerHTML = "\u26A0  Enter the player's name!"
                 }
