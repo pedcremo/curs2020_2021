@@ -34,8 +34,10 @@ const app = (() => {
         clearInterval(myApp);
     }
     let start = () => {
-        let videoEl= document.getElementById('videoBackground');
-        if (videoEl) videoEl.remove();
+        // let videoEl= document.getElementById('videoBackground');
+        // if (videoEl) videoEl.remove();
+        let background_menu= document.getElementById('background_menu');
+        if (background_menu) background_menu.remove();
         pubSub = new PubSub();
         bombo = new Bombo();
         stateApp = "run";

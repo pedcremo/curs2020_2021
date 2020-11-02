@@ -119,7 +119,7 @@ export const modalPlayers =()=>{
             </div>  
             
         </div>
-        <div class="fondo">
+        <div id="background_menu" class="fondo">
             <video autoplay muted loop id="videoBackground">
                 <source src="${video}" type="video/mp4">
                 Your browser does not support HTML5 video.
