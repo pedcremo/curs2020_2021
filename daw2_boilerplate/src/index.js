@@ -44,7 +44,9 @@ const app = (() => {
         let doc = new DOMParser().parseFromString(`
             <div class="gameLayout">
                 <div id="bingoCards" class="cards"></div>
-                <div id="balls" class="panel"></div>
+                <div class="panel">
+                    <div id="balls" class="balls__grid"></div>
+                </div>
             </div>
         `, 'text/html');
         let layout = doc.body.firstChild;

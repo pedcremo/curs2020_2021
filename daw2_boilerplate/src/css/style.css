@@ -61,7 +61,7 @@ th.extracted{
     border: 1px solid #888;
     width: 620px;
     min-height: 400px;
-    max-height: 620px;
+    max-height: 70%;
     opacity: 0.9;
     border-radius: 25px;
     position: relative;
