@@ -60,9 +60,9 @@ export const modalPlayers =()=>{
                 if(JSON.parse(localStorage.getItem('playersNames')).length!=0){
                     let m=document.getElementById('playersForm');
                     m.style.display = "none";   
-                    debug(speed_val);
+                    // debug(speed_val);
                     app.speed=speed_val.value *1000;
-                    debug(app.speed);  
+                    // debug(app.speed);  
                     app.start();
                 }else{
                     alert("Introduce almenos un jugador");
