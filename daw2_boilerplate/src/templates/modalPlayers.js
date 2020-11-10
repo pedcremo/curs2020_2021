@@ -50,12 +50,12 @@ export const modalPlayers =()=>{
         let playersNames=variables[0]
         let uList=variables[1]
         let namePlayer=document.getElementById("fname").value;          
-        if (namePlayer) {
+        if (namePlayer && window.localStorage && !window.localStorage.getItem('playersNames').includes(namePlayer)) {
             let li=document.createElement('li');
-            li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
+            li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${namePlayer}</p>`;
             uList.appendChild(li);
             if (window.localStorage){
-                playersNames.push(document.getElementById("fname").value);
+                playersNames.push(namePlayer);
                 localStorage.setItem('playersNames',JSON.stringify(playersNames));
             }
             li.addEventListener('click',(event) => {
@@ -63,6 +63,7 @@ export const modalPlayers =()=>{
                 playersNames=playersNames.filter((item) => item!=li.innerHTML)
                 localStorage.setItem('playersNames',JSON.stringify(playersNames));
             })
+            document.getElementById("fname").value="";
         }
     }
     
