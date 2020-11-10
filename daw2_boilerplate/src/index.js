@@ -34,6 +34,19 @@ const app = (() => {
     }
     let start = () => {
         let videoEl= document.getElementById('videoBackground');
+
+        let doc = new DOMParser().parseFromString(`
+            <div class="gameLayout">
+                <div id="bingoCards" class="cards"></div>
+                <div class="panel">
+                    <div id="balls" class="balls__grid"></div>
+                </div>
+            </div>
+        `, 'text/html');
+
+        let layout = doc.body.firstChild;
+        document.getElementById('main').appendChild(layout);
+
         if (videoEl) videoEl.remove();
         pubSub = new PubSub();
         bombo = new Bombo(document.getElementById('balls'));

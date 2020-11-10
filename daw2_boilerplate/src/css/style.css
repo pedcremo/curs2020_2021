@@ -197,3 +197,20 @@ table.bingoCard {
       visibility: hidden;
     }
   }
+
+  /* RENDER ONE BALL */
+  .blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s linear infinite;
+    -moz-animation: blink-animation 1s linear infinite;
+    animation: blink-animation 0.5s linear infinite;
+  }
+  @keyframes blink-animation {  
+    0% { background-color: rgb(255, 0, 242); }
+    100% { background-color: #bbb;; }
+  }
+  @-webkit-keyframes blink-animation {
+      0% { background-color: rgb(255, 0, 221); }
+    100% { background-color: #bbb; }
+  } 
