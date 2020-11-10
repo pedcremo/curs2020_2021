@@ -18,22 +18,17 @@ export const modalPlayers =()=>{
                 uList.appendChild(li);
             });
             addButton.addEventListener("click",(event)=>{  
-                let namePlayer=document.getElementById("fname").value;          
-                if (namePlayer) {
-                    let li=document.createElement('li');
-                    li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
-                    uList.appendChild(li);
-                    if (window.localStorage){
-                        playersNames.push(document.getElementById("fname").value);
-                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                    }
-                    li.addEventListener('click',(event) => {
-                        li.remove();
-                        playersNames=playersNames.filter((item) => item!=li.innerHTML)
-                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                    })
+                addplayer(playersNames, uList)
+            })
+
+            document.getElementById("fname").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                    console.log("")
+                    addplayer(playersNames, uList)
+
                 }
             })
+
         }
 
         let playBtn=document.getElementById('playBtn');
@@ -49,6 +44,26 @@ export const modalPlayers =()=>{
         unmuteBtn.addEventListener('click', function() {                        
             videoEl.muted = false;
         });
+    }
+
+    let addplayer=(...variables)=>{
+        let playersNames=variables[0]
+        let uList=variables[1]
+        let namePlayer=document.getElementById("fname").value;          
+        if (namePlayer) {
+            let li=document.createElement('li');
+            li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${document.getElementById("fname").value}</p>`;
+            uList.appendChild(li);
+            if (window.localStorage){
+                playersNames.push(document.getElementById("fname").value);
+                localStorage.setItem('playersNames',JSON.stringify(playersNames));
+            }
+            li.addEventListener('click',(event) => {
+                li.remove();
+                playersNames=playersNames.filter((item) => item!=li.innerHTML)
+                localStorage.setItem('playersNames',JSON.stringify(playersNames));
+            })
+        }
     }
     
     return{template:    
