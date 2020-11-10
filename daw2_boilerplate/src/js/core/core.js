@@ -56,4 +56,13 @@ let showModal = (templateHtml,callback) => {
     if (templateHtml.controllers) templateHtml.controllers();    
         
 }
-export {docReady,showModal};
+
+/**
+ * delete a modal
+ * @param {String} templateToClear modal class 
+ */
+let clearModal = (templateToClear) => {
+    document.getElementsByClassName(templateToClear)[0].remove()
+}
+
+export {docReady,showModal, clearModal};

@@ -1,6 +1,6 @@
 
 import './css/style.css';
-import {docReady,showModal} from './js/core/core.js'; 
+import {docReady,showModal,clearModal} from './js/core/core.js'; 
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
@@ -67,6 +67,7 @@ const app = (() => {
             stop();
             setTimeout(function() { 
                 pubSub.unsubscribe("BINGO");                
+                clearModal("bingoCard")
                 showModal(modalBingo(player),function(){                    
                     showModal(modalPlayers(),app.start)
                 })
