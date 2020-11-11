@@ -57,7 +57,7 @@ export const modalPlayers = (repeat = true) => {
         //It's only loaded the first time
         if (repeat) {
             setupBackgroundVideo();
-            
+
             document.getElementById("fname").addEventListener("keyup", function (event) { //Add player pressing enter in input
                 if (event.keyCode === 13) {
                     event.preventDefault();
@@ -138,21 +138,22 @@ export const modalPlayers = (repeat = true) => {
 
         // Mute and unmute the background video button
         let unmuteBtn = document.getElementById('unmuteBtn');
-        unmuteBtn.addEventListener('click', function () {
-            let video = document.getElementById('videoBackground');
-            if (video.muted) {
-                video.muted = false;
-                document.querySelector('#unmuteBtn').innerHTML = 'Mute';
-            } else {
-                video.muted = true;
-                document.querySelector('#unmuteBtn').innerHTML = 'Unmute';
+        let videoEl=document.getElementById('videoBackground');
+        unmuteBtn.onclick = function () {
+            if (this.classList.contains('mutted')){
+                this.className = "fas fa-volume-off btn--mute"
+                videoEl.muted = false;
+            }else{
+                this.className = "fas fa-volume-mute btn--mute mutted"
+                videoEl.muted = true;
             }
-        });
+        }
     }
 
     return {
         template:
             `
+            <i class="fas fa-volume-mute btn--mute mutted" id="unmuteBtn"></i>
             <div id="playersForm" class="modal">
                 <!-- Modal content -->
                 <div class="modal-content">
@@ -168,7 +169,6 @@ export const modalPlayers = (repeat = true) => {
                     <p class="msg--error" id="msg--err"></p>
                     <div class="menu__options">
                         <button id='playBtn' class="button">PLAY</button>
-                        <button id="unmuteBtn" class="button">Unmute</button>
                         <!-- SPEED OPTIONS -->
                         <div class="spinner__opts" style="margin-left:10px">
                             <span> Timer: (sec)</span>

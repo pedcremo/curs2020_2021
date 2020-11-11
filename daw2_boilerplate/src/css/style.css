@@ -168,20 +168,6 @@ table.bingoCard {
     width: 500px;
     margin: 10px
   }
-  #unmuteBtn {
-    width: 200px;
-    font-size: 18px;
-    padding: 10px;
-    border: none;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-  }
-  
-  #unmuteBtn:hover {
-    background: #ddd;
-    color: black;
-  }
 
   .blink {
     animation: blink-animation 1s steps(5, start) infinite;
@@ -215,7 +201,8 @@ table.bingoCard {
     100% { background-color: #bbb; }
   } 
 
-  /* MATCH SPEED STYLE */
+  /* SET TIME GAME */
+
   .menu__options{
     display: flex;
     margin-top: 20px;
@@ -273,4 +260,31 @@ table.bingoCard {
   
   .spinner__btn:hover {
     background-color: rgb(241, 241, 241);
+  }
+
+  /* Mute video */
+
+  .btn--mute {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 35px;
+    color: rgb(230, 230, 230);
+    width: auto;
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 99;
+    transition: 0.1s;
+    text-align: center;
+    cursor: pointer;
+    width: 35px;
+    background-color: rgba(0, 0, 0, 0.473);
+  }
+
+  .btn--mute:hover {
+    background-color: rgb(22, 22, 22);
+  }
+
+  .mutted {
+    color: rgb(202, 23, 23);
   }
