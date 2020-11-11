@@ -16,25 +16,6 @@ function setupBackgroundVideo() {
     document.body.appendChild(videoEl);
 }
 
-// Set html players modal again to not concatenate events (avoid event problems)
-function setupModal() {
-    // document.getElementById("playersForm").innerHTML =
-    //     `<!-- Modal content -->
-    // <div class="modal-content">
-    //     <h1>Bingo players</h1>
-    //     <p></p>
-    //     <div class='players'>
-    //     <ol id="listPlayers"></ol>
-    //     </div>
-    //     <div style="display:flex">
-    //     <input type="text" id="fname" name="fname" placeholder="Player name">                                                
-    //     <button id='addplayer' class="button">Add</button>
-    //     </div>
-    //     <button id='playBtn' class="button">PLAY</button>
-    //     <button id="unmuteBtn" class="button">Unmute</button>
-    // </div>`
-}
-
 // Draw the players in localStorage. Each time you add or delete a player, this function is called.
 function setupPlayers() {
     let uList = document.getElementById("listPlayers");
@@ -70,14 +51,17 @@ function setupPlayers() {
 }
 
 export const modalPlayers = (repeat = true) => {
-    (repeat) ? setupBackgroundVideo() : setupModal();
 
     const controllers = () => {
+
+        if (repeat) setupBackgroundVideo();
+        
         /*
         * First add the current players in localstorage. Then, if you hit the
         * add player button you can add more. You can also delete them
         * by clicking in their names
         */
+
         let addButton = document.getElementById('addplayer');
         if (addButton) {
             setupPlayers();
@@ -90,8 +74,7 @@ export const modalPlayers = (repeat = true) => {
                     return false;
                 }
             }
-
-            addButton.addEventListener("click", (event) => {
+            addButton.onclick = function () {
                 let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
                 if (document.getElementById("fname").value === "") {
                     alert("First add the player name");
@@ -108,7 +91,7 @@ export const modalPlayers = (repeat = true) => {
                         modal.controllers();
                     }
                 }
-            })
+            }
         }
 
         
@@ -125,25 +108,23 @@ export const modalPlayers = (repeat = true) => {
         btnDown.onclick = function () {
             let value = parseFloat(inputVal.value);
             if (value > 0.1) inputVal.value = (value - parseFloat(0.1)).toFixed(1);
-        };  
+        };
+
+        inputVal.addEventListener('change', (event) => {
+            if (event.target.value < 0) event.target.value = 0.1;
+            if (event.target.value > 5) event.target.value = 5;
+        });
 
         // =================================================
-
-
+           
+        // On click play Button, game starts.
         let playBtn = document.getElementById('playBtn');
-        // playBtn.addEventListener('click', function () {
-        //     let m = document.getElementById('playersForm');
-        //     m.style.display = "none";
-        //     app.start();
-        // });
-
-        playBtn.addEventListener('click',function() {
+        playBtn.onclick = function () {
             let m=document.getElementById('playersForm');
             m.style.display = "none";       
             app.speed = (parseFloat(inputVal.value) * 1000);
-            console.log(app.speed);
             app.start();
-        });
+        }
 
         // Mute and unmute the background video button
         let unmuteBtn = document.getElementById('unmuteBtn');
