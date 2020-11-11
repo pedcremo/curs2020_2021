@@ -1,9 +1,9 @@
 import video from '../videos/los_bingueros.mp4';
-import {app} from '../index.js';
+import { app } from '../index.js';
 
 
 // Set background video
-function setupBackgroundVideo(){
+function setupBackgroundVideo() {
     let backgroundVideo = `<div><video autoplay muted loop id="videoBackground">
             <source src="${video}" type="video/mp4">
             Your browser does not support HTML5 video.
@@ -17,9 +17,9 @@ function setupBackgroundVideo(){
 }
 
 // Set html players modal again to not concatenate events (avoid event problems)
-function setupModal(){
-    document.getElementById("playersForm").innerHTML = 
-    `<!-- Modal content -->
+function setupModal() {
+    document.getElementById("playersForm").innerHTML =
+        `<!-- Modal content -->
     <div class="modal-content">
         <h1>Bingo players</h1>
         <p></p>
@@ -36,32 +36,32 @@ function setupModal(){
 }
 
 // Draw the players in localStorage. Each time you add or delete a player, this function is called.
-function setupPlayers(){
-    let uList=document.getElementById("listPlayers");
+function setupPlayers() {
+    let uList = document.getElementById("listPlayers");
     // Delete all palyers before drawing them again
     while (uList.firstChild) {
         uList.removeChild(uList.lastChild);
     }
     // Draw all current players
     let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-    playersNames.forEach((name,index) => {
-        let li=document.createElement('li');
-        li.setAttribute("id", "player_"+name);
-        li.innerHTML = `<span class='players'>${index+1}</span><p>${name}</p>`;
-        li.addEventListener('click',(event) => {
-            let name=li.id.replace('player_','');
+    playersNames.forEach((name, index) => {
+        let li = document.createElement('li');
+        li.setAttribute("id", "player_" + name);
+        li.innerHTML = `<span class='players'>${index + 1}</span><p>${name}</p>`;
+        li.addEventListener('click', (event) => {
+            let name = li.id.replace('player_', '');
             let cont = 0;
-            for(let i=0; i<playersNames.length; i++){
-                if (name==playersNames[i]) cont+=1
+            for (let i = 0; i < playersNames.length; i++) {
+                if (name == playersNames[i]) cont += 1
             }
             // If the name is repeated, only delete it one time
-            if(cont>1){
+            if (cont > 1) {
                 let index = playersNames.indexOf(name);
                 playersNames.splice(index, 1);
-            }else{
-                playersNames=playersNames.filter((item) => item!=name);
+            } else {
+                playersNames = playersNames.filter((item) => item != name);
             }
-            localStorage.setItem('playersNames',JSON.stringify(playersNames));
+            localStorage.setItem('playersNames', JSON.stringify(playersNames));
             let modal = modalPlayers(false);
             modal.controllers();
         })
@@ -69,40 +69,40 @@ function setupPlayers(){
     });
 }
 
-export const modalPlayers =(repeat=true)=>{
+export const modalPlayers = (repeat = true) => {
     (repeat) ? setupBackgroundVideo() : setupModal();
-    
+
     const controllers = () => {
         /*
         * First add the current players in localstorage. Then, if you hit the
         * add player button you can add more. You can also delete them
         * by clicking in their names
         */
-        let addButton=document.getElementById('addplayer');
+        let addButton = document.getElementById('addplayer');
         if (addButton) {
             setupPlayers();
 
-			let checkName =(name)=>{
-		        let regEx= /[aA1-zZ9]/;
-		        if(regEx.test(name)){
-		            return true;
-		        }else{
-		            return false;
-		        }
-		    }
+            let checkName = (name) => {
+                let regEx = /[aA1-zZ9]/;
+                if (regEx.test(name)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
 
-            addButton.addEventListener("click",(event)=>{
+            addButton.addEventListener("click", (event) => {
                 let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-                if(document.getElementById("fname").value===""){
+                if (document.getElementById("fname").value === "") {
                     alert("First add the player name");
-                }else if(playersNames.includes(document.getElementById("fname").value)){
+                } else if (playersNames.includes(document.getElementById("fname").value)) {
                     alert("Don't repeat name");
-                }else if(!checkName(document.getElementById("fname").value)){
-                	alert("Nombre no permitido");
-                }else{
-                    if (window.localStorage){
+                } else if (!checkName(document.getElementById("fname").value)) {
+                    alert("Nombre no permitido");
+                } else {
+                    if (window.localStorage) {
                         playersNames.push(document.getElementById("fname").value);
-                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                        localStorage.setItem('playersNames', JSON.stringify(playersNames));
                         document.getElementById("fname").value = null;
                         let modal = modalPlayers(false);
                         modal.controllers();
@@ -111,29 +111,30 @@ export const modalPlayers =(repeat=true)=>{
             })
         }
 
-        let playBtn=document.getElementById('playBtn');
-        playBtn.addEventListener('click',function() {
-            let m=document.getElementById('playersForm');
-            m.style.display = "none";       
+        let playBtn = document.getElementById('playBtn');
+        playBtn.addEventListener('click', function () {
+            let m = document.getElementById('playersForm');
+            m.style.display = "none";
             app.start();
         });
 
         // Mute and unmute the background video button
-        let unmuteBtn=document.getElementById('unmuteBtn');
-        unmuteBtn.addEventListener('click', function() {
-            let video=document.getElementById('videoBackground');
-            if(video.muted){
+        let unmuteBtn = document.getElementById('unmuteBtn');
+        unmuteBtn.addEventListener('click', function () {
+            let video = document.getElementById('videoBackground');
+            if (video.muted) {
                 video.muted = false;
                 document.querySelector('#unmuteBtn').innerHTML = 'Mute';
-            }else{
+            } else {
                 video.muted = true;
                 document.querySelector('#unmuteBtn').innerHTML = 'Unmute';
             }
         });
     }
 
-    return{template:    
-    `<div id="playersForm" class="modal">
+    return {
+        template:
+            `<div id="playersForm" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
                 <h1>Bingo players</h1>
@@ -149,5 +150,6 @@ export const modalPlayers =(repeat=true)=>{
                 <button id="unmuteBtn" class="button">Unmute</button>
             </div>  
     </div>`,
-    controllers:controllers}
+        controllers: controllers
+    }
 }
