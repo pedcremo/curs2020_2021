@@ -3,6 +3,7 @@ import {app} from '../index.js';
 
 export const modalPlayers =()=>{
     const controllers = () => {
+
         let addButton=document.getElementById('addplayer');
         if (addButton) {
             let uList=document.getElementById("listPlayers");
@@ -48,10 +49,21 @@ export const modalPlayers =()=>{
         });
     }
 
+    let checkName =(name)=>{
+        let regEx= /[aA1-zZ9]/;
+        if(regEx.test(name)){
+            return true;
+        }else{
+            alert('Nombre no permitido');
+        }
+    }
+
     let addplayer=(...variables)=>{
         let playersNames=variables[0]
         let uList=variables[1]
         let namePlayer=document.getElementById("fname").value;    
+        if(checkName(namePlayer)){
+         
             if (!localStorage.getItem('playersNames') || (namePlayer && window.localStorage && !window.localStorage.getItem('playersNames').includes(namePlayer))) {
                 let li=document.createElement('li');
                 li.setAttribute("id", "player_"+namePlayer);
@@ -69,6 +81,7 @@ export const modalPlayers =()=>{
                 })
                 document.getElementById("fname").value="";
             }
+        }//Fin del if checkName    
         
     }
     
