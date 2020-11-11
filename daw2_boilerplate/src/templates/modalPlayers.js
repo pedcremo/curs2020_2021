@@ -1,37 +1,114 @@
 import video from '../videos/los_bingueros.mp4';
 import {app} from '../index.js';
 
-export const modalPlayers =()=>{
-    const controllers = () => {
 
+// Set background video
+function setupBackgroundVideo(){
+    let backgroundVideo = `<div><video autoplay muted loop id="videoBackground">
+            <source src="${video}" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        </div>
+        `;
+    let parser = new DOMParser();
+    let videoEl = parser.parseFromString(backgroundVideo, "text/html");
+    videoEl = videoEl.body.firstChild;
+    document.body.appendChild(videoEl);
+}
+
+// Set html players modal again to not concatenate events (avoid event problems)
+function setupModal(){
+    document.getElementById("playersForm").innerHTML = 
+    `<!-- Modal content -->
+    <div class="modal-content">
+        <h1>Bingo players</h1>
+        <p></p>
+        <div class='players'>
+        <ol id="listPlayers"></ol>
+        </div>
+        <div style="display:flex">
+        <input type="text" id="fname" name="fname" placeholder="Player name">                                                
+        <button id='addplayer' class="button">Add</button>
+        </div>
+        <button id='playBtn' class="button">PLAY</button>
+        <button id="unmuteBtn" class="button">Unmute</button>
+    </div>`
+}
+
+// Draw the players in localStorage. Each time you add or delete a player, this function is called.
+function setupPlayers(){
+    let uList=document.getElementById("listPlayers");
+    // Delete all palyers before drawing them again
+    while (uList.firstChild) {
+        uList.removeChild(uList.lastChild);
+    }
+    // Draw all current players
+    let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
+    playersNames.forEach((name,index) => {
+        let li=document.createElement('li');
+        li.setAttribute("id", "player_"+name);
+        li.innerHTML = `<span class='players'>${index+1}</span><p>${name}</p>`;
+        li.addEventListener('click',(event) => {
+            let name=li.id.replace('player_','');
+            let cont = 0;
+            for(let i=0; i<playersNames.length; i++){
+                if (name==playersNames[i]) cont+=1
+            }
+            // If the name is repeated, only delete it one time
+            if(cont>1){
+                let index = playersNames.indexOf(name);
+                playersNames.splice(index, 1);
+            }else{
+                playersNames=playersNames.filter((item) => item!=name);
+            }
+            localStorage.setItem('playersNames',JSON.stringify(playersNames));
+            let modal = modalPlayers(false);
+            modal.controllers();
+        })
+        uList.appendChild(li);
+    });
+}
+
+export const modalPlayers =(repeat=true)=>{
+    (repeat) ? setupBackgroundVideo() : setupModal();
+    
+    const controllers = () => {
+        /*
+        * First add the current players in localstorage. Then, if you hit the
+        * add player button you can add more. You can also delete them
+        * by clicking in their names
+        */
         let addButton=document.getElementById('addplayer');
         if (addButton) {
-            let uList=document.getElementById("listPlayers");
-            let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-            playersNames.forEach((name,index) => {
-                let li=document.createElement('li');
-                li.setAttribute("id", "player_"+name);
-                li.innerHTML = `<span class='players'>${index+1}</span><p>${name}</p>`;
-                li.addEventListener('click',(event) => {
-                    let name=li.id.replace('player_','');
-                    li.remove();
-                    playersNames=playersNames.filter((item) => item!=name);
-                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                })
-                uList.appendChild(li);
-            });
-            addButton.addEventListener("click",(event)=>{  
-                addplayer(playersNames, uList)
-            })
+            setupPlayers();
 
-            document.getElementById("fname").addEventListener("keyup", function(event) {
-                if (event.keyCode === 13) {
-                    console.log("")
-                    addplayer(playersNames, uList)
+			let checkName =(name)=>{
+		        let regEx= /[aA1-zZ9]/;
+		        if(regEx.test(name)){
+		            return true;
+		        }else{
+		            return false;
+		        }
+		    }
 
+            addButton.addEventListener("click",(event)=>{
+                let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
+                if(document.getElementById("fname").value===""){
+                    alert("First add the player name");
+                }else if(playersNames.includes(document.getElementById("fname").value)){
+                    alert("Don't repeat name");
+                }else if(!checkName(document.getElementById("fname").value)){
+                	alert("Nombre no permitido");
+                }else{
+                    if (window.localStorage){
+                        playersNames.push(document.getElementById("fname").value);
+                        localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                        document.getElementById("fname").value = null;
+                        let modal = modalPlayers(false);
+                        modal.controllers();
+                    }
                 }
             })
-
         }
 
         let playBtn=document.getElementById('playBtn');
@@ -40,61 +117,30 @@ export const modalPlayers =()=>{
             m.style.display = "none";       
             app.start();
         });
+
+        // Mute and unmute the background video button
         let unmuteBtn=document.getElementById('unmuteBtn');
-        
-        let videoEl=document.getElementById('videoBackground');
-        videoEl.currentTime += Math.round(Math.random()*400);
-        unmuteBtn.addEventListener('click', function() {                        
-            videoEl.muted = false;
+        unmuteBtn.addEventListener('click', function() {
+            let video=document.getElementById('videoBackground');
+            if(video.muted){
+                video.muted = false;
+                document.querySelector('#unmuteBtn').innerHTML = 'Mute';
+            }else{
+                video.muted = true;
+                document.querySelector('#unmuteBtn').innerHTML = 'Unmute';
+            }
         });
     }
 
-    let checkName =(name)=>{
-        let regEx= /[aA1-zZ9]/;
-        if(regEx.test(name)){
-            return true;
-        }else{
-            alert('Nombre no permitido');
-        }
-    }
-
-    let addplayer=(...variables)=>{
-        let playersNames=variables[0]
-        let uList=variables[1]
-        let namePlayer=document.getElementById("fname").value;    
-        if(checkName(namePlayer)){
-         
-            if (!localStorage.getItem('playersNames') || (namePlayer && window.localStorage && !window.localStorage.getItem('playersNames').includes(namePlayer))) {
-                let li=document.createElement('li');
-                li.setAttribute("id", "player_"+namePlayer);
-                li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${namePlayer}</p>`;
-                uList.appendChild(li);
-                if (window.localStorage){
-                    playersNames.push(namePlayer);
-                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                }
-                li.addEventListener('click',(event) => {
-                    let name=li.id.replace('player_','');
-                    li.remove();
-                    playersNames=playersNames.filter((item) => item!=name)
-                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
-                })
-                document.getElementById("fname").value="";
-            }
-        }//Fin del if checkName    
-        
-    }
-    
     return{template:    
     `<div id="playersForm" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
-                <span class="close">&times;</span>
                 <h1>Bingo players</h1>
                 <p></p>
                 <div class='players'>
                 <ol id="listPlayers"></ol>
-                </div>                   
+                </div>
                 <div style="display:flex">
                 <input type="text" id="fname" name="fname" placeholder="Player name">                                                
                 <button id='addplayer' class="button">Add</button>
@@ -102,15 +148,6 @@ export const modalPlayers =()=>{
                 <button id='playBtn' class="button">PLAY</button>
                 <button id="unmuteBtn" class="button">Unmute</button>
             </div>  
-            
-        </div>
-        <div>
-            <video autoplay muted loop id="videoBackground">
-                <source src="${video}" type="video/mp4">
-                Your browser does not support HTML5 video.
-            </video>
-            
-        </div>`
-
-        ,controllers:controllers}
+    </div>`,
+    controllers:controllers}
 }
