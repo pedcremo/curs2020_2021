@@ -54,7 +54,17 @@ export const modalPlayers = (repeat = true) => {
 
     const controllers = () => {
 
-        if (repeat) setupBackgroundVideo();
+        //It's only loaded the first time
+        if (repeat) {
+            setupBackgroundVideo();
+            
+            document.getElementById("fname").addEventListener("keyup", function (event) { //Add player pressing enter in input
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    document.getElementById("addplayer").click();
+                }
+            });
+        }
         
         /*
         * First add the current players in localstorage. Then, if you hit the
@@ -116,7 +126,7 @@ export const modalPlayers = (repeat = true) => {
         });
 
         // =================================================
-           
+
         // On click play Button, game starts.
         let playBtn = document.getElementById('playBtn');
         playBtn.onclick = function () {
