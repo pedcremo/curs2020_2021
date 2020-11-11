@@ -9,10 +9,12 @@ export const modalPlayers =()=>{
             let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
             playersNames.forEach((name,index) => {
                 let li=document.createElement('li');
+                li.setAttribute("id", "player_"+name);
                 li.innerHTML = `<span class='players'>${index+1}</span><p>${name}</p>`;
                 li.addEventListener('click',(event) => {
+                    let name=li.id.replace('player_','');
                     li.remove();
-                    playersNames=playersNames.filter((item) => item!=name)
+                    playersNames=playersNames.filter((item) => item!=name);
                     localStorage.setItem('playersNames',JSON.stringify(playersNames));
                 })
                 uList.appendChild(li);
@@ -49,27 +51,29 @@ export const modalPlayers =()=>{
     let addplayer=(...variables)=>{
         let playersNames=variables[0]
         let uList=variables[1]
-        let namePlayer=document.getElementById("fname").value;          
-        if (namePlayer && window.localStorage && !window.localStorage.getItem('playersNames').includes(namePlayer)) {
-            let li=document.createElement('li');
-            li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${namePlayer}</p>`;
-            uList.appendChild(li);
-            if (window.localStorage){
-                playersNames.push(namePlayer);
-                localStorage.setItem('playersNames',JSON.stringify(playersNames));
+        let namePlayer=document.getElementById("fname").value;    
+            if (!localStorage.getItem('playersNames') || (namePlayer && window.localStorage && !window.localStorage.getItem('playersNames').includes(namePlayer))) {
+                let li=document.createElement('li');
+                li.setAttribute("id", "player_"+namePlayer);
+                li.innerHTML = `<span class='players'>${uList.children.length+1}</span><p>${namePlayer}</p>`;
+                uList.appendChild(li);
+                if (window.localStorage){
+                    playersNames.push(namePlayer);
+                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                }
+                li.addEventListener('click',(event) => {
+                    let name=li.id.replace('player_','');
+                    li.remove();
+                    playersNames=playersNames.filter((item) => item!=name)
+                    localStorage.setItem('playersNames',JSON.stringify(playersNames));
+                })
+                document.getElementById("fname").value="";
             }
-            li.addEventListener('click',(event) => {
-                li.remove();
-                playersNames=playersNames.filter((item) => item!=li.innerHTML)
-                localStorage.setItem('playersNames',JSON.stringify(playersNames));
-            })
-            document.getElementById("fname").value="";
-        }
+        
     }
     
     return{template:    
-    `
-    <div id="playersForm" class="modal">
+    `<div id="playersForm" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
                 <span class="close">&times;</span>
@@ -84,8 +88,6 @@ export const modalPlayers =()=>{
                 </div>
                 <button id='playBtn' class="button">PLAY</button>
                 <button id="unmuteBtn" class="button">Unmute</button>
-
-            
             </div>  
             
         </div>
@@ -95,10 +97,7 @@ export const modalPlayers =()=>{
                 Your browser does not support HTML5 video.
             </video>
             
-        </div>     
-                         
-       
-    
+        </div>`
 
-    `,controllers:controllers}
+        ,controllers:controllers}
 }
