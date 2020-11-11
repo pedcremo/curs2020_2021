@@ -1,6 +1,6 @@
 
 import './css/style.css';
-import {docReady,showModal,clearModal} from './js/core/core.js'; 
+import {docReady,showModal,clearModal,debug} from './js/core/core.js'; 
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
@@ -52,13 +52,13 @@ const app = (() => {
         bombo = new Bombo(document.getElementById('balls'));
         stateApp = "run";
         pubSub.subscribe("LINIA",(player) => {
-            console.log("Linia");
+            debug("Linia");
             pubSub.unsubscribe("LINIA");
             stop();
             setTimeout(function() {                 
                 showModal(modalLinia(player),function(){
-                    console.log("SPEEEED");
-                    console.log(app.speed);
+                    debug("SPEEEED");
+                    debug(app.speed);
                     myApp = setInterval(play,app.speed);
                 })                
             }, 50);

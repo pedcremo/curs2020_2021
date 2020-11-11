@@ -8,6 +8,13 @@ let docReady = (fn) => {
         document.addEventListener("DOMContentLoaded", fn);
     }
 }    
+
+//debug option
+const debugOption = true;
+
+let debug = (text) =>{
+    if(debugOption) console.log(text);
+}
 /*
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -65,4 +72,4 @@ let clearModal = (templateToClear) => {
     document.getElementsByClassName(templateToClear)[0].remove()
 }
 
-export {docReady,showModal, clearModal};
+export {docReady,showModal, clearModal,debug};

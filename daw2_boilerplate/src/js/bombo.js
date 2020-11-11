@@ -1,3 +1,5 @@
+import {debug} from './core/core.js'; 
+
 export class Bombo{    
     constructor(rootElement){
         const templateBombo = Array.from({length:90},(_,i) => i + 1);
