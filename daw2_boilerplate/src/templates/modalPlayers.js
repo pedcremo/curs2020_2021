@@ -1,10 +1,11 @@
 import video from '../videos/los_bingueros.mp4';
 import { app } from '../index.js';
+import { debug } from '../js/core/core';
 
 
 // Set background video
 function setupBackgroundVideo() {
-    let backgroundVideo = `<div><video autoplay muted loop id="videoBackground">
+    let backgroundVideo = `<div class="bg"><video autoplay muted loop id="videoBackground">
             <source src="${video}" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>
@@ -140,12 +141,26 @@ export const modalPlayers = (repeat = true) => {
         let unmuteBtn = document.getElementById('unmuteBtn');
         let videoEl=document.getElementById('videoBackground');
         unmuteBtn.onclick = function () {
-            if (this.classList.contains('mutted')){
+            if (this.classList.contains('off--red')){
                 this.className = "fas fa-volume-off btn--mute"
                 videoEl.muted = false;
             }else{
-                this.className = "fas fa-volume-mute btn--mute mutted"
+                this.className = "fas fa-volume-mute btn--mute off--red"
                 videoEl.muted = true;
+            }
+        }
+
+        // Remove / show video background
+        let remove_video = document.getElementById('remove_video');
+        remove_video.onclick = function () {
+            debug("Hola estoy")
+            if (this.classList.contains('off--red')){
+                this.className = "fas fa-video-slash btn--removebg"
+                videoEl.style.display="block";
+            }else{
+                debug("else")
+                this.className = "fas fa-video-slash btn--removebg off--red"
+                videoEl.style.display="none";
             }
         }
     }
@@ -153,7 +168,8 @@ export const modalPlayers = (repeat = true) => {
     return {
         template:
             `
-            <i class="fas fa-volume-mute btn--mute mutted" id="unmuteBtn"></i>
+            <i class="fas fa-video-slash btn--removebg" id="remove_video"></i>
+            <i class="fas fa-volume-mute btn--mute off--red" id="unmuteBtn"></i>
             <div id="playersForm" class="modal">
                 <!-- Modal content -->
                 <div class="modal-content">
