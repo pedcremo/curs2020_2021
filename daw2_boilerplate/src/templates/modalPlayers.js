@@ -18,21 +18,21 @@ function setupBackgroundVideo() {
 
 // Set html players modal again to not concatenate events (avoid event problems)
 function setupModal() {
-    document.getElementById("playersForm").innerHTML =
-        `<!-- Modal content -->
-    <div class="modal-content">
-        <h1>Bingo players</h1>
-        <p></p>
-        <div class='players'>
-        <ol id="listPlayers"></ol>
-        </div>
-        <div style="display:flex">
-        <input type="text" id="fname" name="fname" placeholder="Player name">                                                
-        <button id='addplayer' class="button">Add</button>
-        </div>
-        <button id='playBtn' class="button">PLAY</button>
-        <button id="unmuteBtn" class="button">Unmute</button>
-    </div>`
+    // document.getElementById("playersForm").innerHTML =
+    //     `<!-- Modal content -->
+    // <div class="modal-content">
+    //     <h1>Bingo players</h1>
+    //     <p></p>
+    //     <div class='players'>
+    //     <ol id="listPlayers"></ol>
+    //     </div>
+    //     <div style="display:flex">
+    //     <input type="text" id="fname" name="fname" placeholder="Player name">                                                
+    //     <button id='addplayer' class="button">Add</button>
+    //     </div>
+    //     <button id='playBtn' class="button">PLAY</button>
+    //     <button id="unmuteBtn" class="button">Unmute</button>
+    // </div>`
 }
 
 // Draw the players in localStorage. Each time you add or delete a player, this function is called.
@@ -111,10 +111,37 @@ export const modalPlayers = (repeat = true) => {
             })
         }
 
+        
+        //Set interval time options =======================
+        let inputVal = document.querySelector('#spinner__value');
+        let btnUp = document.querySelector('#spinner__up');
+        let btnDown = document.querySelector('#spinner__down');
+
+        btnUp.onclick = function () {
+            let value = parseFloat(inputVal.value);
+            if (value < 5.0) inputVal.value = (value + parseFloat(0.1)).toFixed(1);
+        };
+
+        btnDown.onclick = function () {
+            let value = parseFloat(inputVal.value);
+            if (value > 0.1) inputVal.value = (value - parseFloat(0.1)).toFixed(1);
+        };  
+
+        // =================================================
+
+
         let playBtn = document.getElementById('playBtn');
-        playBtn.addEventListener('click', function () {
-            let m = document.getElementById('playersForm');
-            m.style.display = "none";
+        // playBtn.addEventListener('click', function () {
+        //     let m = document.getElementById('playersForm');
+        //     m.style.display = "none";
+        //     app.start();
+        // });
+
+        playBtn.addEventListener('click',function() {
+            let m=document.getElementById('playersForm');
+            m.style.display = "none";       
+            app.speed = (parseFloat(inputVal.value) * 1000);
+            console.log(app.speed);
             app.start();
         });
 
@@ -134,22 +161,36 @@ export const modalPlayers = (repeat = true) => {
 
     return {
         template:
-            `<div id="playersForm" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <h1>Bingo players</h1>
-                <p></p>
-                <div class='players'>
-                <ol id="listPlayers"></ol>
+            `
+            <div id="playersForm" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <h1>Bingo players</h1>
+                    <p></p>
+                    <div class='players'>
+                        <ol id="listPlayers"></ol>
+                    </div>
+                    <div style="display:flex">
+                        <input type="text" id="fname" name="fname" placeholder="Player name">
+                        <button id='addplayer' class="button">Add</button>
+                    </div>
+                    <p class="msg--error" id="msg--err"></p>
+                    <div class="menu__options">
+                        <button id='playBtn' class="button">PLAY</button>
+                        <button id="unmuteBtn" class="button">Unmute</button>
+                        <!-- SPEED OPTIONS -->
+                        <div class="spinner__opts" style="margin-left:10px">
+                            <span> Timer: (sec)</span>
+                            <div class="spinner">
+                                <button type="button" id="spinner__down" class="spinner__btn spinner__down">&lsaquo;</button>
+                                <input type="number" id="spinner__value" class="spinner__value" name="time" id="match_time"
+                                    min="0.1" max="5" step="0.1" value="5">
+                                <button type="button" id="spinner__up" class="spinner__btn spinner__up">&rsaquo;</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div style="display:flex">
-                <input type="text" id="fname" name="fname" placeholder="Player name">                                                
-                <button id='addplayer' class="button">Add</button>
-                </div>
-                <button id='playBtn' class="button">PLAY</button>
-                <button id="unmuteBtn" class="button">Unmute</button>
-            </div>  
-    </div>`,
+            </div>`,
         controllers: controllers
     }
 }

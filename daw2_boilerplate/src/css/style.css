@@ -214,3 +214,63 @@ table.bingoCard {
       0% { background-color: rgb(255, 0, 221); }
     100% { background-color: #bbb; }
   } 
+
+  /* MATCH SPEED STYLE */
+  .menu__options{
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .spinner__opts {
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* position: absolute; */
+    right: 20px;
+    bottom: 20px;
+  }
+  
+  .spinner {
+    display: flex;
+    justify-content: space-between;
+    width: 130px;
+    height: 40px;
+    border: 1px solid rgb(194, 194, 194);
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: white;
+  }
+  
+  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+  
+  .spinner__value {
+    outline: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    background-color: white;
+    border-left: 1px solid rgb(194, 194, 194);
+    border-right: 1px solid rgb(194, 194, 194);
+  }
+  
+  .spinner__btn {
+    outline: none;
+    border: none;
+    width: 60px;
+    height: 40px;
+    background-color: white;
+  }
+  
+  .spinner__btn:hover {
+    background-color: rgb(241, 241, 241);
+  }
