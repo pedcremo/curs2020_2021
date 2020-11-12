@@ -4,17 +4,17 @@ import { app } from '../index.js';
 import { debug, clearModal } from '../js/core/core';
 import '../css/modalPlayers.css';
 
-
 // Set background video
 function setupBackgroundVideo() {
-    let backgroundVideo = `<div id="div_bg" class="bg"><video autoplay muted loop id="videoBackground">
-            <source src="${video}" type="video/mp4">
-            Your browser does not support HTML5 video.
-        </video>
-        <i class="fas fa-video-slash btn--removebg" id="remove_video"></i>
-        <i class="fas fa-volume-mute btn--mute off--red" id="unmuteBtn"></i>
-        </div>
-        `;
+    let backgroundVideo = `
+        <div id="div_bg" class="bg">
+            <video autoplay muted loop id="videoBackground">
+                <source src="${video}" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+            <i class="fas fa-video-slash btn--removebg" id="remove_video"></i>
+            <i class="fas fa-volume-mute btn--mute off--red" id="unmuteBtn"></i>
+        </div>`;
     let parser = new DOMParser();
     let videoEl = parser.parseFromString(backgroundVideo, "text/html");
     videoEl = videoEl.body.firstChild;
@@ -37,59 +37,36 @@ export function setupAudioBingoWin() {
     let parser = new DOMParser();
     let bingoAudio = parser.parseFromString(audioBackground, "text/html");
 
-
     bingoAudio = bingoAudio.body.firstChild;
     bingoAudio.currentTime = Math.round(Math.random() * 10);
     document.body.appendChild(bingoAudio);
 }
 
-// Draw the players in localStorage. Each time you add or delete a player, this function is called.
-function setupPlayers() {
-    let uList = document.getElementById("listPlayers");
-    // Delete all palyers before drawing them again
-    while (uList.firstChild) {
-        uList.removeChild(uList.lastChild);
-    }
-    // Draw all current players
-    let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-    playersNames.forEach((name, index) => {
-        let li = document.createElement('li');
-        li.setAttribute("id", "player_" + name);
-        li.innerHTML = `<div><span class='players'>${index + 1}</span><p>${name}</p></div><span class="removePlayer">&times;</span>`;
-        li.addEventListener('click', (event) => {
-            let name = li.id.replace('player_', '');
-            let cont = 0;
-            for (let i = 0; i < playersNames.length; i++) {
-                if (name == playersNames[i]) cont += 1
-            }
-            // If the name is repeated, only delete it one time
-            if (cont > 1) {
-                let index = playersNames.indexOf(name);
-                playersNames.splice(index, 1);
-            } else {
-                playersNames = playersNames.filter((item) => item != name);
-            }
-            localStorage.setItem('playersNames', JSON.stringify(playersNames));
-            let modal = modalPlayers(false);
-            modal.controllers();
-        })
-        uList.appendChild(li);
-    });
-}
-
-export const modalPlayers = (repeat = true) => {
+export const modalPlayers = () => {
 
     const controllers = () => {
+        let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
+        setupBackgroundVideo();
+        clearModal("gameLayout") //clear the game
 
-        //It's only loaded the first time
-        if (repeat) {
-            setupBackgroundVideo();
-            clearModal("gameLayout") //clear the game
-            document.getElementById("fname").addEventListener("keyup", function (event) { //Add player pressing enter in input
-                if (event.keyCode === 13) {
-                    event.preventDefault();
-                    document.getElementById("addplayer").click();
-                }
+        // Draw the players in localStorage. Each time you add or delete a player, this function is called.
+        function renderPlayerList() {
+            playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
+            let uList = document.getElementById("listPlayers");
+            // Delete all palyers before drawing them again
+            uList.innerHTML = '';
+            // Draw all current players
+            playersNames.forEach((name, index) => {
+                let li = document.createElement('li');
+                li.setAttribute("id", "player_" + name);
+                li.innerHTML = `<div><span class='players'>${index + 1}</span><p>${name}</p></div><span class="removePlayer">&times;</span>`;
+                li.addEventListener('click', (event) => {
+                    let name = li.id.replace('player_', '');
+                    playersNames = playersNames.filter((item) => item != name);
+                    localStorage.setItem('playersNames', JSON.stringify(playersNames));
+                    renderPlayerList();
+                })
+                uList.appendChild(li);
             });
         }
 
@@ -98,39 +75,44 @@ export const modalPlayers = (repeat = true) => {
         * add player button you can add more. You can also delete them
         * by clicking in their names
         */
-
         let addButton = document.getElementById('addplayer');
-        if (addButton) {
-            setupPlayers();
 
-            let checkName = (name) => {
-                let regEx = /[aA1-zZ9]/;
-                if (regEx.test(name)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            addButton.onclick = function () {
-                let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-                if (document.getElementById("fname").value === "") {
-                    alert("First add the player name");
-                } else if (playersNames.includes(document.getElementById("fname").value)) {
-                    alert("Don't repeat name");
-                } else if (!checkName(document.getElementById("fname").value)) {
-                    alert("Nombre no permitido");
-                } else {
-                    if (window.localStorage) {
-                        playersNames.push(document.getElementById("fname").value);
-                        localStorage.setItem('playersNames', JSON.stringify(playersNames));
-                        document.getElementById("fname").value = null;
-                        let modal = modalPlayers(false);
-                        modal.controllers();
-                    }
-                }
+        renderPlayerList();
+
+        let checkName = (name) => {
+            let regEx = /[aA1-zZ9]/;
+            if (regEx.test(name)) {
+                return true;
+            } else {
+                return false;
             }
         }
+        addButton.onclick = function () {
+            let playerName = document.getElementById("fname").value;
+            if (playerName) { //If input name is empty
+                if (!playersNames.includes(playerName)) { //If name is repeated
+                    if (checkName(playerName)) { //If name is not allowed
+                        if (window.localStorage) { //Check if the navigator supports localstorage
+                            document.getElementById('msg--err').innerHTML = "";
+                            playersNames.push(document.getElementById("fname").value);
+                            localStorage.setItem('playersNames', JSON.stringify(playersNames));
+                            document.getElementById("fname").value = null;
+                            renderPlayerList(); //Render players list again
+                        }
+                    } else document.getElementById('msg--err').innerHTML = "\u26A0  Name not allowed!"
+                } else document.getElementById('msg--err').innerHTML = "\u26A0  You cannot introduce repeated names!"
+            } else document.getElementById('msg--err').innerHTML = "\u26A0  Enter the player's name!"
+        }
 
+
+        //Add player on press enter key ===================
+        document.getElementById("fname").addEventListener("keyup", function (event) { //Add player pressing enter in input
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("addplayer").click();
+            }
+        });
+        //=================================================
 
         //Set interval time options =======================
         let inputVal = document.querySelector('#spinner__value');
@@ -148,21 +130,26 @@ export const modalPlayers = (repeat = true) => {
         };
 
         inputVal.addEventListener('change', (event) => {
-            if (event.target.value < 0) event.target.value = 0.1;
+            if (event.target.value <= 0) event.target.value = 0.1;
             if (event.target.value > 5) event.target.value = 5;
         });
-
         // =================================================
+
         let remove_video = document.getElementById('remove_video');
         let div_bg = document.getElementById('div_bg');
         // On click play Button, game starts.
         let playBtn = document.getElementById('playBtn');
         playBtn.onclick = function () {
-            let m = document.getElementById('playersForm');
-            m.style.display = "none";
-            div_bg.remove();
-            app.speed = (parseFloat(inputVal.value) * 1000);
-            app.start();
+            if (playersNames.length !== 0 && playersNames != undefined) { //Check there are players added to the game
+                let m = document.getElementById('playersForm');
+                m.style.display = "none";
+                div_bg.remove();
+                app.speed = (parseFloat(inputVal.value) * 1000); //SET GAME SPEED
+                app.start();
+            } else {
+                document.getElementById('msg--err').innerHTML = "\u26A0  Add some players first!"
+            }
+
         }
 
         // Mute and unmute the background video button
@@ -170,7 +157,7 @@ export const modalPlayers = (repeat = true) => {
         let videoEl = document.getElementById('videoBackground');
         unmuteBtn.onclick = function () {
             videoEl.muted = !videoEl.muted;
-            this.className= (videoEl.muted==true)?"fas fa-volume-mute btn--mute off--red":"fas fa-volume-off btn--mute"
+            this.className = (videoEl.muted == true) ? "fas fa-volume-mute btn--mute off--red" : "fas fa-volume-off btn--mute"
         }
 
         // Remove / show video background
@@ -191,7 +178,7 @@ export const modalPlayers = (repeat = true) => {
             <div id="playersForm" class="modal">
                 <!-- Modal content -->
                 <div class="modal-content">
-                    <h1>Bingo players</h1>
+                    <h1>BINGO TWINGO</h1>
                     <p></p>
                     <div class='modal__players__list'>
                         <ol id="listPlayers"></ol>

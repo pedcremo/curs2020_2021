@@ -111,8 +111,10 @@ table.bingoCard {
   }
   /* The Close Button */
   .close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
     color: #aaaaaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
   }
@@ -123,7 +125,7 @@ table.bingoCard {
     text-decoration: none;
     cursor: pointer;
   }
-  
+
   input:focus{
     outline: none;
     }
