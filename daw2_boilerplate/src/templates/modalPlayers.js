@@ -1,7 +1,7 @@
 import video from '../videos/los_bingueros.mp4';
 import audio from '../audios/Bingo Sound Effect.mp3';
 import { app } from '../index.js';
-import { debug,clearModal } from '../js/core/core';
+import { debug, clearModal } from '../js/core/core';
 
 
 // Set background video
@@ -91,7 +91,7 @@ export const modalPlayers = (repeat = true) => {
                 }
             });
         }
-        
+
         /*
         * First add the current players in localstorage. Then, if you hit the
         * add player button you can add more. You can also delete them
@@ -130,7 +130,7 @@ export const modalPlayers = (repeat = true) => {
             }
         }
 
-        
+
         //Set interval time options =======================
         let inputVal = document.querySelector('#spinner__value');
         let btnUp = document.querySelector('#spinner__up');
@@ -157,36 +157,29 @@ export const modalPlayers = (repeat = true) => {
         // On click play Button, game starts.
         let playBtn = document.getElementById('playBtn');
         playBtn.onclick = function () {
-            let m=document.getElementById('playersForm');
-            m.style.display = "none";  
-            div_bg.remove();     
+            let m = document.getElementById('playersForm');
+            m.style.display = "none";
+            div_bg.remove();
             app.speed = (parseFloat(inputVal.value) * 1000);
             app.start();
         }
 
         // Mute and unmute the background video button
         let unmuteBtn = document.getElementById('unmuteBtn');
-        let videoEl=document.getElementById('videoBackground');
+        let videoEl = document.getElementById('videoBackground');
         unmuteBtn.onclick = function () {
-            if (this.classList.contains('off--red')){
-                this.className = "fas fa-volume-off btn--mute"
-                videoEl.muted = false;
-            }else{
-                this.className = "fas fa-volume-mute btn--mute off--red"
-                videoEl.muted = true;
-            }
+            videoEl.muted = !videoEl.muted;
+            this.className= (videoEl.muted==true)?"fas fa-volume-mute btn--mute off--red":"fas fa-volume-off btn--mute"
         }
 
         // Remove / show video background
         remove_video.onclick = function () {
-            debug("Hola estoy")
-            if (this.classList.contains('off--red')){
+            if (this.classList.contains('off--red')) {
                 this.className = "fas fa-video-slash btn--removebg"
-                videoEl.style.display="block";
-            }else{
-                debug("else")
+                videoEl.style.display = "block";
+            } else {
                 this.className = "fas fa-video-slash btn--removebg off--red"
-                videoEl.style.display="none";
+                videoEl.style.display = "none";
             }
         }
     }
