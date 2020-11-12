@@ -2,6 +2,7 @@ import video from '../videos/los_bingueros.mp4';
 import audio from '../audios/Bingo Sound Effect.mp3';
 import { app } from '../index.js';
 import { debug, clearModal } from '../js/core/core';
+import '../css/modalPlayers.css';
 
 
 // Set background video
@@ -54,7 +55,7 @@ function setupPlayers() {
     playersNames.forEach((name, index) => {
         let li = document.createElement('li');
         li.setAttribute("id", "player_" + name);
-        li.innerHTML = `<span class='players'>${index + 1}</span><p>${name}</p>`;
+        li.innerHTML = `<div><span class='players'>${index + 1}</span><p>${name}</p></div><span class="removePlayer">&times;</span>`;
         li.addEventListener('click', (event) => {
             let name = li.id.replace('player_', '');
             let cont = 0;
@@ -192,26 +193,24 @@ export const modalPlayers = (repeat = true) => {
                 <div class="modal-content">
                     <h1>Bingo players</h1>
                     <p></p>
-                    <div class='players'>
+                    <div class='modal__players__list'>
                         <ol id="listPlayers"></ol>
                     </div>
-                    <div style="display:flex">
-                        <input type="text" id="fname" name="fname" placeholder="Player name">
-                        <button id='addplayer' class="button">Add</button>
+                    <div class="menu__addPlayer">
+                        <input type="text" id="fname" name="fname" placeholder="Player name">                                               
+                        <i class="far fa-plus-square menu__addPlayer__btn" id='addplayer'></i>
                     </div>
                     <p class="msg--error" id="msg--err"></p>
                     <div class="menu__options">
-                        <button id='playBtn' class="button">PLAY</button>
-                        <!-- SPEED OPTIONS -->
-                        <div class="spinner__opts" style="margin-left:10px">
-                            <span> Timer: (sec)</span>
-                            <div class="spinner">
-                                <button type="button" id="spinner__down" class="spinner__btn spinner__down">&lsaquo;</button>
-                                <input type="number" id="spinner__value" class="spinner__value" name="time" id="match_time"
-                                    min="0.1" max="5" step="0.1" value="1">
-                                <button type="button" id="spinner__up" class="spinner__btn spinner__up">&rsaquo;</button>
-                            </div>
-                        </div>
+                        <button id='playBtn' class="menu__start_btn">START GAME</button>
+                    </div>
+                    <div class="spinner__opts" style="margin-left:10px">
+                        <span> Timer: (sec)</span>
+                        <div class="spinner">
+                            <button type="button" id="spinner__down" class="spinner__btn spinner__down">&lsaquo;</button>
+                            <input type="number" id="spinner__value" class="spinner__value" name="time" id="match_time" min="0.1" max="5" step="0.1" value="1">
+                            <button type="button" id="spinner__up" class="spinner__btn spinner__up">&rsaquo;</button>
+                        </div>    
                     </div>
                 </div>
             </div>`,

@@ -93,9 +93,16 @@ table.bingoCard {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 620px;
+    min-height: 400px;
+    max-height: 70%;
     opacity: 0.9;
     border-radius: 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    align-items: center;
   }
   .modal-content img{
       display: block;
@@ -116,16 +123,7 @@ table.bingoCard {
     text-decoration: none;
     cursor: pointer;
   }
-
-  input[type=text] {
-    display: inline;
-    width: 100%;
-    padding: 2px 2px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 2px solid green;
-  }
+  
   input:focus{
     outline: none;
     }
@@ -140,33 +138,6 @@ table.bingoCard {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-  }
-  ol {
-    color: #ccc;
-    list-style-type: none;
-  }
-   
-  ol li {
-    position: relative;
-    font: bold italic 45px/1.5 Helvetica, Verdana, sans-serif;
-    margin-bottom: 20px;
-  }
-  ol li :hover{
-    cursor: not-allowed;
-  }
-   
-  li p {
-    font: 24px/1.75 Helvetica, sans-serif;
-    padding-left: 40px;
-    color: #555;
-  }
-   
-  span.players {
-    position: absolute;
-  }
-  div.players {
-    width: 500px;
-    margin: 10px
   }
 
   .blink {
@@ -200,67 +171,6 @@ table.bingoCard {
       0% { background-color: rgb(255, 0, 221); }
     100% { background-color: #bbb; }
   } 
-
-  /* SET TIME GAME */
-
-  .menu__options{
-    display: flex;
-    margin-top: 20px;
-  }
-
-  .spinner__opts {
-    font-weight: bold;
-    font-family: 'Courier New', Courier, monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* position: absolute; */
-    right: 20px;
-    bottom: 20px;
-  }
-  
-  .spinner {
-    display: flex;
-    justify-content: space-between;
-    width: 130px;
-    height: 40px;
-    border: 1px solid rgb(194, 194, 194);
-    border-radius: 50px;
-    overflow: hidden;
-    background-color: white;
-  }
-  
-  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
-  
-  .spinner__value {
-    outline: none;
-    border: none;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    background-color: white;
-    border-left: 1px solid rgb(194, 194, 194);
-    border-right: 1px solid rgb(194, 194, 194);
-  }
-  
-  .spinner__btn {
-    outline: none;
-    border: none;
-    width: 60px;
-    height: 40px;
-    background-color: white;
-  }
-  
-  .spinner__btn:hover {
-    background-color: rgb(241, 241, 241);
-  }
 
   /* Mute video */
 
