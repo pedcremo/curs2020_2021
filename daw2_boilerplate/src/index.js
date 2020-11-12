@@ -1,17 +1,19 @@
 
 import './css/style.css';
-import {docReady,showModal, clearModal} from './js/core/core.js'; 
+
+import {docReady,showModal,clearModal,debug} from './js/core/core.js'; 
 import './js/card.js';
 import {Bombo} from './js/bombo.js';
 import {BingoCard} from './js/card.js';
 import {PubSub} from './js/core/pubSub.js';
-import {modalPlayers} from './templates/modalPlayers.js';
-import {modalBingo} from './templates/modalBingo.js';
-import {modalLinia} from './templates/modalLinia.js';
+import {modalPlayers,setupAudioBingoWin} from './templates/modalPlayers.js';
+// import {modalBingo} from './templates/modalBingo.js';
+// import {modalLinia} from './templates/modalLinia.js';
+import {modalLiniaBingo} from './templates/modalLiniaBingo.js';
 
 const app = (() => {    
     let myApp;
-    const speed = 2000;
+    let speed = 2000;
     let bombo;
     let players = []
     let pubSub = new PubSub();    
@@ -34,17 +36,32 @@ const app = (() => {
     }
     let start = () => {
         let videoEl= document.getElementById('videoBackground');
+
+        let doc = new DOMParser().parseFromString(`
+            <div class="gameLayout">
+                <div id="bingoCards" class="cards"></div>
+                <div class="panel">
+                    <div id="balls" class="balls__grid"></div>
+                </div>
+            </div>
+        `, 'text/html');
+
+        let layout = doc.body.firstChild;
+        document.getElementById('main').appendChild(layout);
+
         if (videoEl) videoEl.remove();
         pubSub = new PubSub();
         bombo = new Bombo(document.getElementById('balls'));
         stateApp = "run";
         pubSub.subscribe("LINIA",(player) => {
-            console.log("Linia");
+            debug("Linia");
             pubSub.unsubscribe("LINIA");
             stop();
             setTimeout(function() {                 
-                showModal(modalLinia(player),function(){
-                    myApp = setInterval(play,speed);
+                showModal(modalLiniaBingo(player,"linea"),function(){
+                    debug("SPEEEED");
+                    debug(app.speed);
+                    myApp = setInterval(play,app.speed);
                 })                
             }, 50);
             
@@ -52,13 +69,18 @@ const app = (() => {
         });
         pubSub.subscribe("BINGO",(player) => {            
             stop();
+            setupAudioBingoWin();
             setTimeout(function() { 
-                pubSub.unsubscribe("BINGO");                
-                showModal(modalBingo(player),function(){                    
-                    clearModal("bingoCard")
+
+                pubSub.unsubscribe("BINGO");   
+                // clearModal("bingoCard") BUG
+                showModal(modalLiniaBingo(player,"bingo"),function(){                    
                     showModal(modalPlayers(),app.start)
+                     document.getElementById('sound').remove();      
                 })
-            }, 50);                        
+              
+            }, 50);  
+                           
         });
         players = [];
        
@@ -68,7 +90,7 @@ const app = (() => {
             players.push(new BingoCard(name,document.getElementById('bingoCards'),pubSub));
         });
         play();
-        myApp = setInterval(play,speed); 
+        myApp = setInterval(play,app.speed); 
     }
 
     return {start: start
@@ -76,6 +98,7 @@ const app = (() => {
             toggle: () => {
                 (stateApp == "run")?stop():start();  
             },
+            speed: speed
     };
         
 })();

@@ -8,6 +8,13 @@ let docReady = (fn) => {
         document.addEventListener("DOMContentLoaded", fn);
     }
 }    
+
+//debug option
+const debugOption = true;
+
+let debug = (text) =>{
+    if(debugOption) console.log(text);
+}
 /*
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -58,11 +65,18 @@ let showModal = (templateHtml,callback) => {
 }
 
 /**
- * Delete a css class, the modal
- * @param {String} templateToClear name of the css modal to delete
+
+ * delete a modal
+ * @param {String} templateToClear modal class 
  */
 let clearModal = (templateToClear) => {
-    document.getElementsByClassName(templateToClear)[0].remove()
+    if(document.getElementsByClassName(templateToClear)){
+        Array.from(document.getElementsByClassName(templateToClear)).forEach((el) => {
+            el.remove();
+        });
+    }
+    
 }
 
-export {docReady,showModal, clearModal};
+export {docReady,showModal, clearModal,debug};
+

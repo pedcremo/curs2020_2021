@@ -168,20 +168,6 @@ table.bingoCard {
     width: 500px;
     margin: 10px
   }
-  #unmuteBtn {
-    width: 200px;
-    font-size: 18px;
-    padding: 10px;
-    border: none;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-  }
-  
-  #unmuteBtn:hover {
-    background: #ddd;
-    color: black;
-  }
 
   .blink {
     animation: blink-animation 1s steps(5, start) infinite;
@@ -197,3 +183,148 @@ table.bingoCard {
       visibility: hidden;
     }
   }
+
+  /* RENDER ONE BALL */
+  .blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s linear infinite;
+    -moz-animation: blink-animation 1s linear infinite;
+    animation: blink-animation 0.5s linear infinite;
+  }
+  @keyframes blink-animation {  
+    0% { background-color: rgb(255, 0, 242); }
+    100% { background-color: #bbb;; }
+  }
+  @-webkit-keyframes blink-animation {
+      0% { background-color: rgb(255, 0, 221); }
+    100% { background-color: #bbb; }
+  } 
+
+  /* SET TIME GAME */
+
+  .menu__options{
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .spinner__opts {
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* position: absolute; */
+    right: 20px;
+    bottom: 20px;
+  }
+  
+  .spinner {
+    display: flex;
+    justify-content: space-between;
+    width: 130px;
+    height: 40px;
+    border: 1px solid rgb(194, 194, 194);
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: white;
+  }
+  
+  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+  
+  .spinner__value {
+    outline: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    background-color: white;
+    border-left: 1px solid rgb(194, 194, 194);
+    border-right: 1px solid rgb(194, 194, 194);
+  }
+  
+  .spinner__btn {
+    outline: none;
+    border: none;
+    width: 60px;
+    height: 40px;
+    background-color: white;
+  }
+  
+  .spinner__btn:hover {
+    background-color: rgb(241, 241, 241);
+  }
+
+  /* Mute video */
+
+  .btn--mute {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 35px;
+    color: rgb(230, 230, 230);
+    width: auto;
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 99;
+    transition: 0.1s;
+    text-align: center;
+    cursor: pointer;
+    width: 35px;
+    background-color: rgba(0, 0, 0, 0.473);
+  }
+
+  .btn--mute:hover {
+    background-color: rgb(22, 22, 22);
+  }
+
+  /* REMOVE VIDEO */
+  .btn--removebg {
+    position: absolute;
+    right: 100px;
+    bottom: 20px;
+    font-size: 35px;
+    color: rgb(230, 230, 230);
+    width: auto;
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 99;
+    transition: 0.1s;
+    text-align: center;
+    cursor: pointer;
+    width: 35px;
+    background-color: rgba(0, 0, 0, 0.473);
+  }
+
+  .btn--removebg:hover {
+    background-color: rgb(22, 22, 22);
+  }
+
+  .bg{
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hotpink;
+    animation: colorchange 20s linear 5s infinite;
+  }
+
+  @keyframes colorchange
+  {
+    0%   {background: red; color: cyan;}
+    33%  {background: green; color: magenta;}
+    66%  {background: blue; color: yellow;}
+    100% {background: red; color: cyan;}
+ } 
+
+ .off--red {
+  color: rgb(202, 23, 23);
+}

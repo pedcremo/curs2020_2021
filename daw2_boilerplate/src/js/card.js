@@ -1,3 +1,5 @@
+import {debug} from './core/core.js'; 
+
 export class BingoCard{   
     
      constructor(player_,rootElement,pubSub=undefined){
@@ -69,7 +71,7 @@ function checkBingo(cardMatrix,extractedBalls,pubSub,player){
 
      if (bingo) {
           pubSub.publish("BINGO",player)
-          console.log("BINGO "+player)
+          debug("BINGO "+player)
      }
 }
 /**
