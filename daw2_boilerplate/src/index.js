@@ -1,5 +1,6 @@
 
 import './css/style.css';
+import './css/ingame.css';
 import { docReady, showModal, clearModal, debug } from './js/core/core.js';
 import './js/card.js';
 import { Bombo } from './js/bombo.js';
