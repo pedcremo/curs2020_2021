@@ -69,7 +69,12 @@ let showModal = (templateHtml,callback) => {
  * @param {String} templateToClear modal class 
  */
 let clearModal = (templateToClear) => {
-    document.getElementsByClassName(templateToClear)[0].remove()
+    if(document.getElementsByClassName(templateToClear)){
+        Array.from(document.getElementsByClassName(templateToClear)).forEach((el) => {
+            el.remove();
+        });
+    }
+    
 }
 
 export {docReady,showModal, clearModal,debug};

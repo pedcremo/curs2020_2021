@@ -1,14 +1,16 @@
 import video from '../videos/los_bingueros.mp4';
 import { app } from '../index.js';
-import { debug } from '../js/core/core';
+import { debug,clearModal } from '../js/core/core';
 
 
 // Set background video
 function setupBackgroundVideo() {
-    let backgroundVideo = `<div class="bg"><video autoplay muted loop id="videoBackground">
+    let backgroundVideo = `<div id="div_bg" class="bg"><video autoplay muted loop id="videoBackground">
             <source src="${video}" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>
+        <i class="fas fa-video-slash btn--removebg" id="remove_video"></i>
+        <i class="fas fa-volume-mute btn--mute off--red" id="unmuteBtn"></i>
         </div>
         `;
     let parser = new DOMParser();
@@ -58,7 +60,7 @@ export const modalPlayers = (repeat = true) => {
         //It's only loaded the first time
         if (repeat) {
             setupBackgroundVideo();
-
+            clearModal("gameLayout") //clear the game
             document.getElementById("fname").addEventListener("keyup", function (event) { //Add player pressing enter in input
                 if (event.keyCode === 13) {
                     event.preventDefault();
@@ -127,12 +129,14 @@ export const modalPlayers = (repeat = true) => {
         });
 
         // =================================================
-
+        let remove_video = document.getElementById('remove_video');
+        let div_bg = document.getElementById('div_bg');
         // On click play Button, game starts.
         let playBtn = document.getElementById('playBtn');
         playBtn.onclick = function () {
             let m=document.getElementById('playersForm');
-            m.style.display = "none";       
+            m.style.display = "none";  
+            div_bg.remove();     
             app.speed = (parseFloat(inputVal.value) * 1000);
             app.start();
         }
@@ -151,7 +155,6 @@ export const modalPlayers = (repeat = true) => {
         }
 
         // Remove / show video background
-        let remove_video = document.getElementById('remove_video');
         remove_video.onclick = function () {
             debug("Hola estoy")
             if (this.classList.contains('off--red')){
@@ -168,8 +171,6 @@ export const modalPlayers = (repeat = true) => {
     return {
         template:
             `
-            <i class="fas fa-video-slash btn--removebg" id="remove_video"></i>
-            <i class="fas fa-volume-mute btn--mute off--red" id="unmuteBtn"></i>
             <div id="playersForm" class="modal">
                 <!-- Modal content -->
                 <div class="modal-content">
@@ -191,7 +192,7 @@ export const modalPlayers = (repeat = true) => {
                             <div class="spinner">
                                 <button type="button" id="spinner__down" class="spinner__btn spinner__down">&lsaquo;</button>
                                 <input type="number" id="spinner__value" class="spinner__value" name="time" id="match_time"
-                                    min="0.1" max="5" step="0.1" value="5">
+                                    min="0.1" max="5" step="0.1" value="1">
                                 <button type="button" id="spinner__up" class="spinner__btn spinner__up">&rsaquo;</button>
                             </div>
                         </div>
