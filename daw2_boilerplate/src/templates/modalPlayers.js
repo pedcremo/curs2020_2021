@@ -68,6 +68,7 @@ export const modalPlayers = () => {
                 })
                 uList.appendChild(li);
             });
+            document.getElementById('remainingPlayersSpan').innerHTML = "Players: "+playersNames.length + "/50 "; // At the moment the max players are static
         }
 
         /*
@@ -199,6 +200,7 @@ export const modalPlayers = () => {
                             <button type="button" id="spinner__up" class="spinner__btn spinner__up">&rsaquo;</button>
                         </div>    
                     </div>
+                    <span class="remainingPlayers" id="remainingPlayersSpan"></span>
                 </div>
             </div>`,
         controllers: controllers
