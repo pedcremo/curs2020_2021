@@ -1,4 +1,4 @@
-/*
+/**
  * Publish/Subscribe Pattern
  */
 export class PubSub {

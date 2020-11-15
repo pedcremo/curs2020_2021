@@ -1,4 +1,7 @@
-//Bingo and line template
+/**
+ * Bingo and line template
+ */
+
 import linea1 from '../images/linia.gif'
 import linea2 from '../images/linia2.gif'
 import linea3 from '../images/linia3.gif'
@@ -6,14 +9,18 @@ import bingo1 from '../images/bingo.gif'
 import bingo2 from '../images/bingo2.gif'
 import bingo3 from '../images/bingo3.gif'
 
-//Metemos los gifs en un array
+/**
+ * Here we put the different line and bingo gifs in an arrangement
+ */
 var imgsBingo=new Array();
 imgsBingo.push(bingo1,bingo2,bingo3);
 
 var imgsLinea=new Array();
 imgsLinea.push(linea1,linea2,linea3);
 
-//Estas funcionen devuelven un gif aleatorio de los que hemos hecho el import
+/**
+ * These functions return a random gif from which we have imported
+ */
 function randomBingo(){
     let img=imgsBingo[Math.round(Math.random() * ((imgsBingo.length-1) - 0) + 0  )];
     return img;
