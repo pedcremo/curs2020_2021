@@ -187,6 +187,56 @@ export const modalPlayers = () => {
                 videoEl.style.display = "none";
             }
         }
+
+
+        /**
+        * Export Players in csv.
+        */
+
+        let exportBtn = document.getElementById('export');
+        exportBtn.addEventListener('click', function() {    
+            let players = JSON.parse(localStorage.getItem("playersNames")).map(e => e);
+            if (players.length != 0) {
+                let csvContent = "data:text/csv;charset=utf-8," 
+                + players;
+                let encodedUri = encodeURI(csvContent);
+                var link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "players.csv");
+                document.body.appendChild(link);
+
+                link.click();
+            } else {
+                document.getElementById('msg--err').innerHTML = "\u26A0  Add a user before exporting"
+            }
+        });
+
+        /**
+        * Import PLayers in LocalStorage
+        */
+
+        let importBtn = document.getElementById('import');
+        importBtn.addEventListener('click', function() {    
+            let link = document.getElementById('import-file');             
+            link.click();
+        });
+
+        let input_file = document.getElementById('import-file');
+        input_file.addEventListener('change', function (event) {
+            var files = event.target.files;
+            if (files[0].type == "text/csv") {
+                let reader = new FileReader;
+                reader.readAsText(files[0]);
+                reader.onload = function(e) {
+                    localStorage.setItem("playersNames",JSON.stringify(reader.result.split(',')));
+                    renderPlayerList();
+                    input_file.value = "";
+                };
+                document.getElementById('msg--err').innerHTML = "";
+            } else {
+                document.getElementById('msg--err').innerHTML = "\u26A0  The file isn't valid"
+            }
+          }, false);
     }
 
     return {
@@ -217,6 +267,12 @@ export const modalPlayers = () => {
                         </div>    
                     </div>
                     <span class="remainingPlayers" id="remainingPlayersSpan"></span>
+                </div>
+                <div class="modal-content-export">
+                    <h3>Game settings</h3>
+                    <button id="export" class="button">Export Players</button>
+                    <button id="import" class="button">Import Players</button>
+                    <input type="file" id="import-file" style="display:none"/>
                 </div>
             </div>`,
         controllers: controllers

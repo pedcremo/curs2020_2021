@@ -32,7 +32,7 @@ table.bingoCard {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 34px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -195,3 +195,32 @@ table.bingoCard {
  .off--red {
   color: rgb(202, 23, 23);
 }
+
+/* EXPORT AND IMPORT */
+  .modal-content-export {
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 10px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 620px;
+    opacity: 0.9;
+    height: 50px;
+    border-radius: 25px;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }
+
+  .modal-content-export .button {
+    background-color: #0661b9;
+    border-radius: 31px;
+    cursor: pointer;
+  }
+  
+
+  .modal-content-export h3 {
+    margin: 7px;
+  }
