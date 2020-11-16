@@ -1,19 +1,5 @@
 
 import './css/style.css';
-<<<<<<< HEAD
-
-import {docReady,showModal,clearModal,debug} from './js/core/core.js'; 
-import './js/card.js';
-import {Bombo} from './js/bombo.js';
-import {BingoCard} from './js/card.js';
-import {PubSub} from './js/core/pubSub.js';
-import {modalPlayers,setupAudioBingoWin} from './templates/modalPlayers.js';
-// import {modalBingo} from './templates/modalBingo.js';
-// import {modalLinia} from './templates/modalLinia.js';
-import {modalLiniaBingo} from './templates/modalLiniaBingo.js';
-
-const app = (() => {    
-=======
 import './css/ingame.css';
 import { docReady, showModal, clearModal, debug } from './js/core/core.js';
 import './js/card.js';
@@ -24,6 +10,10 @@ import { modalPlayers, setupAudioBingoWin } from './templates/modalPlayers.js';
 import { modalLiniaBingo } from './templates/modalLiniaBingo.js';
 
 
+
+
+
+
 /**
  * Within the app constant, we have defined several variables with anonymous functions which are responsible for starting and stopping the game
  * As for the start variable, it is where we have the subscription patterns, 
@@ -32,7 +22,7 @@ import { modalLiniaBingo } from './templates/modalLiniaBingo.js';
  */
 
 const app = (() => {
->>>>>>> develop
+
     let myApp;
     let speed = 2000;
     let bombo;

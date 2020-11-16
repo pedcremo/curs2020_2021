@@ -23,10 +23,7 @@ function setupBackgroundVideo() {
     document.body.appendChild(videoEl);
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> develop
 /**
 * It's a function that when any player win the bingo  there is a background audio that sings bingo!!
 * This function I'll  imported it into index and called it in  pubSub.subscribe("BINGO")
@@ -34,11 +31,7 @@ function setupBackgroundVideo() {
 export function setupAudioBingoWin() {
     let audioBackground = `
         <div id="sound">
-<<<<<<< HEAD
-            <audio controls autoplay loop id="uefaChamps">
-=======
             <audio controls autoplay loop id="bingoSound">
->>>>>>> develop
                   <source src="${audio}" type="audio/mpeg">
              </audio>
         </div>
@@ -46,50 +39,9 @@ export function setupAudioBingoWin() {
     let parser = new DOMParser();
     let bingoAudio = parser.parseFromString(audioBackground, "text/html");
 
-<<<<<<< HEAD
-
     bingoAudio = bingoAudio.body.firstChild;
     bingoAudio.currentTime = Math.round(Math.random() * 10);
     document.body.appendChild(bingoAudio);
-}
-
-// Draw the players in localStorage. Each time you add or delete a player, this function is called.
-function setupPlayers() {
-    let uList = document.getElementById("listPlayers");
-    // Delete all palyers before drawing them again
-    while (uList.firstChild) {
-        uList.removeChild(uList.lastChild);
-    }
-    // Draw all current players
-    let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-    playersNames.forEach((name, index) => {
-        let li = document.createElement('li');
-        li.setAttribute("id", "player_" + name);
-        li.innerHTML = `<span class='players'>${index + 1}</span><p>${name}</p>`;
-        li.addEventListener('click', (event) => {
-            let name = li.id.replace('player_', '');
-            let cont = 0;
-            for (let i = 0; i < playersNames.length; i++) {
-                if (name == playersNames[i]) cont += 1
-            }
-            // If the name is repeated, only delete it one time
-            if (cont > 1) {
-                let index = playersNames.indexOf(name);
-                playersNames.splice(index, 1);
-            } else {
-                playersNames = playersNames.filter((item) => item != name);
-            }
-            localStorage.setItem('playersNames', JSON.stringify(playersNames));
-            let modal = modalPlayers(false);
-            modal.controllers();
-        })
-        uList.appendChild(li);
-    });
-=======
-    bingoAudio = bingoAudio.body.firstChild;
-    bingoAudio.currentTime = Math.round(Math.random() * 10);
-    document.body.appendChild(bingoAudio);
->>>>>>> develop
 }
 
 export const modalPlayers = () => {
