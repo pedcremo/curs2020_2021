@@ -7,20 +7,6 @@ body {background-color: white;}
     min-height: 100%;
   }
 
-#bingoCards{
-    display: flex;
-    flex-wrap: wrap;
-    width:80%;
-    margin:auto;
-}
-#bingoCards div{
-  padding-right: 40px;
-}
-#balls {
-    display: inline-block;
-    word-wrap: break-word;
-    width: 100%;
-}
 #ball {
     position: absolute;
     color:black;
@@ -38,46 +24,15 @@ table.bingoCard {
     border: 5px solid black;
     border-radius:25px;
     -moz-border-radius:25px;
-    
     font-size: 40px;
-    
-    
 }
-
-
-.bingoBall {
-    height: 64px;
-    width: 64px;
-    background-color: green;
-    border-radius: 50%;
-    display: inline-block;
-    font-size: 48px;
-    text-align: center;
-    vertical-align: middle;
-    margin: 5px;    
-    color:white;
-}
-.bingoBallEmpty {
-    height: 64px;
-    width: 64px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    font-size: 48px;
-    text-align: center;
-    vertical-align: middle;
-    margin: 5px;    
-    color:grey;
-}
-
-
 
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 34px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -93,9 +48,16 @@ table.bingoCard {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 620px;
+    min-height: 400px;
+    max-height: 70%;
     opacity: 0.9;
     border-radius: 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    align-items: center;
   }
   .modal-content img{
       display: block;
@@ -104,8 +66,10 @@ table.bingoCard {
   }
   /* The Close Button */
   .close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
     color: #aaaaaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
   }
@@ -117,15 +81,6 @@ table.bingoCard {
     cursor: pointer;
   }
 
-  input[type=text] {
-    display: inline;
-    width: 100%;
-    padding: 2px 2px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 2px solid green;
-  }
   input:focus{
     outline: none;
     }
@@ -140,33 +95,6 @@ table.bingoCard {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-  }
-  ol {
-    color: #ccc;
-    list-style-type: none;
-  }
-   
-  ol li {
-    position: relative;
-    font: bold italic 45px/1.5 Helvetica, Verdana, sans-serif;
-    margin-bottom: 20px;
-  }
-  ol li :hover{
-    cursor: not-allowed;
-  }
-   
-  li p {
-    font: 24px/1.75 Helvetica, sans-serif;
-    padding-left: 40px;
-    color: #555;
-  }
-   
-  span.players {
-    position: absolute;
-  }
-  div.players {
-    width: 500px;
-    margin: 10px
   }
 
   .blink {
@@ -200,67 +128,6 @@ table.bingoCard {
       0% { background-color: rgb(255, 0, 221); }
     100% { background-color: #bbb; }
   } 
-
-  /* SET TIME GAME */
-
-  .menu__options{
-    display: flex;
-    margin-top: 20px;
-  }
-
-  .spinner__opts {
-    font-weight: bold;
-    font-family: 'Courier New', Courier, monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* position: absolute; */
-    right: 20px;
-    bottom: 20px;
-  }
-  
-  .spinner {
-    display: flex;
-    justify-content: space-between;
-    width: 130px;
-    height: 40px;
-    border: 1px solid rgb(194, 194, 194);
-    border-radius: 50px;
-    overflow: hidden;
-    background-color: white;
-  }
-  
-  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
-  
-  .spinner__value {
-    outline: none;
-    border: none;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    background-color: white;
-    border-left: 1px solid rgb(194, 194, 194);
-    border-right: 1px solid rgb(194, 194, 194);
-  }
-  
-  .spinner__btn {
-    outline: none;
-    border: none;
-    width: 60px;
-    height: 40px;
-    background-color: white;
-  }
-  
-  .spinner__btn:hover {
-    background-color: rgb(241, 241, 241);
-  }
 
   /* Mute video */
 
@@ -328,3 +195,32 @@ table.bingoCard {
  .off--red {
   color: rgb(202, 23, 23);
 }
+
+/* EXPORT AND IMPORT */
+  .modal-content-export {
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 10px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 620px;
+    opacity: 0.9;
+    height: 50px;
+    border-radius: 25px;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }
+
+  .modal-content-export .button {
+    background-color: #0661b9;
+    border-radius: 31px;
+    cursor: pointer;
+  }
+  
+
+  .modal-content-export h3 {
+    margin: 7px;
+  }

@@ -1,5 +1,13 @@
 import {debug} from './core/core.js'; 
 
+/**
+ * Class BingoCard
+ * In the BingoCard class, it is where we define the arrangement with the 9 numbers that can be in each of the three rows of the bingo card 
+ * to be able to determine which cell of the card will be occupied by a number or will be empty.
+ * We also make a Transpose matrix to fill all cells with random numbers
+ * As well as rendering the cardboard in a literal template
+ */
+
 export class BingoCard{   
     
      constructor(player_,rootElement,pubSub=undefined){
@@ -7,6 +15,7 @@ export class BingoCard{
           let templateRow = [0,1,2,3,4,5,6,7,8];
           let cardMatrix = [[...templateRow],[...templateRow],[...templateRow]];
           let divRoot = document.createElement('div');
+          divRoot.classList.add('bingoCardLayout');
           rootElement.appendChild(divRoot);
           //Transpose matrix to fullfill all cells with random numbers
           let transposedcardMatrix=transpose(cardMatrix);
@@ -60,6 +69,15 @@ export class BingoCard{
           this.getMatrix = ()=> cardMatrix;          
      }        
 }
+/**
+ * Function checkBingo 
+ * which we use to know when the line has gone out and bingo 
+ * to post it with the post pattern so that we can only sing line and bingo once per game.
+ * @param {*} cardMatrix 
+ * @param {*} extractedBalls 
+ * @param {*} pubSub 
+ * @param {*} player 
+ */
 
 function checkBingo(cardMatrix,extractedBalls,pubSub,player){
      let bingo=true;     
@@ -88,7 +106,10 @@ function getRandomArbitrary(min, max,count) {
      return arr3.sort();               
 }
 
-//Pass an array and we ramdomly pick only an array of 4 elements supposed to be blanks
+/**
+ * Pass an array and we ramdomly pick only an array of 4 elements supposed to be blanks
+ */
+
 function getBlanks([...ai]){     
      let iterator=Array.apply(null, Array(ai.length-4));     
      iterator.forEach((el)=>{
@@ -96,7 +117,11 @@ function getBlanks([...ai]){
      });
      return ai;                    
 }
-//Transpose a matrix
+/**
+ * //Transpose a matrix
+ * @param {*} matrix 
+ */
+
 function transpose(matrix){          
      return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));    
 }

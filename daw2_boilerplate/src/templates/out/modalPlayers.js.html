@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: modalPlayers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: modalPlayers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import video from '../videos/los_bingueros.mp4';
+import audio from '../audios/Bingo Sound Effect.mp3';
+import { app } from '../index.js';
+import { debug, clearModal } from '../js/core/core';
+import '../css/modalPlayers.css';
+
+/**
+ * Set the backgroundVideo 
+ */
+function setupBackgroundVideo() {
+    let backgroundVideo = `
+        &lt;div id="div_bg" class="bg">
+            &lt;video autoplay muted loop id="videoBackground">
+                &lt;source src="${video}" type="video/mp4">
+                Your browser does not support HTML5 video.
+            &lt;/video>
+            &lt;i class="fas fa-video-slash btn--removebg" id="remove_video">&lt;/i>
+            &lt;i class="fas fa-volume-mute btn--mute off--red" id="unmuteBtn">&lt;/i>
+        &lt;/div>`;
+    let parser = new DOMParser();
+    let videoEl = parser.parseFromString(backgroundVideo, "text/html");
+    videoEl = videoEl.body.firstChild;
+    document.body.appendChild(videoEl);
+}
+
+
+/**
+* It's a function that when any player win the bingo  there is a background audio that sings bingo!!
+* This function I'll  imported it into index and called it in  pubSub.subscribe("BINGO")
+*/
+export function setupAudioBingoWin() {
+    let audioBackground = `
+        &lt;div id="sound">
+            &lt;audio controls autoplay loop id="bingoSound">
+                  &lt;source src="${audio}" type="audio/mpeg">
+             &lt;/audio>
+        &lt;/div>
+        `;
+    let parser = new DOMParser();
+    let bingoAudio = parser.parseFromString(audioBackground, "text/html");
+
+    bingoAudio = bingoAudio.body.firstChild;
+    bingoAudio.currentTime = Math.round(Math.random() * 10);
+    document.body.appendChild(bingoAudio);
+}
+
+export const modalPlayers = () => {
+
+    const controllers = () => {
+        let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
+        setupBackgroundVideo();
+        clearModal("gameLayout") //clear the game
+
+        // Draw the players in localStorage. Each time you add or delete a player, this function is called.
+        function renderPlayerList() {
+            playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
+            let uList = document.getElementById("listPlayers");
+            // Delete all palyers before drawing them again
+            uList.innerHTML = '';
+            // Draw all current players
+            playersNames.forEach((name, index) => {
+                let li = document.createElement('li');
+                li.setAttribute("id", "player_" + name);
+                li.innerHTML = `&lt;div>&lt;span class='players'>${index + 1}&lt;/span>&lt;p>${name}&lt;/p>&lt;/div>&lt;span class="removePlayer">&amp;times;&lt;/span>`;
+                li.addEventListener('click', (event) => {
+                    let name = li.id.replace('player_', '');
+                    playersNames = playersNames.filter((item) => item != name);
+                    localStorage.setItem('playersNames', JSON.stringify(playersNames));
+                    renderPlayerList();
+                })
+                uList.appendChild(li);
+            });
+            document.getElementById('remainingPlayersSpan').innerHTML = "Players: "+playersNames.length + "/50 "; // At the moment the max players are static
+        }
+
+        /*
+        * First add the current players in localstorage. Then, if you hit the
+        * add player button you can add more. You can also delete them
+        * by clicking in their names
+        */
+        let addButton = document.getElementById('addplayer');
+
+        renderPlayerList();
+
+        let checkName = (name) => {
+            let regEx = /[aA1-zZ9]/;
+            if (regEx.test(name)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        addButton.onclick = function () {
+            let playerName = document.getElementById("fname").value;
+            if (playerName) { //If input name is empty
+                if (!playersNames.includes(playerName)) { //If name is repeated
+                    if (checkName(playerName)) { //If name is not allowed
+                        if (window.localStorage) { //Check if the navigator supports localstorage
+                            document.getElementById('msg--err').innerHTML = "";
+                            playersNames.push(document.getElementById("fname").value);
+                            localStorage.setItem('playersNames', JSON.stringify(playersNames));
+                            document.getElementById("fname").value = null;
+                            renderPlayerList(); //Render players list again
+                        }
+                    } else document.getElementById('msg--err').innerHTML = "\u26A0  Name not allowed!"
+                } else document.getElementById('msg--err').innerHTML = "\u26A0  You cannot introduce repeated names!"
+            } else document.getElementById('msg--err').innerHTML = "\u26A0  Enter the player's name!"
+        }
+
+
+        
+        /**
+         * Add player on press enter key
+         */
+        document.getElementById("fname").addEventListener("keyup", function (event) { //Add player pressing enter in input
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("addplayer").click();
+            }
+        });
+      
+        /**
+         * Here you have the set interval  time options
+         */
+        let inputVal = document.querySelector('#spinner__value');
+        let btnUp = document.querySelector('#spinner__up');
+        let btnDown = document.querySelector('#spinner__down');
+
+        btnUp.onclick = function () {
+            let value = parseFloat(inputVal.value);
+            if (value &lt; 5.0) inputVal.value = (value + parseFloat(0.1)).toFixed(1);
+        };
+
+        btnDown.onclick = function () {
+            let value = parseFloat(inputVal.value);
+            if (value > 0.1) inputVal.value = (value - parseFloat(0.1)).toFixed(1);
+        };
+
+        inputVal.addEventListener('change', (event) => {
+            if (event.target.value &lt;= 0) event.target.value = 0.1;
+            if (event.target.value > 5) event.target.value = 5;
+        });
+       
+     
+        let remove_video = document.getElementById('remove_video');
+        let div_bg = document.getElementById('div_bg');
+
+        /**
+         * On click play Button, game starts.
+         */
+        
+        let playBtn = document.getElementById('playBtn');
+        playBtn.onclick = function () {
+            if (playersNames.length !== 0 &amp;&amp; playersNames != undefined) { //Check there are players added to the game
+                let m = document.getElementById('playersForm');
+                m.style.display = "none";
+                div_bg.remove();
+                app.speed = (parseFloat(inputVal.value) * 1000); //SET GAME SPEED
+                app.start();
+            } else {
+                document.getElementById('msg--err').innerHTML = "\u26A0  Add some players first!"
+            }
+
+        }
+
+        /**
+         * Mute and unmute the background video button
+         */
+        
+        let unmuteBtn = document.getElementById('unmuteBtn');
+        let videoEl = document.getElementById('videoBackground');
+        unmuteBtn.onclick = function () {
+            videoEl.muted = !videoEl.muted;
+            this.className = (videoEl.muted == true) ? "fas fa-volume-mute btn--mute off--red" : "fas fa-volume-off btn--mute"
+        }
+
+        /**
+         * Remove / show video background
+         */
+        
+        remove_video.onclick = function () {
+            if (this.classList.contains('off--red')) {
+                this.className = "fas fa-video-slash btn--removebg"
+                videoEl.style.display = "block";
+            } else {
+                this.className = "fas fa-video-slash btn--removebg off--red"
+                videoEl.style.display = "none";
+            }
+        }
+    }
+
+    return {
+        template:
+            `
+            &lt;div id="playersForm" class="modal">
+                &lt;!-- Modal content -->
+                &lt;div class="modal-content">
+                    &lt;h1>BINGO TWINGO&lt;/h1>
+                    &lt;p>&lt;/p>
+                    &lt;div class='modal__players__list'>
+                        &lt;ol id="listPlayers">&lt;/ol>
+                    &lt;/div>
+                    &lt;div class="menu__addPlayer">
+                        &lt;input type="text" id="fname" name="fname" placeholder="Player name">                                               
+                        &lt;i class="far fa-plus-square menu__addPlayer__btn" id='addplayer'>&lt;/i>
+                    &lt;/div>
+                    &lt;p class="msg--error" id="msg--err">&lt;/p>
+                    &lt;div class="menu__options">
+                        &lt;button id='playBtn' class="menu__start_btn">START GAME&lt;/button>
+                    &lt;/div>
+                    &lt;div class="spinner__opts" style="margin-left:10px">
+                        &lt;span> Timer: (sec)&lt;/span>
+                        &lt;div class="spinner">
+                            &lt;button type="button" id="spinner__down" class="spinner__btn spinner__down">&amp;lsaquo;&lt;/button>
+                            &lt;input type="number" id="spinner__value" class="spinner__value" name="time" id="match_time" min="0.1" max="5" step="0.1" value="1">
+                            &lt;button type="button" id="spinner__up" class="spinner__btn spinner__up">&amp;rsaquo;&lt;/button>
+                        &lt;/div>    
+                    &lt;/div>
+                    &lt;span class="remainingPlayers" id="remainingPlayersSpan">&lt;/span>
+                &lt;/div>
+            &lt;/div>`,
+        controllers: controllers
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#imgsBingo">imgsBingo</a></li><li><a href="global.html#randomBingo">randomBingo</a></li><li><a href="global.html#setupAudioBingoWin">setupAudioBingoWin</a></li><li><a href="global.html#setupBackgroundVideo">setupBackgroundVideo</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sun Nov 15 2020 16:38:28 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

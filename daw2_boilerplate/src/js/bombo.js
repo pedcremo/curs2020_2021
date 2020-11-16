@@ -1,5 +1,17 @@
 import {debug} from './core/core.js'; 
 
+/**
+ * In the Bombo class is where we have all the balls of the bingo in const templateBombo, there storatge the 90 balls in an array
+ * en boles.
+ * 
+ * We store a copy of the templatebombo array so as not to have to modify the original, 
+ * so in all the actions that we use the balls of the bombo we do it with the copy of the array.
+ * 
+ * And also  we extract the balls randomly using the pickNumber method
+ * 
+ * Let render is used to paint the balls of the bombo
+ */
+
 export class Bombo{    
     constructor(rootElement){
         const templateBombo = Array.from({length:90},(_,i) => i + 1);
