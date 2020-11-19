@@ -4,12 +4,16 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
-    main: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', './src/index.js']
+    main: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', './src/frontend/index.js']
   },
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
     filename: '[name].js'
+  },
+  externals: {
+    socketio: 'socket.io-client',
+    jquery: 'jQuery'
   },
   mode: 'development',
   target: 'web',
@@ -65,7 +69,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: "./src/html/index.html",
+      template: "./src/frontend/html/index.html",
       filename: "./index.html",
       excludeChunks: [ 'server' ]
     }),

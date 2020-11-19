@@ -11,8 +11,8 @@
 
  module.exports = (env, argv) => {
    const SERVER_PATH = (argv.mode === 'production') ?
-     './src/server/server-prod.js' :
-     './src/server/server-dev.js'
+     './src/backend/server-prod.js' :
+     './src/backend/server-dev.js'
 
    return ({
      entry: {
