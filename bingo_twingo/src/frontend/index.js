@@ -10,6 +10,7 @@ import { modalPlayers} from './templates/modalPlayers.js';
 import {setupAudioBingoWin} from './utils/background';
 import { modalLiniaBingo } from './templates/modalLiniaBingo.js';
 import { modalMenu } from './templates/modalMenu.js';
+import { modalOnlinePlayer } from './templates/modalOnlinePlayer.js';
 import io from 'socket.io-client';
 /**
  * Within the app constant(closure), we have defined several variables with anonymous functions which are responsible for starting and stopping the game
@@ -33,7 +34,19 @@ const app = (() => {
     // });
     let offline_mode = () =>{
         //starts offline mode
-        showModal(modalPlayers(), app.start);
+        showModal(modalPlayers(), start);
+    }
+    let online_mode = () =>{
+        //starts online mode
+        debug("Online")
+        showModal(modalOnlinePlayer(), start_online);
+    }
+    let start_online = (username) =>{
+        const socket = io('ws://localhost:8080', {transports: ['websocket']});
+        socket.on('connect', () => {
+            socket.emit('join', username);
+        });
+        debug("START ONLINE!")
     }
     /* Every time runs pick a ball from bombo bingo game */
     let getBallFromBombo = () => {
@@ -97,8 +110,6 @@ const app = (() => {
             /* Show modal */
             setTimeout(function () {
                 showModal(modalLiniaBingo(player, "linea"), function () {
-                    debug("SPEEEED");
-                    debug(app.speed);
                     myApp = setInterval(getBallFromBombo, app.speed);
                 })
             }, 50);
@@ -146,7 +157,9 @@ const app = (() => {
     /* Return start and stop function and play speed */
     return {
         start: start,
+        start_online:start_online,
         offline_mode:offline_mode,
+        online_mode:online_mode,
         toggle: () => {
             (stateApp == "run") ? stop() : start();
         },
