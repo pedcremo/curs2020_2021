@@ -12,8 +12,7 @@ module.exports = {
     filename: '[name].js'
   },
   externals: {
-    socketio: 'socket.io-client',
-    jquery: 'jQuery'
+    socketio: 'socket.io-client',    
   },
   mode: 'development',
   target: 'web',
