@@ -13,6 +13,9 @@ module.exports = {
     publicPath: '/',
     filename: '[name].js'
   },
+  externals: {
+    socketio: 'socket.io-client',    
+  },
   target: 'web',
   devtool: '#source-map',
   // Webpack 4 does not have a CSS minifier, although
@@ -53,6 +56,20 @@ module.exports = {
         test: /\.jpg$/,
         use: [{loader: 'url-loader'}]
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader']
+       },
+       {
+         test: /\.mp4$/,
+         use: ['file-loader?name=videos/[name].[ext]']
+        },
+        {
+
+         test: /\.mp3$/,
+         use: ['file-loader?name=audio/[name].[ext]']
+
+       },
       {
         // Loads CSS into a file when you import it via Javascript
         // Rules are set in MiniCssExtractPlugin

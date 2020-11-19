@@ -6,7 +6,7 @@ import {setupBackgroundVideo} from '../utils/background';
 export const modalPlayers = () => {
 
     const controllers = () => {
-        // setupBackgroundVideo();
+        setupBackgroundVideo();
         let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
         // setupBackgroundVideo();
         clearModal("gameLayout") //clear the game
