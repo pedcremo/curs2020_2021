@@ -36,11 +36,8 @@ Output
 ```
 
 ### For development environments…
-We access the project.
-``` sh
-$ cd daw2_boilerplate
-```
-And we install all the packages that the application needs for its deployment.
+
+We install all the packages that the application needs for its deployment.
 ``` sh
 $ npm install
 ```
