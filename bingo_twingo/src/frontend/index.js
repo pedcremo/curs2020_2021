@@ -6,8 +6,10 @@ import './js/card.js';
 import { Bombo } from './js/bombo.js';
 import { BingoCard } from './js/card.js';
 import { PubSub } from './js/core/pubSub.js';
-import { modalPlayers, setupAudioBingoWin } from './templates/modalPlayers.js';
+import { modalPlayers} from './templates/modalPlayers.js';
+import {setupAudioBingoWin} from './utils/background';
 import { modalLiniaBingo } from './templates/modalLiniaBingo.js';
+import { modalMenu } from './templates/modalMenu.js';
 import io from 'socket.io-client';
 /**
  * Within the app constant(closure), we have defined several variables with anonymous functions which are responsible for starting and stopping the game
@@ -24,13 +26,15 @@ const app = (() => {
     let players = []
     let pubSub = new PubSub();
     let stateApp = "stop";
-    debugger
-    const socket = io('ws://localhost:8080', {transports: ['websocket']});
-    socket.on('connect', () => {
-        socket.emit('join', `POPO`);
-        console.log("EMIT")
-    });
-
+    // const socket = io('ws://localhost:8080', {transports: ['websocket']});
+    // socket.on('connect', () => {
+    //     socket.emit('join', `POPO`);
+    //     console.log("EMIT")
+    // });
+    let offline_mode = () =>{
+        //starts offline mode
+        showModal(modalPlayers(), app.start);
+    }
     /* Every time runs pick a ball from bombo bingo game */
     let getBallFromBombo = () => {
         /* Get a ball from bombo */
@@ -141,8 +145,8 @@ const app = (() => {
 
     /* Return start and stop function and play speed */
     return {
-        start: start
-        ,
+        start: start,
+        offline_mode:offline_mode,
         toggle: () => {
             (stateApp == "run") ? stop() : start();
         },
@@ -152,7 +156,7 @@ const app = (() => {
 })();
 /* Real entry point to our bingo app. Show modals to choose players and
  when closed start bingo playing (callback) */
-docReady(() => showModal(modalPlayers(), app.start));
+docReady(() => showModal(modalMenu()));
 
 
 export { app };

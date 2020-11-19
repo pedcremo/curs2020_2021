@@ -1,54 +1,14 @@
-import video from '../videos/los_bingueros.mp4';
-import audio from '../audios/Bingo Sound Effect.mp3';
 import { app } from '../index.js';
 import { debug, clearModal } from '../js/core/core';
 import '../css/modalPlayers.css';
-
-/**
- * Set the backgroundVideo 
- */
-function setupBackgroundVideo() {
-    let backgroundVideo = `
-        <div id="div_bg" class="bg">
-            <video autoplay muted loop id="videoBackground">
-                <source src="${video}" type="video/mp4">
-                Your browser does not support HTML5 video.
-            </video>
-            <i class="fas fa-video-slash btn--removebg" id="remove_video"></i>
-            <i class="fas fa-volume-mute btn--mute off--red" id="unmuteBtn"></i>
-        </div>`;
-    let parser = new DOMParser();
-    let videoEl = parser.parseFromString(backgroundVideo, "text/html");
-    videoEl = videoEl.body.firstChild;
-    document.body.appendChild(videoEl);
-}
-
-
-/**
-* It's a function that when any player win the bingo  there is a background audio that sings bingo!!
-* This function I'll  imported it into index and called it in  pubSub.subscribe("BINGO")
-*/
-export function setupAudioBingoWin() {
-    let audioBackground = `
-        <div id="sound">
-            <audio controls autoplay loop id="bingoSound">
-                  <source src="${audio}" type="audio/mpeg">
-             </audio>
-        </div>
-        `;
-    let parser = new DOMParser();
-    let bingoAudio = parser.parseFromString(audioBackground, "text/html");
-
-    bingoAudio = bingoAudio.body.firstChild;
-    bingoAudio.currentTime = Math.round(Math.random() * 10);
-    document.body.appendChild(bingoAudio);
-}
+import {setupBackgroundVideo} from '../utils/background';
 
 export const modalPlayers = () => {
 
     const controllers = () => {
+        // setupBackgroundVideo();
         let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
-        setupBackgroundVideo();
+        // setupBackgroundVideo();
         clearModal("gameLayout") //clear the game
 
         // Draw the players in localStorage. Each time you add or delete a player, this function is called.
@@ -142,8 +102,8 @@ export const modalPlayers = () => {
         });
        
      
-        let remove_video = document.getElementById('remove_video');
-        let div_bg = document.getElementById('div_bg');
+        
+        // let div_bg = document.getElementById('div_bg');
 
         /**
          * On click play Button, game starts.
@@ -154,38 +114,14 @@ export const modalPlayers = () => {
             if (playersNames.length !== 0 && playersNames != undefined) { //Check there are players added to the game
                 let m = document.getElementById('playersForm');
                 m.style.display = "none";
-                div_bg.remove();
+                clearModal('bg')
+                // div_bg.remove();
                 app.speed = (parseFloat(inputVal.value) * 1000); //SET GAME SPEED
                 app.start();
             } else {
                 document.getElementById('msg--err').innerHTML = "\u26A0  Add some players first!"
             }
 
-        }
-
-        /**
-         * Mute and unmute the background video button
-         */
-        
-        let unmuteBtn = document.getElementById('unmuteBtn');
-        let videoEl = document.getElementById('videoBackground');
-        unmuteBtn.onclick = function () {
-            videoEl.muted = !videoEl.muted;
-            this.className = (videoEl.muted == true) ? "fas fa-volume-mute btn--mute off--red" : "fas fa-volume-off btn--mute"
-        }
-
-        /**
-         * Remove / show video background
-         */
-        
-        remove_video.onclick = function () {
-            if (this.classList.contains('off--red')) {
-                this.className = "fas fa-video-slash btn--removebg"
-                videoEl.style.display = "block";
-            } else {
-                this.className = "fas fa-video-slash btn--removebg off--red"
-                videoEl.style.display = "none";
-            }
         }
 
 
