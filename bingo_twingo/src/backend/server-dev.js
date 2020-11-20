@@ -8,6 +8,7 @@ import gameController from './gameController'
 import bombo from './bombo'
 import PubSub from './pubSub'
 import BingoCard from './bingoCard'
+import { debug } from '../frontend/js/core/core.js'
 
 //const { exec } = require('child_process');
 
@@ -48,16 +49,18 @@ io.on('connect', (socket) => {
   //Only one pubSub instance per socket room 
   let pubSub = new PubSub();
   let game;
-  console.log("NEVER REACHED");
+  console.log("NEVER REACHED DEV");
   //A player wants to join a bingo game
   socket.on('join', playerName => {
+    console.log(playerName);
     let bingoCard = new BingoCard(playerName);
     // We create a random id in order to create a hash
     // only known by joined user in order ti avoid fake cards
     let card = {
       id:"card_id_"+playerName,
       cardMatrix:bingoCard.getMatrix(),
-      checksum:"checksum card"
+      checksum:"checksum card",
+      username: playerName
     }
     //Should be provided to other jooined players
     let card_hidden = {
@@ -73,10 +76,10 @@ io.on('connect', (socket) => {
     socket.join(game.id);
 
     //SEND TO JOINED USER THE CARD WITH ID AND CHECKSUM
-    io.to(socket.id).emit('joined_game', JSON.stringify(card));
+    io.to(socket.id).emit('joined_game', card);
 
     //SEND TO EVERY PLAYER IN THE GAME THAT NEW PLAYER HAS JOINED, AND ONLY THE CARDMATRIX and USERNAME
-    io.sockets.in(game.id).emit('joined',JSON.stringify(game));
+    io.sockets.in(game.id).emit('joined',game);
 
     //PUBSUB ------
     //The only publisher of this event is gameController

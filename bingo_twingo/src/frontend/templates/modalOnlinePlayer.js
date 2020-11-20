@@ -8,6 +8,7 @@ import {setupBackgroundVideo} from '../utils/background';
 export const modalOnlinePlayer = () => {
 
     const controllers = () => {
+        
         setupBackgroundVideo();
         debug("load modalOnlinePlayer")
         let start_online = document.getElementById("start_online")
@@ -23,6 +24,7 @@ export const modalOnlinePlayer = () => {
             let username = document.getElementById("username_online").value;
             if(username){
                 if(checkName(username)){
+                    clearModal("modal");
                     app.start_online(username);
                 }
             }

@@ -1,7 +1,7 @@
 class Bombo{    
     // constructor(rootElement){
     constructor(){
-        const templateBombo = Array.from({length:9},(_,i) => i + 1);
+        const templateBombo = Array.from({length:90},(_,i) => i + 1);
         let boles = [...templateBombo];
         let bolesExtracted = [];
         let shuffle = () => boles.sort((a,b) => Math.random()-0.5);         

@@ -11,7 +11,10 @@ import {setupAudioBingoWin} from './utils/background';
 import { modalLiniaBingo } from './templates/modalLiniaBingo.js';
 import { modalMenu } from './templates/modalMenu.js';
 import { modalOnlinePlayer } from './templates/modalOnlinePlayer.js';
+import { modalLobby } from './templates/modalLobby.js';
 import io from 'socket.io-client';
+import { BomboOnline } from './js/bombo_online';
+import { BingoCardOnline } from './js/card_online';
 /**
  * Within the app constant(closure), we have defined several variables with anonymous functions which are responsible for starting and stopping the game
  * As for the start variable, it is where we have the subscription patterns, 
@@ -46,7 +49,44 @@ const app = (() => {
         socket.on('connect', () => {
             socket.emit('join', username);
         });
+        showModal(modalLobby(socket));
         debug("START ONLINE!")
+    }
+    let start_game_online = (data,socket) =>{
+        console.log(data);
+
+        let bombo_online;
+        /* Basic template where we are going to render bingo play */
+        let doc = new DOMParser().parseFromString(`
+            <div class="gameLayout">
+                <div id="bingoCards" class="cards"></div>
+                <div class="panel">
+                    <div id="balls" class="balls__grid"></div>
+                </div>
+            </div>
+        `, 'text/html');
+
+        let layout = doc.body.firstChild;
+        document.getElementById('main').appendChild(layout);
+
+        /* Layer where initial background video has been loaded we
+        need to remove it as we are going to start playing */
+        let videoEl = document.getElementById('videoBackground');
+        if (videoEl) videoEl.remove();
+        bombo_online = BomboOnline.render_bombo(document.getElementById('balls'))
+
+        /* RENDER card for every bingo player */
+        data.players.forEach(player => {
+            BingoCardOnline.render_online_card(player.card,player.username,'bingoCards')
+        });
+        let extractedBalls = [];
+        socket.on('new_number', function (data) {
+            console.log(data);
+            BomboOnline.render_num(data.num)
+            BingoCardOnline.render_number(data.num);
+        });
+        
+
     }
     /* Every time runs pick a ball from bombo bingo game */
     let getBallFromBombo = () => {
@@ -160,6 +200,7 @@ const app = (() => {
         start_online:start_online,
         offline_mode:offline_mode,
         online_mode:online_mode,
+        start_game_online:start_game_online,
         toggle: () => {
             (stateApp == "run") ? stop() : start();
         },

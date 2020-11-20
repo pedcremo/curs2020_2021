@@ -54,14 +54,13 @@ const gameController = () => {
                     }
                     if (!realGame.get('bomboInterval')) {
                         realGame.set('bomboInterval',bomboInterval)
-                        console.log('Arre GAT')
                     }
                     console.log("bomboInterval->"+idPlay)
                 }, 1000);
                 
                 //currentGame.set('bomboTimer',bomboInterval);
                 //realGame = new Map(currentGame);
-                pubSub.publish("starts_game",JSON.stringify({id:currentGame.get('id'),players:currentGame.get('listPlayers'),countDown:currentGame.get('countDown')})); 
+                pubSub.publish("starts_game",{id:currentGame.get('id'),players:currentGame.get('listPlayers'),countDown:currentGame.get('countDown')}); 
                 gamesOnFire.set(currentGame.get('id'),new Map(currentGame))
                 //RESET currentGame
                 currentGame = new Map();
@@ -87,7 +86,7 @@ const gameController = () => {
             }
             
         }
-        return {id:currentGame.get('id'),prayers:currentGame.get('listPlayers'),countDown:currentGame.get('countDown'),bomboCongo:bomboInterval}
+        return {id:currentGame.get('id'),players:currentGame.get('listPlayers'),countDown:currentGame.get('countDown'),bomboCongo:bomboInterval}
 
     } 
 

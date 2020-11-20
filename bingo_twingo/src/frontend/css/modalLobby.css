@@ -1,0 +1,83 @@
+.modal__lobby__body{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+}
+.modal__lobby__body__info{
+    min-height: 200px;
+}
+.modal__lobby__body__info__msg--player{
+    background-color: red;
+}
+.modal__lobby{
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    padding-top: 34px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.modal__lobby__content{
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 900px;
+    min-height: 600px;
+    max-height: 70%;
+    height: 60px;
+    opacity: 0.9;
+    border-radius: 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    align-items: center;
+}
+.modal__lobby__body__full{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+.modal__lobby__body__full__player{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 49%;
+    background-color: red;
+}
+.modal__lobby__body__full__info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 49%;
+    background-color: rgb(255, 255, 255);
+    
+}
+.modal__lobby__body__full__info span{
+    box-sizing: border-box;
+    padding: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    background-color: rgb(212, 212, 212);
+}
+.bingoCardlobby{
+    width: 10%;
+}
+
+
+
+

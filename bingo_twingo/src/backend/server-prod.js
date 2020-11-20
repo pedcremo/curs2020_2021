@@ -28,9 +28,10 @@ io.on('connect', (socket) => {
     //Only one pubSub instance per socket room 
     let pubSub = new PubSub();
     let game;
-    console.log("NEVER REACHED");
+    console.log("NEVER REACHED PROD");
     //A player wants to join a bingo game
     socket.on('join', playerName => {
+      console.log(playerName);
       let bingoCard = new BingoCard(playerName);
       // We create a random id in order to create a hash
       // only known by joined user in order ti avoid fake cards
