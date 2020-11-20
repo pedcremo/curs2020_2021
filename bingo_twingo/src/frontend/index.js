@@ -8,6 +8,7 @@ import { BingoCard } from './js/card.js';
 import { PubSub } from './js/core/pubSub.js';
 import { modalPlayers, setupAudioBingoWin } from './templates/modalPlayers.js';
 import { modalLiniaBingo } from './templates/modalLiniaBingo.js';
+import { modalMainMenu } from './templates/modalMainMenu.js';
 import io from 'socket.io-client';
 /**
  * Within the app constant(closure), we have defined several variables with anonymous functions which are responsible for starting and stopping the game
@@ -24,12 +25,6 @@ const app = (() => {
     let players = []
     let pubSub = new PubSub();
     let stateApp = "stop";
-    debugger
-    const socket = io('ws://localhost:8080', {transports: ['websocket']});
-    socket.on('connect', () => {
-        socket.emit('join', `POPO`);
-        console.log("EMIT")
-    });
 
     /* Every time runs pick a ball from bombo bingo game */
     let getBallFromBombo = () => {
@@ -116,7 +111,7 @@ const app = (() => {
                 // clearModal("bingoCard") BUG
                 showModal(modalLiniaBingo(player, "bingo"), function () {
                     document.getElementById('sound').remove();//remove div audio sound
-                    showModal(modalPlayers(), app.start);
+                    showModal(modalMainMenu());
 
                 })
 
@@ -152,7 +147,7 @@ const app = (() => {
 })();
 /* Real entry point to our bingo app. Show modals to choose players and
  when closed start bingo playing (callback) */
-docReady(() => showModal(modalPlayers(), app.start));
+ docReady(() => showModal(modalMainMenu()));
 
 
 export { app };

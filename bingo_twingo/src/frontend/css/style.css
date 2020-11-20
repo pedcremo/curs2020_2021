@@ -58,6 +58,7 @@ table.bingoCard {
     flex-direction: column;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     align-items: center;
+    margin-top: 80px;
   }
   .modal-content img{
       display: block;

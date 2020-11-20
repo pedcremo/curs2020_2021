@@ -1,0 +1,28 @@
+.mainMenu__btn{
+    border: none;
+    outline: none;
+    width: 200px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: rgb(0, 101, 196);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.menu__start_btn {
+    border: none;
+    outline: none;
+    width: 220px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: rgb(0, 101, 196);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.mainMenu__btn:hover {
+    background-color: rgb(0, 113, 219);
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+}

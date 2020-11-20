@@ -1,5 +1,5 @@
-import video from '../videos/los_bingueros.mp4';
-import audio from '../audios/Bingo Sound Effect.mp3';
+import video from '../assets/videos/los_bingueros.mp4';
+import audio from '../assets/audios/Bingo Sound Effect.mp3';
 import { app } from '../index.js';
 import { debug, clearModal } from '../js/core/core';
 import '../css/modalPlayers.css';
