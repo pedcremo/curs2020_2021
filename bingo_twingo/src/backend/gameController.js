@@ -5,7 +5,7 @@ const PubSub = require('./pubSub.js');
 const gameController = () => {    
     let currentGame=new Map();    
     const secsUntilBegin = 10;
-    const maxUsers = 3;
+    const maxUsers = 10;
     let countDown;
     
     //Maps id -> Map object with game informations
@@ -78,11 +78,15 @@ const gameController = () => {
         }else{
             let listUsers = currentGame.get('listPlayers');
             listUsers.push(cardHidden);
+            console.log(listUsers.length);
             currentGame.set('listPlayers',listUsers);
-            if (listUsers.length >= maxUsers){
-               setTimeout(()=>{currentGame=new Map();
-                clearInterval(countDown);
-            },100);
+            if (listUsers.length == maxUsers){
+                //publicamos las sala para que empieze al momento
+                setTimeout(()=>{
+                    pubSub.publish("starts_game",{id:currentGame.get('id'),players:currentGame.get('listPlayers'),countDown:currentGame.get('countDown')}); 
+                    currentGame=new Map();
+                    clearInterval(countDown);
+                },100);
             }
             
         }

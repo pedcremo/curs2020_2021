@@ -59,7 +59,7 @@ const app = (() => {
         debug("START ONLINE!")
     }
     let start_game_online = (data,socket) =>{
-        console.log(data);
+        debug(data);
         player.idplay = data.id;
         let bombo_online;
         /* Basic template where we are going to render bingo play */

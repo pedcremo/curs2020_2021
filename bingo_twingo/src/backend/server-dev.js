@@ -49,7 +49,7 @@ io.on('connect', (socket) => {
   //Only one pubSub instance per socket room 
   let pubSub = new PubSub();
   let game;
-  console.log("NEVER REACHED DEV");
+  // console.log("NEVER REACHED DEV");
   //A player wants to join a bingo game
   socket.on('join', playerName => {
     console.log(playerName);
@@ -69,6 +69,8 @@ io.on('connect', (socket) => {
     }
    
     game=gameController.getCurrentGame(card_hidden,pubSub);
+    console.log("GAME!_________________________________________________________");
+    console.log(game);
     //if (!game.pubSub) game.pubSub = new PubSub();
     
     //The most important thing. We register socket in a room 'id'
