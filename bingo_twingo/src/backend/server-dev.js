@@ -5,7 +5,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import config from '../../webpack.dev.config.js'
 import gameController from './gameController'
-import bombo from './bombo'
+import bombo from '../../utils/bombo.js'
 import PubSub from './pubSub'
 import BingoCard from './bingoCard'
 

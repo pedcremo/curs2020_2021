@@ -3,7 +3,8 @@ import './css/style.css';
 import './css/ingame.css';
 import { docReady, showModal, clearModal, debug } from './js/core/core.js';
 import './js/card.js';
-import { Bombo } from './js/bombo.js';
+// import { Bombo } from './js/bombo.js';
+import { Bombo } from '../../utils/bombo.js';
 import { BingoCard } from './js/card.js';
 import { PubSub } from './js/core/pubSub.js';
 import { modalPlayers, setupAudioBingoWin } from './templates/modalPlayers.js';
@@ -24,12 +25,12 @@ const app = (() => {
     let players = []
     let pubSub = new PubSub();
     let stateApp = "stop";
-    debugger
-    const socket = io('ws://localhost:8080', {transports: ['websocket']});
-    socket.on('connect', () => {
-        socket.emit('join', `POPO`);
-        console.log("EMIT")
-    });
+    // debugger
+    // const socket = io('ws://localhost:8080', {transports: ['websocket']});
+    // socket.on('connect', () => {
+    //     socket.emit('join', `POPO`);
+    //     console.log("EMIT")
+    // });
 
     /* Every time runs pick a ball from bombo bingo game */
     let getBallFromBombo = () => {
@@ -40,7 +41,7 @@ const app = (() => {
         if (num) {
             pubSub.publish("New Number", bombo.getExtractedNumbers());
 
-        /* otherwise means bombo is running out of ball and we should finish the game */    
+            /* otherwise means bombo is running out of ball and we should finish the game */
         } else {
             stop();
         }
@@ -53,7 +54,7 @@ const app = (() => {
     }
     /* Start bingo play */
     let start = () => {
-        
+
         /* Basic template where we are going to render bingo play */
         let doc = new DOMParser().parseFromString(`
             <div class="gameLayout">
@@ -82,9 +83,9 @@ const app = (() => {
         /* Subscribe app to LINIA event. When this occurs
         we show up a modal with the player awarded and a gif animation 
         obviously we stop bingo playing until modal is closed 
-        */        
+        */
         pubSub.subscribe("LINIA", (player) => {
-            debug("Linia");            
+            debug("Linia");
             /* Stop bingo playing */
             stop();
             /* As linia only could be awarded once per playing we delete that event
@@ -139,10 +140,44 @@ const app = (() => {
         myApp = setInterval(getBallFromBombo, app.speed);
     }
 
+    let online = () => {
+
+        let doc = new DOMParser().parseFromString(`
+        <div class="gameLayout">
+            <div id="bingoCards" class="cards"></div>
+            <div class="panel">
+                <div id="balls" class="balls__grid"></div>
+            </div>
+        </div>
+    `, 'text/html');
+
+
+
+        let layout = doc.body.firstChild;
+        document.getElementById('main').appendChild(layout);
+        let videoEl = document.getElementById('videoBackground');
+        if (videoEl) videoEl.remove();
+
+        bombo = new Bombo(document.getElementById('balls'));
+
+
+        const socket = io('ws://localhost:8080', { transports: ['websocket'] });
+        socket.on('connect', () => {
+            socket.emit('join', `POPO`);
+            console.log("EMIT")
+        });
+
+        socket.on('new_number', function (data) {
+            console.log(data.num);
+            bombo.renderball(data.num)
+        });
+
+    }
     /* Return start and stop function and play speed */
     return {
         start: start
         ,
+        online: online,
         toggle: () => {
             (stateApp == "run") ? stop() : start();
         },
