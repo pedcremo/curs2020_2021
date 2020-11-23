@@ -35,6 +35,7 @@ const app = (() => {
     let player;
     let extractedBalls = [];
     let cantar_linea = true;
+    let lastBall;
 
     let offline_mode = () =>{
         //starts offline mode
@@ -88,7 +89,8 @@ const app = (() => {
         socket.on('new_number', function (data) {
             extractedBalls.push(data.num);
             BomboOnline.render_num(data.num)
-            BingoCardOnline.render_number(data.num);
+            BingoCardOnline.render_number(data.num,lastBall);
+            lastBall = data.num;
             BingoCardOnline.check_bingo(player.cardMatrix,extractedBalls,player,socket);
 
         });

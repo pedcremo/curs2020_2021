@@ -25,11 +25,21 @@ export let BingoCardOnline = (() => {
 
           location.innerHTML += out;
      }
-     let render_number = (num)=>{
+     let render_number = (num,lastBall)=>{
+          console.log("card_number_"+lastBall);
           let card_numbers = document.getElementsByClassName("card_number_"+num);
+          let card_numbers_last = document.getElementsByClassName("card_number_"+lastBall);
+
+
+          for(let i = 0; i < card_numbers_last.length; i++) {
+               card_numbers_last[i].classList.remove("blink");
+          }
+
           for(let i = 0; i < card_numbers.length; i++) {
                card_numbers[i].classList.add("extracted");
+               card_numbers[i].classList.add("blink");
           }
+          // lastBall = num;
      }
 
      let check_bingo = (cardMatrix,extractedBalls,player,socket)=>{
