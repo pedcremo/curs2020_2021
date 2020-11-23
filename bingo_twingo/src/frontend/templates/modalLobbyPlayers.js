@@ -39,6 +39,7 @@ export const modalLobbyPlayers = (socketIO, card) => {
     const controllers = () => {
         let socket = socketIO;
         let timer = document.getElementById('time_count');
+        let otherPlayers;
         /* Event triggered once a user joins a 
         * game and get a ramdom card with unique id that 
         * should not be shared
@@ -52,27 +53,28 @@ export const modalLobbyPlayers = (socketIO, card) => {
         }, 1000);
 
         socket.on('joined', function (msg) {
+            
             let parsed = JSON.parse(msg);
+            otherPlayers = parsed.players.filter((item) => item.username!=card.username)
+           
             let messagesDiv = document.getElementById("listLobbyMessages");
 
             timer.innerText = parsed.countDown;
             // clearInterval(intervalTimer);
 
-
-
-
             console.log(parsed);
             renderPlayersLobby(parsed)
             let userJoined = parsed.players[parsed.players.length - 1]
             let notif = userJoined.username + " has joined to the game"
+            
             messagesDiv.innerHTML = messagesDiv.innerHTML + "<li>" + notif + "</li>";
         });
         //Event notifying starts the game
         socket.on('starts_game', function (msg) {
             let div_bg = document.getElementById('div_bg');
             clearInterval(intervalTimer);
-            // div_bg.remove();
-            showModal(inGameLayout(socket, card));
+            // div_bg.remove();           
+            showModal(inGameLayout(socket, card, otherPlayers));
             //messagesDiv.innerHTML = "";
         });
 

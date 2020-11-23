@@ -35,10 +35,11 @@ let renderCard = (divRoot,extractedBalls=[],cardMatrix,player) => {
     //return out;
 }
 
-export const inGameLayout = (socketIO, card) => {
+export const inGameLayout = (socketIO, card,otherPlayers) => {
 
     const controllers = () => {
-        // console.log("=========");
+       
+        console.log(otherPlayers);
         // console.log(card);
         let socket = socketIO;
         let line_status = false;
@@ -51,11 +52,21 @@ export const inGameLayout = (socketIO, card) => {
         // console.log("++++++++++++++++");
         // console.log(card.cardMatrix);
         renderCard(divRoot,extractedBalls,card.cardMatrix,card.username);
+        debugger
+        otherPlayers.forEach((otherPlayer) => {
+            debugger
+            renderCard(divRoot,extractedBalls,otherPlayer.card,otherPlayer.username)
+
+        });
         renderBalls();
         socket.on('new_number', function (msg) {
             // console.log(msg);
             extractedBalls.push(msg.num)
             renderCard(divRoot,extractedBalls,card.cardMatrix,card.username);
+            otherPlayers.forEach((otherPlayer) =>
+                renderCard(divRoot,extractedBalls,otherPlayer.card,otherPlayer.username)
+            );
+        
             checkBingo(card,extractedBalls,line_status);   
             if(lastBall){
                 document.getElementById(lastBall).className = 'bingoBall';
