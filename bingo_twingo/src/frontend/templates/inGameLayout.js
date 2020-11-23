@@ -70,7 +70,9 @@ export const inGameLayout = (socketIO, card) => {
             console.log(extractedBalls.length);
             let bingo = true;
             card.cardMatrix.forEach((row) => {
-               let linia = row.filter((val) => { if (extractedBalls.indexOf(val) <= 0) return val }).length;
+                let linia = row.filter((val) => { if (!extractedBalls.includes(val) && val != null) return val }).length;
+
+            //    let linia = row.filter((val) => { if (extractedBalls.indexOf(val) <= 0) return val }).length;
                if (linia > 0) bingo = false;
                else {
                   if (line_status == false) {
@@ -102,6 +104,7 @@ export const inGameLayout = (socketIO, card) => {
             showModal(modalLiniaBingo(username, "bingo"),function() {
                 showModal(modalMainMenu());
             },false)
+            socket.disconnect();
             bingo_status = true;
         });
 

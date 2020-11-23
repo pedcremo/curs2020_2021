@@ -57,7 +57,7 @@ const gameController = () => {
                         console.log('Arre GAT')
                     }
                     console.log("bomboInterval->"+idPlay)
-                }, 600);
+                }, 1000);
                 
                 //currentGame.set('bomboTimer',bomboInterval);
                 //realGame = new Map(currentGame);

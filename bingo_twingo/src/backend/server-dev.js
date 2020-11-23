@@ -92,15 +92,19 @@ io.on('connect', (socket) => {
     });
     //The publishers of this event is gameController and when bingo
     //is shooted
-    pubSub.subscribe("end_game", (data) => {
-      io.sockets.in(game.id).emit('end_game',data);
-    });
+    // pubSub.subscribe("end_game", (data) => {
+    //   io.sockets.in(data).emit('end_game',data);
+    // });
 
   });
 
+  socket.on('disconnect',(info) => {
+    console.log("DISCONNECTED");
+    console.log(info);
+  });
+
   socket.on('bingo',playInfo =>{
-    //game.pubSub.publish("end_game",game.id);
-    io.sockets.in(game.id).emit('end_game',game.id);
+    
 
     pubSub.unsubscribe('new_number');  
     console.log("GAME INFO "+JSON.stringify(game)); 
@@ -112,6 +116,12 @@ io.on('connect', (socket) => {
     //Stop throwing balls from bombo
     let gId=gameController.getGameById(game.id);
     clearInterval(gId.get('bomboInterval'));
+    // pubSub.publish("end_game",game.id);
+    io.sockets.in(game.id).emit('end_game',game.id);
+    // io.sockets.in(game.id).clients((error, socketIds) => {
+    //   if (error) throw error;
+    //   socketIds.forEach(socketId => io.sockets.sockets[socketId].leave(game.id));
+    // });
   });
 
   socket.on('linia',playInfo =>{
