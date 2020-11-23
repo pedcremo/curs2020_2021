@@ -4,8 +4,8 @@ const PubSub = require('./pubSub.js');
 
 const gameController = () => {    
     let currentGame=new Map();    
-    const secsUntilBegin = 30;
-    const maxUsers = 3;
+    const secsUntilBegin = 10;
+    const maxUsers = 10;
     let countDown;
     
     //Maps id -> Map object with game informations
@@ -57,7 +57,7 @@ const gameController = () => {
                         console.log('Arre GAT')
                     }
                     console.log("bomboInterval->"+idPlay)
-                }, 1000);
+                }, 600);
                 
                 //currentGame.set('bomboTimer',bomboInterval);
                 //realGame = new Map(currentGame);

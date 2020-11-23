@@ -7,14 +7,34 @@ let renderPlayersLobby = (parsedData) => {
     let playersDiv = document.getElementById('listLobbyPlayers');
     playersDiv.innerHTML = '';
     parsedData.players.map((player) => {
-        playersDiv.innerHTML += "<li>Player: " + player.username + " &nbsp; - &nbsp; Lv: 8 &nbsp; - &nbsp; Wins : 0</li>";
+        let doc = new DOMParser().parseFromString(`
+            <li> Player: ${player.username} &nbsp; - &nbsp; Lv: 8 &nbsp; - &nbsp; Wins : 0
+                <div class="lobby__card">
+                    <table class='lobby__card__table'>
+                        `+
+                        player.card.map((value) =>
+                            "<tr>" + value.map((val) => {
+                                if (val == null) {
+                                    return "<th class='null'></th>"
+                                } else {
+                                    return "<th>" + val + "</th>"
+                                }
+                            }).join("")
+                            + "</tr>"
+                        ).join("") +
+                    `</table>
+                </div>
+            </li>
+        `, 'text/html');
+        // playersDiv.innerHTML += "<li>Player: " + player.username + " &nbsp; - &nbsp; Lv: 8 &nbsp; - &nbsp; Wins : 0</li>";
+        playersDiv.appendChild(doc.body.firstChild)
     })
     // let userJoined = parsedData.players[parsedData.players.length - 1]
     // playersDiv.innerHTML = playersDiv.innerHTML + "<li>Player: " + userJoined.username + " &nbsp; - &nbsp; Lv: 8 &nbsp; - &nbsp; Wins : 0</li>";
 
 }
 
-export const modalLobbyPlayers = (socketIO,card) => {
+export const modalLobbyPlayers = (socketIO, card) => {
 
     const controllers = () => {
         let socket = socketIO;
@@ -34,13 +54,13 @@ export const modalLobbyPlayers = (socketIO,card) => {
         socket.on('joined', function (msg) {
             let parsed = JSON.parse(msg);
             let messagesDiv = document.getElementById("listLobbyMessages");
-            
+
             timer.innerText = parsed.countDown;
             // clearInterval(intervalTimer);
-            
-            
-            
-            
+
+
+
+
             console.log(parsed);
             renderPlayersLobby(parsed)
             let userJoined = parsed.players[parsed.players.length - 1]
@@ -49,10 +69,10 @@ export const modalLobbyPlayers = (socketIO,card) => {
         });
         //Event notifying starts the game
         socket.on('starts_game', function (msg) {
-            let div_bg = document.getElementById('div_bg');  
+            let div_bg = document.getElementById('div_bg');
             clearInterval(intervalTimer);
-            div_bg.remove();
-            showModal(inGameLayout(socket,card));
+            // div_bg.remove();
+            showModal(inGameLayout(socket, card));
             //messagesDiv.innerHTML = "";
         });
 

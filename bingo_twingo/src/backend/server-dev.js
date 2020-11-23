@@ -56,6 +56,7 @@ io.on('connect', (socket) => {
     // only known by joined user in order ti avoid fake cards
     let card = {
       id:"card_id_"+playerName,
+      username:playerName,
       cardMatrix:bingoCard.getMatrix(),
       checksum:"checksum card"
     }
@@ -71,7 +72,7 @@ io.on('connect', (socket) => {
     //The most important thing. We register socket in a room 'id'
     //that should be shared by all players on the same game
     socket.join(game.id);
-
+    card.gameID = game.id;
     //SEND TO JOINED USER THE CARD WITH ID AND CHECKSUM
     io.to(socket.id).emit('joined_game', JSON.stringify(card));
 

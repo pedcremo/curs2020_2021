@@ -48,14 +48,14 @@ let debug = (text) => {
 
  let cacheModal;
 
- let showModal = (templateHtml, callback) => {
+ let showModal = (templateHtml, callback, close = true) => {
      let template = templateHtml
      if (templateHtml.template) template = templateHtml.template;
      let parser = new DOMParser();
      let modal = parser.parseFromString(template, "text/html");
  
      /* If exists another modal in cache, the current modal it's deleted before adding another one */
-     if (cacheModal) document.getElementById(cacheModal).remove();
+     if (cacheModal && close == true) document.getElementById(cacheModal).remove();
  
      Array.from(modal.body.children).forEach((item) => {
          //Remove layer If thereis in DOM a div with the same id 
@@ -65,12 +65,12 @@ let debug = (text) => {
  
          /* If the current modal doesn't have any ID, we add a provisional one */
  
-         if (item.id == '' || item.id == null || item.id == undefined) {
+         if (item.id == '' || item.id == null || item.id == undefined && close == true) {
              item.id = 'cacheModal'
          }
  
          /* Save the ID in cache Var */
-         cacheModal = item.id;
+         if (close == true) cacheModal = item.id;
  
          document.body.appendChild(item);
          if (item.className == 'modal')
@@ -80,7 +80,7 @@ let debug = (text) => {
          // When the user clicks on <span> (x), close the modal
          span && span.addEventListener('click', function () {
              item.style.display = "none";
-             if (callback) callback();
+             if (callback && callback != null) callback();
          });
  
      });

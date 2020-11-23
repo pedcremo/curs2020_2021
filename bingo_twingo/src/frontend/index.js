@@ -91,7 +91,7 @@ const app = (() => {
                     debug("SPEEEED");
                     debug(app.speed);
                     myApp = setInterval(getBallFromBombo, app.speed);
-                })
+                },false)
             }, 50);
 
 

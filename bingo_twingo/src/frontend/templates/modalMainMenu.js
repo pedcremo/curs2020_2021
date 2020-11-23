@@ -10,13 +10,19 @@ import { modalPlayers } from './modalPlayers';
 export const modalMainMenu = () => {
 
     const controllers = () => {
-
+        let siteIP = location.host;
+        if (localStorage.getItem('onlineUsername') != '' || localStorage.getItem('onlineUsername') != undefined){
+            document.getElementById('usernameP').value = localStorage.getItem('onlineUsername');
+        }
+        console.log(location.host);
         /* Load background video with mute/hide video options */
-        utils.setupBackgroundVideo(); 
+        // utils.setupBackgroundVideo(); 
 
         console.log("controller mainmenu");
         document.getElementById('playOnline').onclick = function () {
-            const socket = io('ws://localhost:8080', {transports: ['websocket']});
+            localStorage.setItem('onlineUsername',document.getElementById('usernameP').value)
+            // const socket = io('ws://localhost:8080', {transports: ['websocket']});
+            const socket = io('ws://'+siteIP, {transports: ['websocket']});
             socket.on('connect', () => {
                 socket.emit('join', document.getElementById('usernameP').value);
                 console.log("EMIT")
