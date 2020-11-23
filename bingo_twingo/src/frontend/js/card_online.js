@@ -1,4 +1,5 @@
 import {debug} from './core/core.js'; 
+import { app } from '../index';
 
 
 export let BingoCardOnline = (() => {
@@ -26,14 +27,35 @@ export let BingoCardOnline = (() => {
      }
      let render_number = (num)=>{
           let card_numbers = document.getElementsByClassName("card_number_"+num);
-          console.log(card_numbers);
           for(let i = 0; i < card_numbers.length; i++) {
                card_numbers[i].classList.add("extracted");
           }
      }
+
+     let check_bingo = (cardMatrix,extractedBalls,player,socket)=>{
+          let bingo=true;     
+          cardMatrix.forEach((row)=>{
+                let linia = row.filter((val)=> {if (extractedBalls.indexOf(val)<=0) return val }).length;     
+                if (linia>0){
+                   bingo=false; 
+                } 
+                else{
+                   console.log(app.cantar_linea);
+                   if(app.cantar_linea){
+                      console.log("LINEA"+player);
+                      socket.emit('linea', player);
+                   }
+                }       
+          })     
+          if (bingo) {
+                socket.emit('bingo', player)
+                console.log("BINGO"+player);
+          }
+     }
      return {
           render_online_card:render_online_card,
-          render_number:render_number
+          render_number:render_number,
+          check_bingo:check_bingo
       };
  
  })()

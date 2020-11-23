@@ -100,25 +100,29 @@ io.on('connect', (socket) => {
 
   });
 
-  socket.on('bingo',playInfo =>{
-    //game.pubSub.publish("end_game",game.id);
+  socket.on('bingo',player =>{
+    console.log("BINGO!"+JSON.stringify(player));
+
     io.sockets.in(game.id).emit('end_game',game.id);
 
     pubSub.unsubscribe('new_number');  
-    console.log("GAME INFO "+JSON.stringify(game)); 
-    //console.log("bomboTimer "+game.bomboTimer);   
-    //clearInterval(game.bomboTimer);
-    console.log("bingo ->"+JSON.stringify(playInfo));
-    io.sockets.in(game.id).emit('bingo_accepted',playInfo);
+
+    io.sockets.in(game.id).emit('cantar_bingo',player);
     
     //Stop throwing balls from bombo
     let gId=gameController.getGameById(game.id);
     clearInterval(gId.get('bomboInterval'));
   });
 
-  socket.on('linia',playInfo =>{
-    console.log("linia ->"+JSON.stringify(playInfo));
-    io.sockets.in(game.id).emit('linia_accepted',playInfo);
-  });
+  //CHECK LINEA
+  socket.on('linea',player =>{
+    console.log("LINEA!"+JSON.stringify(player));
+    player.checksum=null;
+    io.sockets.in(player.idplay).emit('cantar_linea',player);
+  })
+  // socket.on('linia',playInfo =>{
+  //   console.log("linia ->"+JSON.stringify(playInfo));
+  //   io.sockets.in(game.id).emit('linia_accepted',playInfo);
+  // });
   
 });

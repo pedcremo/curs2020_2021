@@ -30,11 +30,12 @@ const app = (() => {
     let players = []
     let pubSub = new PubSub();
     let stateApp = "stop";
-    // const socket = io('ws://localhost:8080', {transports: ['websocket']});
-    // socket.on('connect', () => {
-    //     socket.emit('join', `POPO`);
-    //     console.log("EMIT")
-    // });
+
+    // ONLINE
+    let player;
+    let extractedBalls = [];
+    let cantar_linea = true;
+
     let offline_mode = () =>{
         //starts offline mode
         showModal(modalPlayers(), start);
@@ -50,11 +51,16 @@ const app = (() => {
             socket.emit('join', username);
         });
         showModal(modalLobby(socket));
+        socket.on('joined_game', function (player_info) {
+            player=player_info;
+            debug(player);
+            // BingoCardOnline.render_online_card(player_info.cardMatrix,player_info.username,'card_lobby')
+        });
         debug("START ONLINE!")
     }
     let start_game_online = (data,socket) =>{
         console.log(data);
-
+        player.idplay = data.id;
         let bombo_online;
         /* Basic template where we are going to render bingo play */
         let doc = new DOMParser().parseFromString(`
@@ -79,12 +85,24 @@ const app = (() => {
         data.players.forEach(player => {
             BingoCardOnline.render_online_card(player.card,player.username,'bingoCards')
         });
-        let extractedBalls = [];
         socket.on('new_number', function (data) {
-            console.log(data);
+            extractedBalls.push(data.num);
             BomboOnline.render_num(data.num)
             BingoCardOnline.render_number(data.num);
+            BingoCardOnline.check_bingo(player.cardMatrix,extractedBalls,player,socket);
+
         });
+
+        socket.on('cantar_linea', function (player_linea) {
+            showModal(modalLiniaBingo(player_linea.username, "linea"))
+            debug("LINEA DEL JUGADOR "+player_linea.username)
+            app.cantar_linea=false;
+         });
+
+         socket.on('cantar_bingo', function (player_bingo) {
+            showModal(modalLiniaBingo(player_bingo.username, "bingo"))
+            debug("BINGO "+player_bingo.username)
+         });
         
 
     }
@@ -110,6 +128,7 @@ const app = (() => {
     }
     /* Start bingo play */
     let start = () => {
+        
         
         /* Basic template where we are going to render bingo play */
         let doc = new DOMParser().parseFromString(`
@@ -201,6 +220,7 @@ const app = (() => {
         offline_mode:offline_mode,
         online_mode:online_mode,
         start_game_online:start_game_online,
+        cantar_linea:cantar_linea,
         toggle: () => {
             (stateApp == "run") ? stop() : start();
         },
