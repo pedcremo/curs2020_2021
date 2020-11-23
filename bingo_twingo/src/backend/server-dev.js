@@ -48,7 +48,7 @@ io.on('connect', (socket) => {
   //Only one pubSub instance per socket room 
   let pubSub = new PubSub();
   let game;
-  console.log("NEVER REACHED");
+  //console.log("NEVER REACHED");
   //A player wants to join a bingo game
   socket.on('join', playerName => {
     let bingoCard = new BingoCard(playerName);

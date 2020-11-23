@@ -8,8 +8,9 @@ let renderBalls = () => {
     document.getElementById('balls').innerHTML = `${Array.from({length:90},(_,i) => i + 1).map(ball => `<div class='bingoBallEmpty' id='${ball}'>${ball}</div>`).join("")}`;
 }
 
-let renderCard = (divRoot,extractedBalls=[],cardMatrix,player) => {
+let renderCard = (extractedBalls=[],cardMatrix,player) => {
     // console.log(cardMatrix);
+    
     let out =`<h1>Player ${player}</h1>
          <table class='bingoCard'>
             
@@ -20,7 +21,11 @@ let renderCard = (divRoot,extractedBalls=[],cardMatrix,player) => {
                         return "<th class='nulo'></th>"
                    }else{
                         if (extractedBalls && extractedBalls.indexOf(val) >= 0){
-                             return "<th class='extracted'>"+val+"</th>";                                  
+                            if (val===extractedBalls[extractedBalls.length-1]){
+                                return "<th class='extracted blink'>"+val+"</th>";                                  
+                            }else{
+                                return "<th class='extracted'>"+val+"</th>";                                  
+                            }
                         }else{
                              return "<th>"+val+"</th>"
                         }
@@ -28,8 +33,8 @@ let renderCard = (divRoot,extractedBalls=[],cardMatrix,player) => {
               +"</tr>"                          
               ).join("")+
          `</table>`;
-
-    divRoot.innerHTML = out;
+    document.getElementById(player).innerHTML = out;
+    //divRoot.innerHTML = out;
     
     // checkBingo(cardMatrix,extractedBalls,player);   
     //return out;
@@ -48,23 +53,27 @@ export const inGameLayout = (socketIO, card,otherPlayers) => {
         let lastBall;
         let divRoot = document.createElement('div');
         divRoot.classList.add('bingoCardLayout');
+        divRoot.setAttribute("id",card.username);
         document.getElementById('bingoCards').appendChild(divRoot);
         // console.log("++++++++++++++++");
         // console.log(card.cardMatrix);
-        renderCard(divRoot,extractedBalls,card.cardMatrix,card.username);
+        renderCard(extractedBalls,card.cardMatrix,card.username);
         debugger
         otherPlayers.forEach((otherPlayer) => {
-            debugger
-            renderCard(divRoot,extractedBalls,otherPlayer.card,otherPlayer.username)
+            let divRoot = document.createElement('div');
+            divRoot.classList.add('bingoCardLayoutOther');
+            divRoot.setAttribute("id",otherPlayer.username);
+            document.getElementById('bingoCards').appendChild(divRoot);
+            renderCard(extractedBalls,otherPlayer.card,otherPlayer.username)
 
         });
         renderBalls();
         socket.on('new_number', function (msg) {
             // console.log(msg);
             extractedBalls.push(msg.num)
-            renderCard(divRoot,extractedBalls,card.cardMatrix,card.username);
+            renderCard(extractedBalls,card.cardMatrix,card.username);
             otherPlayers.forEach((otherPlayer) =>
-                renderCard(divRoot,extractedBalls,otherPlayer.card,otherPlayer.username)
+                renderCard(extractedBalls,otherPlayer.card,otherPlayer.username)
             );
         
             checkBingo(card,extractedBalls,line_status);   

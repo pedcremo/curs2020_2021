@@ -9,7 +9,7 @@ import { PubSub } from './js/core/pubSub.js';
 import { modalPlayers, setupAudioBingoWin } from './templates/modalPlayers.js';
 import { modalLiniaBingo } from './templates/modalLiniaBingo.js';
 import { modalMainMenu } from './templates/modalMainMenu.js';
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
 /**
  * Within the app constant(closure), we have defined several variables with anonymous functions which are responsible for starting and stopping the game
  * As for the start variable, it is where we have the subscription patterns, 
@@ -20,7 +20,7 @@ import io from 'socket.io-client';
 const app = (() => {
 
     let myApp;
-    const speed = 2000; //2 seconds
+    const speed = 3000; //2 seconds
     let bombo;
     let players = []
     let pubSub = new PubSub();
