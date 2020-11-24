@@ -2,7 +2,6 @@ import { debug, clearModal, showModal } from '../js/core/core';
 import '../css/ingame.css';
 import { modalLiniaBingo } from './modalLiniaBingo.js';
 import { modalMainMenu } from './modalMainMenu.js';
-//import * as utils from '../js/utils.js';
 
 //Render bingo bombo
 let renderBalls = () => {
@@ -35,18 +34,12 @@ let renderCard = (extractedBalls=[],cardMatrix,player) => {
               ).join("")+
          `</table>`;
     document.getElementById(player).innerHTML = out;
-    //divRoot.innerHTML = out;
-    
-    // checkBingo(cardMatrix,extractedBalls,player);   
-    //return out;
 }
 
 export const inGameLayout = (socketIO, card,otherPlayers) => {
 
-    const controllers = () => {
+    const controllers = () => {       
        
-        console.log(otherPlayers);
-        // console.log(card);
         let socket = socketIO;
         let line_status = false;
         let bingo_status = false;
@@ -69,7 +62,7 @@ export const inGameLayout = (socketIO, card,otherPlayers) => {
             document.getElementById('bingoCards').appendChild(divRoot);
             renderCard(extractedBalls,otherPlayer.card,otherPlayer.username)
         });
-        
+
         //Render bombo
         renderBalls();
 
