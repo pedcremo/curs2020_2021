@@ -1,8 +1,15 @@
 import { debug, clearModal, showModal } from '../js/core/core';
 import '../css/modalLobbyPlayers.css';
-import * as utils from '../js/utils.js'
+//import * as utils from '../js/utils.js'
 import { inGameLayout } from './inGameLayout';
 
+/*
+In this modal we show who has been connected to the online bingo game
+and what is left in seconds before playing starts
+*/
+
+
+/* Players who are joining the game */
 let renderPlayersLobby = (parsedData) => {
     let playersDiv = document.getElementById('listLobbyPlayers');
     playersDiv.innerHTML = '';
@@ -26,14 +33,11 @@ let renderPlayersLobby = (parsedData) => {
                 </div>
             </li>
         `, 'text/html');
-        // playersDiv.innerHTML += "<li>Player: " + player.username + " &nbsp; - &nbsp; Lv: 8 &nbsp; - &nbsp; Wins : 0</li>";
         playersDiv.appendChild(doc.body.firstChild)
-    })
-    // let userJoined = parsedData.players[parsedData.players.length - 1]
-    // playersDiv.innerHTML = playersDiv.innerHTML + "<li>Player: " + userJoined.username + " &nbsp; - &nbsp; Lv: 8 &nbsp; - &nbsp; Wins : 0</li>";
-
+    })   
 }
 
+/* Main modal */
 export const modalLobbyPlayers = (socketIO, card) => {
 
     const controllers = () => {
@@ -47,37 +51,36 @@ export const modalLobbyPlayers = (socketIO, card) => {
 
         let intervalTimer = setInterval(() => {
             let time = timer.innerText;
-            let current = (time - 1);
-            console.log("interval");
+            let current = (time - 1);            
             timer.innerText = current;
         }, 1000);
-
+        
+        /* When a user is joined to the game socket.io even joined is triggered and we render the information in this modal */
         socket.on('joined', function (msg) {
-            
+            //The returned server message (msg) is information about players nicknames and their bingo cards
             let parsed = JSON.parse(msg);
+            //We store other players cards and names to render in our browser
             otherPlayers = parsed.players.filter((item) => item.username!=card.username)
            
             let messagesDiv = document.getElementById("listLobbyMessages");
-
+            //Countdown to start the game
             timer.innerText = parsed.countDown;
-            // clearInterval(intervalTimer);
-
-            console.log(parsed);
+            
+            //We pass parsed msg to therender
             renderPlayersLobby(parsed)
+            //Get last player joined 
             let userJoined = parsed.players[parsed.players.length - 1]
             let notif = userJoined.username + " has joined to the game"
             
             messagesDiv.innerHTML = messagesDiv.innerHTML + "<li>" + notif + "</li>";
         });
-        //Event notifying starts the game
+        //Event notifying game starts. It's triggered by server
         socket.on('starts_game', function (msg) {
             let div_bg = document.getElementById('div_bg');
             clearInterval(intervalTimer);
-            // div_bg.remove();           
+            //Modal where we render online game: bombo, player card and others players cards            
             showModal(inGameLayout(socket, card, otherPlayers));
-            //messagesDiv.innerHTML = "";
         });
-
     }
 
     return {

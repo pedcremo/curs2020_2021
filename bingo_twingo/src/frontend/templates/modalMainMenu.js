@@ -3,44 +3,34 @@ import { app } from '../index.js';
 import '../css/modalMainMenu.css';
 import * as utils from '../js/utils.js'
 import { modalLobbyPlayers } from './modalLobbyPlayers.js';
-// import io from '../js/core/socket.io.js';
 import io from 'socket.io-client'
 import { modalPlayers } from './modalPlayers';
 
 export const modalMainMenu = () => {
 
     const controllers = () => {
-        let siteIP = location.host;
+        let siteIP = location.host;//returns the hostname and port of a URL. DOM api
+        
         if (localStorage.getItem('onlineUsername') != '' || localStorage.getItem('onlineUsername') != undefined){
             document.getElementById('usernameP').value = localStorage.getItem('onlineUsername');
         }
-        console.log(location.host);
-        /* Load background video with mute/hide video options */
-        // utils.setupBackgroundVideo(); 
-
-        console.log("controller mainmenu");
+       
         document.getElementById('playOnline').onclick = function () {
             localStorage.setItem('onlineUsername',document.getElementById('usernameP').value)
-            // const socket = io('ws://localhost:8080', {transports: ['websocket']});
             const socket = io('ws://'+siteIP, {transports: ['websocket']});
             socket.on('connect', () => {
-                socket.emit('join', document.getElementById('usernameP').value);
-                console.log("EMIT")
+                socket.emit('join', document.getElementById('usernameP').value);                
             });
 
-            /* Event triggered once a user joins a 
-            * game and get a ramdom card with unique id that 
+            /* Event triggered once a user joins an 
+            * online game and get a ramdom card with unique id that 
             * should not be shared
             */
-           socket.on('joined_game', function (msg) {
-            // let messagesDiv = document.getElementById("chatMessages");
-            console.log(msg);
-            let card = JSON.parse(msg)
-            // messagesDiv.innerHTML = "<li style='background-color: red'>" + msg + "</li>" + messagesDiv.innerHTML;
-            showModal(modalLobbyPlayers(socket,card))
-         });
-
-            
+            socket.on('joined_game', function (msg) {           
+                let card = JSON.parse(msg)
+                //Online game            
+                showModal(modalLobbyPlayers(socket,card))
+            });           
         }
 
         // Offline Game

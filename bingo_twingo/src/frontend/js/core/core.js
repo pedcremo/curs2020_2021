@@ -36,6 +36,8 @@ let debug = (text) => {
  *  https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
  */
 
+
+let cacheModal;
  /**
   * Function ShowModal
   * This function is use to implement the diferents modal that we use in the app
@@ -44,10 +46,6 @@ let debug = (text) => {
   * @param {*} templateHtml 
   * @param {*} callback 
   */
-
-
- let cacheModal;
-
  let showModal = (templateHtml, callback, close = true) => {
      let template = templateHtml
      if (templateHtml.template) template = templateHtml.template;
@@ -89,7 +87,7 @@ let debug = (text) => {
          document.getElementById(cacheModal).remove();
          cacheModal = undefined;
      }
- 
+     //Very Important.Apply controler over template defined in the same template file
      if (templateHtml.controllers) templateHtml.controllers();
      
  }
