@@ -23,6 +23,7 @@ Go to dist/ folder and serve your web app:
 `Open browser in http://YOUR_IP:8080`
 
 
+# Project technology background 
 
 Expack is the bare-bones Express and Webpack boilerplate with ES6+ babel transpilation, ESLint linting, Hot Module Reloading, and Jest test framework enabled.
 
