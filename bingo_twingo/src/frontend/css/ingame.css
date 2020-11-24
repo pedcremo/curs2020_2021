@@ -35,7 +35,7 @@
     text-align: center;
     box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.4);
     border-radius: 30px;
-    background-color: rgb(167, 192, 247);
+    /* background-color: rgb(167, 192, 247); */
     padding-bottom: 20px;
 }
 .bingoCardLayoutOther {
@@ -47,7 +47,7 @@
     text-align: center;
     box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.4);
     border-radius: 30px;
-    background-color: rgb(16, 219, 224);
+    background-color:lightgray;
     padding-bottom: 20px;
 }
 .bingoCardLayout h1 {
@@ -90,7 +90,7 @@ table.bingoCard {
 .bingoBall {
     height: auto;
     width: 8%;
-    background-color: green;
+    background-color:#fa87cd;
     border-radius: 50%;
     display: inline-block;
     font-size: 3vw;
