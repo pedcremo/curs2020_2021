@@ -1,29 +1,5 @@
 # BINGO TWINGO
-Bingo twingo is a web application development project in offline and online mode (using websockets with socket.io) that consists of a traditional online bingo game to play without an internet connection or online with other remote players. Its fast and funny and doesn't require any kind of sign in, sing up, fuck up, cookie hell... and all the annoying things usually around modern web apps.
-
-Has been developed as single page application with RAW ES6 javascript. The only third party library used in frontend has been socket_io_client.
-
-In backend (server side) we use nodejs + express + socket.io
-
-DEMO HERE ->
-
-# Start developing
-`npm intall`   (only once)
-`npm buildDev`
-`npm start`
-`Open browser http://localhost:8080`
- 
-
-# Deploying in production 
-`npm buildProd`
-
-Now in dist folder we have all javascripts, css,assets ... optimized to deploy.
-Go to dist/ folder and serve your web app:
-`node server.js`
-`Open browser in http://YOUR_IP:8080`
-
-
-# Project technology background 
+Bingo twingo is a web application development project in offline mode that consists of a traditional online bingo to play without an internet connection.
 
 Expack is the bare-bones Express and Webpack boilerplate with ES6+ babel transpilation, ESLint linting, Hot Module Reloading, and Jest test framework enabled.
 

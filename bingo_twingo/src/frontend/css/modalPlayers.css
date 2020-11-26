@@ -34,12 +34,12 @@
     overflow-y: scroll;
 }
 
-#listPlayers {
+ol {
     color: #ccc;
     list-style-type: none;
 }
 
-#listPlayers li {
+ol li {
     width: 90%;
     height: 40px;
     margin-top: 4px;
@@ -53,27 +53,27 @@
     position: relative;
 }
 
-#listPlayers li:hover {
+ol li:hover {
     background-color: rgb(233, 233, 233);
 }
 
-#listPlayers li * {
+ol li * {
     display: inline;
     color: rgb(19, 19, 19);
 }
 
-#listPlayers li *:first-child {
+ol li *:first-child {
     margin-right: 20px;
     color: black;
 }
 
-#listPlayers li .removePlayer {
+ol li .removePlayer {
     cursor: pointer;
     font-size: 30px;
     user-select: none;
 }
 
-#listPlayers li .removePlayer:active, ol li .removePlayer:hover {
+ol li .removePlayer:active, ol li .removePlayer:hover {
     color: red
 }
 

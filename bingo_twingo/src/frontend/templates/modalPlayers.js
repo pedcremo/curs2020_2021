@@ -1,5 +1,5 @@
-import video from '../assets/videos/los_bingueros.mp4';
-import audio from '../assets/audios/Bingo Sound Effect.mp3';
+import video from '../videos/los_bingueros.mp4';
+import audio from '../audios/Bingo Sound Effect.mp3';
 import { app } from '../index.js';
 import { debug, clearModal } from '../js/core/core';
 import '../css/modalPlayers.css';
@@ -44,7 +44,7 @@ export function setupAudioBingoWin() {
     document.body.appendChild(bingoAudio);
 }
 
-export const modalPlayers = () => {
+export const modalPlayers = (onlineMode) => {
 
     const controllers = () => {
         let playersNames = JSON.parse(localStorage.getItem('playersNames')) || [];
@@ -70,7 +70,7 @@ export const modalPlayers = () => {
                 })
                 uList.appendChild(li);
             });
-            document.getElementById('remainingPlayersSpan').innerHTML = "Players: "+playersNames.length + "/50 "; // At the moment the max players are static
+            document.getElementById('remainingPlayersSpan').innerHTML = "Players: " + playersNames.length + "/50 "; // At the moment the max players are static
         }
 
         /*
@@ -108,7 +108,7 @@ export const modalPlayers = () => {
         }
 
 
-        
+
         /**
          * Add player on press enter key
          */
@@ -118,7 +118,7 @@ export const modalPlayers = () => {
                 document.getElementById("addplayer").click();
             }
         });
-      
+
         /**
          * Here you have the set interval  time options
          */
@@ -140,15 +140,15 @@ export const modalPlayers = () => {
             if (event.target.value <= 0) event.target.value = 0.1;
             if (event.target.value > 5) event.target.value = 5;
         });
-       
-     
+
+
         let remove_video = document.getElementById('remove_video');
         let div_bg = document.getElementById('div_bg');
 
         /**
          * On click play Button, game starts.
          */
-        
+
         let playBtn = document.getElementById('playBtn');
         playBtn.onclick = function () {
             if (playersNames.length !== 0 && playersNames != undefined) { //Check there are players added to the game
@@ -166,7 +166,7 @@ export const modalPlayers = () => {
         /**
          * Mute and unmute the background video button
          */
-        
+
         let unmuteBtn = document.getElementById('unmuteBtn');
         let videoEl = document.getElementById('videoBackground');
         unmuteBtn.onclick = function () {
@@ -177,7 +177,7 @@ export const modalPlayers = () => {
         /**
          * Remove / show video background
          */
-        
+
         remove_video.onclick = function () {
             if (this.classList.contains('off--red')) {
                 this.className = "fas fa-video-slash btn--removebg"
@@ -194,11 +194,11 @@ export const modalPlayers = () => {
         */
 
         let exportBtn = document.getElementById('export');
-        exportBtn.addEventListener('click', function() {    
+        exportBtn.addEventListener('click', function () {
             let players = JSON.parse(localStorage.getItem("playersNames")).map(e => e);
             if (players.length != 0) {
-                let csvContent = "data:text/csv;charset=utf-8," 
-                + players;
+                let csvContent = "data:text/csv;charset=utf-8,"
+                    + players;
                 let encodedUri = encodeURI(csvContent);
                 var link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
@@ -216,8 +216,8 @@ export const modalPlayers = () => {
         */
 
         let importBtn = document.getElementById('import');
-        importBtn.addEventListener('click', function() {    
-            let link = document.getElementById('import-file');             
+        importBtn.addEventListener('click', function () {
+            let link = document.getElementById('import-file');
             link.click();
         });
 
@@ -227,8 +227,8 @@ export const modalPlayers = () => {
             if (files[0].type == "text/csv") {
                 let reader = new FileReader;
                 reader.readAsText(files[0]);
-                reader.onload = function(e) {
-                    localStorage.setItem("playersNames",JSON.stringify(reader.result.split(',')));
+                reader.onload = function (e) {
+                    localStorage.setItem("playersNames", JSON.stringify(reader.result.split(',')));
                     renderPlayerList();
                     input_file.value = "";
                 };
@@ -236,7 +236,32 @@ export const modalPlayers = () => {
             } else {
                 document.getElementById('msg--err').innerHTML = "\u26A0  The file isn't valid"
             }
-          }, false);
+        }, false);
+
+
+        /* ONLINE GAME */
+
+        // /* create room */
+        // let createRoomButton = document.getElementById('createRoom')
+        // createRoomButton.addEventListener('click', function () {
+        //     let roomName = document.getElementById('roomName').value
+        //     if (roomName.length < 3) {
+        //         alert("El nombre de la sala tiene que ser superior a 3 caracteres")
+        //         return 0
+        //     }
+        //     onlineMode.createRoom(roomName)
+        // });
+
+        /* join room */
+        let joinRoomButton = document.getElementById('joinRoom')
+        joinRoomButton.addEventListener('click', function () {
+            let playerName = document.getElementById('playerName').value
+            if (playerName.length < 3) {
+                alert("El nombre del jugador tiene que ser superior a 3 caracteres")
+                return 0
+            }
+            onlineMode.joinRoom(playerName)
+        });
     }
 
     return {
@@ -267,6 +292,13 @@ export const modalPlayers = () => {
                         </div>    
                     </div>
                     <span class="remainingPlayers" id="remainingPlayersSpan"></span>
+                </div>
+                <div class="modal-content-export">
+                    <h3>Online Game</h3><br>
+                    <input type="text" id="playerName" value="Name"/>
+                    <!--<button id="createRoom" class="button">Create Room</button>-->
+                    <button id="joinRoom" class="button">Join Room</button>
+                    <!--<input type="text" id="roomName"/>-->
                 </div>
                 <div class="modal-content-export">
                     <h3>Game settings</h3>

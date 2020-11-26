@@ -48,15 +48,17 @@ io.on('connect', (socket) => {
   //Only one pubSub instance per socket room 
   let pubSub = new PubSub();
   let game;
-  //console.log("NEVER REACHED");
+  console.log("NEVER REACHED");
+
+
   //A player wants to join a bingo game
   socket.on('join', playerName => {
+    console.log("buenas tardes");
     let bingoCard = new BingoCard(playerName);
     // We create a random id in order to create a hash
-    // only known by joined user in order ti avoid fake cards
+    // only known by joined user in order to avoid fake cards
     let card = {
       id:"card_id_"+playerName,
-      username:playerName,
       cardMatrix:bingoCard.getMatrix(),
       checksum:"checksum card"
     }
@@ -72,7 +74,7 @@ io.on('connect', (socket) => {
     //The most important thing. We register socket in a room 'id'
     //that should be shared by all players on the same game
     socket.join(game.id);
-    card.gameID = game.id;
+
     //SEND TO JOINED USER THE CARD WITH ID AND CHECKSUM
     io.to(socket.id).emit('joined_game', JSON.stringify(card));
 
@@ -92,19 +94,15 @@ io.on('connect', (socket) => {
     });
     //The publishers of this event is gameController and when bingo
     //is shooted
-    // pubSub.subscribe("end_game", (data) => {
-    //   io.sockets.in(data).emit('end_game',data);
-    // });
+    pubSub.subscribe("end_game", (data) => {
+      io.sockets.in(game.id).emit('end_game',data);
+    });
 
-  });
-
-  socket.on('disconnect',(info) => {
-    console.log("DISCONNECTED");
-    console.log(info);
   });
 
   socket.on('bingo',playInfo =>{
-    
+    //game.pubSub.publish("end_game",game.id);
+    io.sockets.in(game.id).emit('end_game',game.id);
 
     pubSub.unsubscribe('new_number');  
     console.log("GAME INFO "+JSON.stringify(game)); 
@@ -116,17 +114,10 @@ io.on('connect', (socket) => {
     //Stop throwing balls from bombo
     let gId=gameController.getGameById(game.id);
     clearInterval(gId.get('bomboInterval'));
-    // pubSub.publish("end_game",game.id);
-    io.sockets.in(game.id).emit('end_game',game.id);
-    // io.sockets.in(game.id).clients((error, socketIds) => {
-    //   if (error) throw error;
-    //   socketIds.forEach(socketId => io.sockets.sockets[socketId].leave(game.id));
-    // });
   });
 
   socket.on('linia',playInfo =>{
     console.log("linia ->"+JSON.stringify(playInfo));
     io.sockets.in(game.id).emit('linia_accepted',playInfo);
   });
-  
 });

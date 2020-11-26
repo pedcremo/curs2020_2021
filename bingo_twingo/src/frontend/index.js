@@ -8,8 +8,7 @@ import { BingoCard } from './js/card.js';
 import { PubSub } from './js/core/pubSub.js';
 import { modalPlayers, setupAudioBingoWin } from './templates/modalPlayers.js';
 import { modalLiniaBingo } from './templates/modalLiniaBingo.js';
-import { modalMainMenu } from './templates/modalMainMenu.js';
-
+import io from 'socket.io-client';
 /**
  * Within the app constant(closure), we have defined several variables with anonymous functions which are responsible for starting and stopping the game
  * As for the start variable, it is where we have the subscription patterns, 
@@ -20,11 +19,15 @@ import { modalMainMenu } from './templates/modalMainMenu.js';
 const app = (() => {
 
     let myApp;
-    const speed = 3000; //in miliseconds
+    const speed = 2000; //2 seconds
     let bombo;
     let players = []
     let pubSub = new PubSub();
     let stateApp = "stop";
+    let socket = io('ws://localhost:8080', { transports: ['websocket'] });
+
+
+    /* OFFLINE MODE */
 
     /* Every time runs pick a ball from bombo bingo game */
     let getBallFromBombo = () => {
@@ -35,7 +38,7 @@ const app = (() => {
         if (num) {
             pubSub.publish("New Number", bombo.getExtractedNumbers());
 
-        /* otherwise means bombo is running out of ball and we should finish the game */    
+            /* otherwise means bombo is running out of ball and we should finish the game */
         } else {
             stop();
         }
@@ -48,7 +51,7 @@ const app = (() => {
     }
     /* Start bingo play */
     let start = () => {
-        
+
         /* Basic template where we are going to render bingo play */
         let doc = new DOMParser().parseFromString(`
             <div class="gameLayout">
@@ -77,9 +80,8 @@ const app = (() => {
         /* Subscribe app to LINIA event. When this occurs
         we show up a modal with the player awarded and a gif animation 
         obviously we stop bingo playing until modal is closed 
-        */        
+        */
         pubSub.subscribe("LINIA", (player) => {
-            debug("Linia");            
             /* Stop bingo playing */
             stop();
             /* As linia only could be awarded once per playing we delete that event
@@ -88,10 +90,8 @@ const app = (() => {
             /* Show modal */
             setTimeout(function () {
                 showModal(modalLiniaBingo(player, "linea"), function () {
-                    debug("SPEEEED");
-                    debug(app.speed);
                     myApp = setInterval(getBallFromBombo, app.speed);
-                },false)
+                })
             }, 50);
 
 
@@ -111,7 +111,7 @@ const app = (() => {
                 // clearModal("bingoCard") BUG
                 showModal(modalLiniaBingo(player, "bingo"), function () {
                     document.getElementById('sound').remove();//remove div audio sound
-                    showModal(modalMainMenu());
+                    showModal(modalPlayers(), app.start);
 
                 })
 
@@ -134,6 +134,164 @@ const app = (() => {
         myApp = setInterval(getBallFromBombo, app.speed);
     }
 
+
+    /* ONLINE MODE */
+
+    let onlineMode = () => {
+
+        let cardMatrix = []
+        let extractedBalls = []
+        let onlineName = ""
+        let lineDone = false
+
+
+        let renderPanel = (extractedBall) => {
+            // render panel
+            (extractedBalls.length > 1) && (document.getElementById(extractedBalls[extractedBalls.length - 2]).className = "bingoBall")
+            document.getElementById(extractedBall).className = "bingoBall blink"
+        }
+
+        let renderCards = (extractedBall) => {
+            if (extractedBalls.length > 1) {
+                let previousMatches = Array.from(document.getElementsByClassName("card-" + extractedBalls[extractedBalls.length - 2]))
+                console.log(previousMatches);
+                previousMatches.forEach(numero => {
+                    numero.style.backgroundColor = "green"
+                });
+            }
+
+            let matches = Array.from(document.getElementsByClassName("card-" + extractedBall))
+            matches.forEach(numero => {
+                numero.style.backgroundColor = "#ef70eb"
+            });
+        }
+
+
+        /* EMIT */
+
+        let joinRoom = (playerName) => {
+            socket.emit('join', playerName)
+            onlineName = playerName
+
+            clearModal('modal')
+            clearModal('bg')
+
+            /* Layer where initial background video has been loaded we
+            need to remove it as we are going to start playing */
+            let videoEl = document.getElementById('videoBackground');
+            if (videoEl) videoEl.remove();
+
+            /* Basic template where we are going to render bingo play */
+            let doc = new DOMParser().parseFromString(`
+            <div class="gameLayout">
+                <div id="bingoCards" class="cards"></div>
+                <div class="panel">
+                    <div id="balls" class="balls__grid"></div>
+                </div>
+                <h3 class="newPlayers">Waiting for other players...<h3/>
+            </div>
+            `, 'text/html');
+
+            let layout = doc.body.firstChild;
+            document.getElementById('main').appendChild(layout);
+
+            if (pubSub) pubSub.subscribe("GET-NUMBER", renderPanel);
+
+            bombo = new Bombo(document.getElementById('balls'));
+        }
+
+        /* RECEIVE */
+
+        /** When a player joins a game */
+        socket.on('joined_game', (data) => {
+            data = JSON.parse(data)
+            cardMatrix = data.cardMatrix
+        })
+
+        /** When another/self player joined a game */
+        socket.on('joined', (data) => {
+            data = JSON.parse(data)
+            
+            let out = `
+            ${data.prayers.map((player) => {
+                return `
+                <div class="bingoCardLayout">
+                    <h1>Player ${player.username}</h1>
+                    <table class='bingoCard'>
+                        `+
+                    player.card.map((value) =>
+                        "<tr>" + value.map((val) => {
+                            if (val == null) {
+                                return "<th class='nulo'></th>"
+                            } else {
+                                return "<th class='card-" + + val + "'>" + val + "</th>"
+                            }
+                        }).join("")
+                        + "</tr>"
+                    ).join("") +
+                    `</table>
+                 </div>`;
+            })}`
+            document.getElementById('bingoCards').innerHTML = out;
+
+            pubSub.subscribe("CARD-NUMBER", renderCards)
+        })
+
+        /** Game starts */
+        socket.on('starts_game', (data) => {
+            console.log("starts_game", data);
+            clearModal('newPlayers')
+        })
+
+        /** New number is out the bombo and must check linea and bingo */
+        socket.on('new_number', (data) => {
+            extractedBalls.push(data.num)
+            pubSub.publish("GET-NUMBER", data.num)
+            pubSub.publish("CARD-NUMBER", data.num)
+
+            //check linea
+
+
+            //check bingo
+            let bingo = true;
+            cardMatrix.forEach((row) => {
+                let linia = row.filter((val) => { if (extractedBalls.indexOf(val) <= 0) return val }).length;
+                if (linia > 0) bingo = false;
+                else if (!lineDone) {
+                    lineDone = true
+                    socket.emit('linia', onlineName)
+                }
+            })
+
+            if (bingo) {
+                socket.emit('bingo', onlineName)
+            }
+        })
+
+        /** When a linea is accepted by the server */
+        socket.on('linia_accepted', (data) => {
+            lineDone = true;
+            showModal(modalLiniaBingo("player", "linea"), function () { })
+        })
+
+        /** When the bingo is accepted by the server */
+        socket.on('bingo_accepted', (data) => {
+            showModal(modalLiniaBingo("player", "bingo"), function () {
+                showModal(modalPlayers(onlineMode()), app.start);
+            })
+        })
+
+        /** Ends the game */
+        socket.on('end_game', (data) => {
+            // console.log("end_game", data);
+        })
+
+
+        return {
+            joinRoom: joinRoom
+        }
+    }
+
     /* Return start and stop function and play speed */
     return {
         start: start
@@ -141,13 +299,15 @@ const app = (() => {
         toggle: () => {
             (stateApp == "run") ? stop() : start();
         },
+        onlineMode: onlineMode,
         speed: speed
     };
 
 })();
+
 /* Real entry point to our bingo app. Show modals to choose players and
  when closed start bingo playing (callback) */
- docReady(() => showModal(modalMainMenu()));
+docReady(() => showModal(modalPlayers(app.onlineMode()), app.start));
 
 
 export { app };

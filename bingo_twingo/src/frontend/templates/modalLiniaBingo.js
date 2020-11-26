@@ -2,12 +2,12 @@
  * Bingo and line template
  */
 
-import linea1 from '../assets/images/linia.gif'
-import linea2 from '../assets/images/linia2.gif'
-import linea3 from '../assets/images/linia3.gif'
-import bingo1 from '../assets/images/bingo.gif'
-import bingo2 from '../assets/images/bingo2.gif'
-import bingo3 from '../assets/images/bingo3.gif'
+import linea1 from '../images/linia.gif'
+import linea2 from '../images/linia2.gif'
+import linea3 from '../images/linia3.gif'
+import bingo1 from '../images/bingo.gif'
+import bingo2 from '../images/bingo2.gif'
+import bingo3 from '../images/bingo3.gif'
 
 /**
  * Here we put the different line and bingo gifs in an arrangement

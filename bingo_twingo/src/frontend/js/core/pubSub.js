@@ -18,6 +18,7 @@ export class PubSub {
         }
       })
     }
+    
     unsubscribe(event) {
       let indexToRemove=[];
       this.handlers.forEach((topic,index) => {

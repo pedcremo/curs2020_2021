@@ -1,4 +1,4 @@
-body {background-color: #88cefa;}
+body {background-color: white;}
 #videoBackground {
     position: fixed;
     right: 0;
@@ -14,25 +14,17 @@ body {background-color: #88cefa;}
     top: 450px;
 }
 th.extracted{
-    background-color:#fa87cd;
+    background-color:green;
     color:white;
 }
 .nulo{
-    background-color: lightskyblue;
+    background-color: gray;
 }
 table.bingoCard {
     border: 5px solid black;
     border-radius:25px;
     -moz-border-radius:25px;
     font-size: 40px;
-}
-table.bingoCard th {
-    border: 1px solid lightskyblue;
-    padding:0px;
-    margin:0px;
-}
-table.tr {
-    border:1px solid black;
 }
 
 /* The Modal (background) */
@@ -66,7 +58,6 @@ table.tr {
     flex-direction: column;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     align-items: center;
-    margin-top: 80px;
   }
   .modal-content img{
       display: block;
@@ -130,11 +121,11 @@ table.tr {
     animation: blink-animation 0.5s linear infinite;
   }
   @keyframes blink-animation {  
-    0% { background-color: #cefa87; }
+    0% { background-color: rgb(255, 0, 242); }
     100% { background-color: #bbb;; }
   }
   @-webkit-keyframes blink-animation {
-      0% { background-color: #cefa87; }
+      0% { background-color: rgb(255, 0, 221); }
     100% { background-color: #bbb; }
   } 
 
@@ -232,4 +223,14 @@ table.tr {
 
   .modal-content-export h3 {
     margin: 7px;
+  }
+
+  /*ONLINE MODE*/
+
+  .newPlayers {
+    position: absolute;
+    font-weight: bold;
+    color: #4CAF50;
+    top: 70%;
+    left: 10%;
   }

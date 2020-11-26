@@ -5,7 +5,7 @@ const PubSub = require('./pubSub.js');
 const gameController = () => {    
     let currentGame=new Map();    
     const secsUntilBegin = 10;
-    const maxUsers = 10;
+    const maxUsers = 3;
     let countDown;
     
     //Maps id -> Map object with game informations
@@ -57,7 +57,7 @@ const gameController = () => {
                         console.log('Arre GAT')
                     }
                     console.log("bomboInterval->"+idPlay)
-                }, 3000);
+                }, 1000);
                 
                 //currentGame.set('bomboTimer',bomboInterval);
                 //realGame = new Map(currentGame);
@@ -87,7 +87,7 @@ const gameController = () => {
             }
             
         }
-        return {id:currentGame.get('id'),players:currentGame.get('listPlayers'),countDown:currentGame.get('countDown'),bomboCongo:bomboInterval}
+        return {id:currentGame.get('id'),prayers:currentGame.get('listPlayers'),countDown:currentGame.get('countDown'),bomboCongo:bomboInterval}
 
     } 
 

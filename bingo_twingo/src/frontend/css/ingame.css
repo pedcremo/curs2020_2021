@@ -35,21 +35,10 @@
     text-align: center;
     box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.4);
     border-radius: 30px;
-    /* background-color: rgb(167, 192, 247); */
+    background-color: rgb(167, 192, 247);
     padding-bottom: 20px;
 }
-.bingoCardLayoutOther {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    max-height: 250px;
-    align-items: center;
-    text-align: center;
-    box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.4);
-    border-radius: 30px;
-    background-color:lightgray;
-    padding-bottom: 20px;
-}
+
 .bingoCardLayout h1 {
     font-family: 'Courier New', Courier, monospace;
 }
@@ -90,7 +79,7 @@ table.bingoCard {
 .bingoBall {
     height: auto;
     width: 8%;
-    background-color:#fa87cd;
+    background-color: green;
     border-radius: 50%;
     display: inline-block;
     font-size: 3vw;
