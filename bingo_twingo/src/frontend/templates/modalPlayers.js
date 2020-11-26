@@ -70,7 +70,7 @@ export const modalPlayers = () => {
                 })
                 uList.appendChild(li);
             });
-            document.getElementById('remainingPlayersSpan').innerHTML = "Players: "+playersNames.length + "/50 "; // At the moment the max players are static
+            document.getElementById('remainingPlayersSpan').innerHTML = "Players: " + playersNames.length + "/50 "; // At the moment the max players are static
         }
 
         /*
@@ -108,7 +108,7 @@ export const modalPlayers = () => {
         }
 
 
-        
+
         /**
          * Add player on press enter key
          */
@@ -118,7 +118,7 @@ export const modalPlayers = () => {
                 document.getElementById("addplayer").click();
             }
         });
-      
+
         /**
          * Here you have the set interval  time options
          */
@@ -140,15 +140,15 @@ export const modalPlayers = () => {
             if (event.target.value <= 0) event.target.value = 0.1;
             if (event.target.value > 5) event.target.value = 5;
         });
-       
-     
+
+
         let remove_video = document.getElementById('remove_video');
         let div_bg = document.getElementById('div_bg');
 
         /**
          * On click play Button, game starts.
          */
-        
+
         let playBtn = document.getElementById('playBtn');
         playBtn.onclick = function () {
             if (playersNames.length !== 0 && playersNames != undefined) { //Check there are players added to the game
@@ -163,10 +163,24 @@ export const modalPlayers = () => {
 
         }
 
+        let playOnline = document.getElementById('playOnline');
+        playOnline.onclick = () => {
+            let onlinename = document.getElementById('onlinename').value;
+            if (onlinename.length > 0) {
+                if (window.localStorage) {
+                    let m = document.getElementById('playersForm');
+                    m.style.display = "none";
+                    div_bg.remove();
+                    window.localStorage.setItem('username', onlinename);
+                    app.online();
+                }
+            }
+        }
+
         /**
          * Mute and unmute the background video button
          */
-        
+
         let unmuteBtn = document.getElementById('unmuteBtn');
         let videoEl = document.getElementById('videoBackground');
         unmuteBtn.onclick = function () {
@@ -177,7 +191,7 @@ export const modalPlayers = () => {
         /**
          * Remove / show video background
          */
-        
+
         remove_video.onclick = function () {
             if (this.classList.contains('off--red')) {
                 this.className = "fas fa-video-slash btn--removebg"
@@ -194,11 +208,11 @@ export const modalPlayers = () => {
         */
 
         let exportBtn = document.getElementById('export');
-        exportBtn.addEventListener('click', function() {    
+        exportBtn.addEventListener('click', function () {
             let players = JSON.parse(localStorage.getItem("playersNames")).map(e => e);
             if (players.length != 0) {
-                let csvContent = "data:text/csv;charset=utf-8," 
-                + players;
+                let csvContent = "data:text/csv;charset=utf-8,"
+                    + players;
                 let encodedUri = encodeURI(csvContent);
                 var link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
@@ -216,8 +230,8 @@ export const modalPlayers = () => {
         */
 
         let importBtn = document.getElementById('import');
-        importBtn.addEventListener('click', function() {    
-            let link = document.getElementById('import-file');             
+        importBtn.addEventListener('click', function () {
+            let link = document.getElementById('import-file');
             link.click();
         });
 
@@ -227,8 +241,8 @@ export const modalPlayers = () => {
             if (files[0].type == "text/csv") {
                 let reader = new FileReader;
                 reader.readAsText(files[0]);
-                reader.onload = function(e) {
-                    localStorage.setItem("playersNames",JSON.stringify(reader.result.split(',')));
+                reader.onload = function (e) {
+                    localStorage.setItem("playersNames", JSON.stringify(reader.result.split(',')));
                     renderPlayerList();
                     input_file.value = "";
                 };
@@ -236,7 +250,7 @@ export const modalPlayers = () => {
             } else {
                 document.getElementById('msg--err').innerHTML = "\u26A0  The file isn't valid"
             }
-          }, false);
+        }, false);
     }
 
     return {
@@ -267,6 +281,11 @@ export const modalPlayers = () => {
                         </div>    
                     </div>
                     <span class="remainingPlayers" id="remainingPlayersSpan"></span>
+                </div>
+                <div class="modal-content-export">
+                    <h3>Online</h3>
+                    <input id="onlinename" class="online__input" placeholder="Username"/>
+                    <button id="playOnline" class="button">Play Online</button>
                 </div>
                 <div class="modal-content-export">
                     <h3>Game settings</h3>

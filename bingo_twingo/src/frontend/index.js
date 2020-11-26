@@ -1,4 +1,3 @@
-
 import './css/style.css';
 import './css/ingame.css';
 import { docReady, showModal, clearModal, debug } from './js/core/core.js';
@@ -24,12 +23,7 @@ const app = (() => {
     let players = []
     let pubSub = new PubSub();
     let stateApp = "stop";
-    debugger
-    const socket = io('ws://localhost:8080', {transports: ['websocket']});
-    socket.on('connect', () => {
-        socket.emit('join', `POPO`);
-        console.log("EMIT")
-    });
+    const socket = io('ws://localhost:8080', { transports: ['websocket'] });
 
     /* Every time runs pick a ball from bombo bingo game */
     let getBallFromBombo = () => {
@@ -40,7 +34,7 @@ const app = (() => {
         if (num) {
             pubSub.publish("New Number", bombo.getExtractedNumbers());
 
-        /* otherwise means bombo is running out of ball and we should finish the game */    
+            /* otherwise means bombo is running out of ball and we should finish the game */
         } else {
             stop();
         }
@@ -51,11 +45,28 @@ const app = (() => {
         stateApp = "stop";
         clearInterval(myApp);
     }
-    /* Start bingo play */
-    let start = () => {
-        
+
+    let prepareGame = (isOnline) => {
         /* Basic template where we are going to render bingo play */
-        let doc = new DOMParser().parseFromString(`
+        let doc = isOnline ?
+            new DOMParser().parseFromString(`
+            <div>
+                <div class="gameLayout">
+                    <div id="bingoCards" class="cards">
+                        <div id="myCard"></div>
+                        <div id="rivalCards"></div>
+                    </div>
+                    <div class="panel">
+                        <div id="balls" class="balls__grid"></div>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <button id="bingoBtn">BINGO</button>
+                    <button id="lineaBtn">LINEA</button>
+                    <span>Remaining time:</span><span id="timer"></span>
+                </div>
+            </div>
+        `, 'text/html') : new DOMParser().parseFromString(`
             <div class="gameLayout">
                 <div id="bingoCards" class="cards"></div>
                 <div class="panel">
@@ -79,12 +90,16 @@ const app = (() => {
         /* Change app state from stop to run  */
         stateApp = "run";
 
+        subscribeServices(isOnline);
+    }
+
+    let subscribeServices = (isOnline = false) => {
         /* Subscribe app to LINIA event. When this occurs
         we show up a modal with the player awarded and a gif animation 
         obviously we stop bingo playing until modal is closed 
-        */        
+        */
         pubSub.subscribe("LINIA", (player) => {
-            debug("Linia");            
+            debug("Linia");
             /* Stop bingo playing */
             stop();
             /* As linia only could be awarded once per playing we delete that event
@@ -95,7 +110,7 @@ const app = (() => {
                 showModal(modalLiniaBingo(player, "linea"), function () {
                     debug("SPEEEED");
                     debug(app.speed);
-                    myApp = setInterval(getBallFromBombo, app.speed);
+                    !isOnline && (myApp = setInterval(getBallFromBombo, app.speed));
                 })
             }, 50);
 
@@ -124,6 +139,13 @@ const app = (() => {
 
 
         });
+    }
+
+    /* Start bingo play */
+    let start = () => {
+
+        prepareGame(false);
+
         players = [];
         /* Get players names from browser localStorage */
         let playersNames = JSON.parse(localStorage.getItem('playersNames'));
@@ -131,7 +153,7 @@ const app = (() => {
         document.getElementById('bingoCards').innerHTML = ""
         /* Create one bingo card for every bingo player */
         playersNames.forEach(name => {
-            players.push(new BingoCard(name, document.getElementById('bingoCards'), pubSub));
+            players.push(new BingoCard(name, document.getElementById('bingoCards'), false, false, undefined, pubSub));
         });
         /* Start throwing first ball from bombo. Here we go */
         getBallFromBombo();
@@ -139,9 +161,117 @@ const app = (() => {
         myApp = setInterval(getBallFromBombo, app.speed);
     }
 
+    let online = () => {
+
+        prepareGame(true);
+
+        let ballsExtracted = [];
+        let currentPlayer = {
+            name: window.localStorage.getItem('username'),
+        };
+
+        let bingoBtn = document.getElementById('bingoBtn');
+        bingoBtn.onclick = () => {
+            socket.emit('event', currentPlayer);
+        };
+
+        let lineaBtn = document.getElementById('lineaBtn');
+        lineaBtn.onclick = () => {
+            console.log(currentPlayer.card);
+            socket.emit('event', currentPlayer);
+        };
+
+        let manageToolbar = (linea, bingo) => {
+            lineaBtn.disabled = linea;
+            bingoBtn.disabled = bingo;
+        };
+
+        manageToolbar(true, true);
+
+        socket.emit('join', currentPlayer.name);
+
+        socket.on('joined_game', data => {
+            setAccounter(data.game.countDown);
+            currentPlayer.card = new BingoCard(
+                currentPlayer.name,
+                document.getElementById('myCard'),
+                true,
+                false,
+                data.card.cardMatrix,
+                pubSub
+            ).getMatrix();
+
+            pubSub.publish('New Number', [-1]);
+        });
+
+        socket.on('joined', data => {
+            console.log(data);
+            renderPlayers(data.players);
+        });
+
+        socket.on('starts_game', data => {
+            console.log(data);
+            players = [];
+        });
+
+        socket.on('new_number', data => {
+            bombo.lightBall(data.num);
+            ballsExtracted.push(data.num);
+            pubSub.publish("New Number", ballsExtracted);
+            console.log(data.num);
+        });
+
+        socket.on('linia_accepted', data => {
+            manageToolbar(true, false);
+            console.log(data);
+            pubSub.publish("LINIA", data.name);
+        });
+
+        socket.on('bingo_accepted', data => {
+            manageToolbar(true, true);
+            console.log(data);
+            pubSub.publish("BINGO", data.name);
+        });
+
+        socket.on('end_game', data => {
+            console.log(data);
+        });
+
+        let timer = document.getElementById('timer');
+
+        let renderPlayers = (newPlayers) => {
+            // I render all players because one player can left the game
+            document.getElementById('rivalCards').innerHTML = "";
+            newPlayers.map(newPlayer => {
+                if (currentPlayer.name != newPlayer.username) {
+                    newPlayer.card = new BingoCard(
+                        newPlayer.username,
+                        document.getElementById('rivalCards'),
+                        true,
+                        true,
+                        newPlayer.card,
+                        pubSub
+                    ).getMatrix();
+                    console.log(newPlayer);
+                    players.push(newPlayer);
+                    pubSub.publish('New Number', [-1]);
+                }
+            });
+        }
+
+        let setAccounter = (remainingTime) => {
+            timer.innerHTML = remainingTime;
+            console.log(remainingTime);
+            setTimeout(() => {
+                remainingTime > 0 ? setAccounter(remainingTime - 1) : manageToolbar(false, true);
+            }, 1000);
+        }
+    }
+
     /* Return start and stop function and play speed */
     return {
-        start: start
+        start: start,
+        online: online
         ,
         toggle: () => {
             (stateApp == "run") ? stop() : start();

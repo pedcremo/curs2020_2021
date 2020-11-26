@@ -21,6 +21,13 @@ export class Bombo{
         let shuffle = () => boles.sort((a,b) => Math.random()-0.5);         
         this.getExtractedNumbers= () =>  bolesExtracted;
         this.getRemainingBoles = () => boles;
+        this.lightBall = (ball) => {
+            if(lastBall){
+                document.getElementById(lastBall).className = 'bingoBall';
+            }
+            document.getElementById(ball).className = 'bingoBall blink'
+            lastBall = ball;
+        }
         this.pickNumber = () => {
             shuffle();             
             boles[0] && bolesExtracted.push(boles[0]);

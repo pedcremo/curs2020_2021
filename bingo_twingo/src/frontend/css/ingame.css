@@ -26,7 +26,7 @@
     justify-items: center;
 }
 
-.bingoCardLayout {
+.bingoCardLayout, .bingoCardLayout--foreing {
     width: 400px;
     display: flex;
     flex-direction: column;
@@ -39,6 +39,10 @@
     padding-bottom: 20px;
 }
 
+.bingoCardLayout--foreing {
+    background-color: rgb(255, 112, 136);
+}
+
 .bingoCardLayout h1 {
     font-family: 'Courier New', Courier, monospace;
 }
@@ -49,6 +53,39 @@ table.bingoCard {
     -moz-border-radius: 25px;
     font-size: 30px;
     overflow: hidden;
+}
+
+.toolbar {
+    width: 100%;
+    height: 3em;
+    background-color: #bbbbbb80;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.toolbar button {
+    margin: 1em;
+    padding: 1em;
+    width: fit-content;
+    height: fit-content;
+    background-color: cornflowerblue;
+    border: 0px;
+    color: white;
+    border-radius: 1em;
+    font-size: 12px;
+}
+
+.toolbar button:hover {
+    background-color: #6945ed;
+}
+
+.toolbar button:disabled {
+    background-color: #00000080;
 }
 
 .panel {

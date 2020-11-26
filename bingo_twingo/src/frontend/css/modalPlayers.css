@@ -97,6 +97,17 @@ ol li .removePlayer:active, ol li .removePlayer:hover {
     color: rgb(26, 26, 26);
 }
 
+.online__input {
+    border: none;
+    outline: none;
+    border-bottom: 2px solid rgb(0, 102, 255);
+    width: 200px;
+    height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(26, 26, 26);
+}
+
 .menu__addPlayer__btn {
     font-size: 40px;
     cursor: pointer;

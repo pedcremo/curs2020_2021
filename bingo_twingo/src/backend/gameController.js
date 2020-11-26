@@ -87,7 +87,7 @@ const gameController = () => {
             }
             
         }
-        return {id:currentGame.get('id'),prayers:currentGame.get('listPlayers'),countDown:currentGame.get('countDown'),bomboCongo:bomboInterval}
+        return {id:currentGame.get('id'),players:currentGame.get('listPlayers'),countDown:currentGame.get('countDown'),bomboCongo:bomboInterval}
 
     } 
 
