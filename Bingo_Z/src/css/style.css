@@ -1,0 +1,226 @@
+body {background-color: white;}
+#videoBackground {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+  }
+
+#bingoCards{
+    display: flex;
+    flex-wrap: wrap;
+    width:80%;
+    margin:auto;
+}
+#bingoCards div{
+  padding-right: 40px;
+}
+#balls {
+    display: inline-block;
+    word-wrap: break-word;
+    width: 100%;
+}
+#ball {
+    position: absolute;
+    color:black;
+    left: 400px;
+    top: 450px;
+}
+th.extracted{
+    background-color:green;
+    color:white;
+}
+.nulo{
+    background-color: gray;
+}
+table.bingoCard {
+    border: 5px solid black;
+    border-radius:25px;
+    -moz-border-radius:25px;
+    
+    font-size: 40px;
+    
+    
+}
+
+
+.bingoBall {
+    height: 64px;
+    width: 64px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 48px;
+    text-align: center;
+    vertical-align: middle;
+    margin: 5px;    
+    color:white;
+}
+
+
+.bingoBall {
+  height: 64px;
+  width: 64px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 48px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;    
+  color:white;
+  -webkit-animation: bingoBall 1s ease-in-out infinite alternate;
+  -moz-animation: bingoBall 1s ease-in-out infinite alternate;
+  animation: bingoBall 1s ease-in-out infinite alternate;
+
+
+}
+
+@keyframes bingoBall {
+  0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: grey;}
+  100% {background-color: green;}
+}
+
+.bingoBallEmpty {
+    height: 64px;
+    width: 64px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 48px;
+    text-align: center;
+    vertical-align: middle;
+    margin: 5px;    
+    color:grey;
+}
+
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    opacity: 0.9;
+    border-radius: 25px;
+  }
+  .modal-content img{
+      display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  input[type=text] {
+    display: inline;
+    width: 100%;
+    padding: 2px 2px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid green;
+  }
+  input:focus{
+    outline: none;
+    }
+
+  .button {
+    display: inline;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+  ol {
+    color: #ccc;
+    list-style-type: none;
+  }
+   
+  ol li {
+    position: relative;
+    font: bold italic 45px/1.5 Helvetica, Verdana, sans-serif;
+    margin-bottom: 20px;
+  }
+  ol li :hover{
+    cursor: not-allowed;
+  }
+   
+  li p {
+    font: 24px/1.75 Helvetica, sans-serif;
+    padding-left: 40px;
+    color: #555;
+  }
+   
+  span.players {
+    position: absolute;
+  }
+  div.players {
+    width: 500px;
+    margin: 10px
+  }
+  #unmuteBtn {
+    width: 200px;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  #unmuteBtn:hover {
+    background: #ddd;
+    color: black;
+  }
+
+  .blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+  }
+  @keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
+  }
+  @-webkit-keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
+  }
